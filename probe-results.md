@@ -7,3 +7,8 @@ https://www.duocircle.com/.well-known/agent-skills/markdown-negotiation/SKILL.md
 
 ## 2026-08-21 18:46:01 UTC
 
+
+## 2026-08-21 19:18:13 UTC
+https://api.dmarcreport.com/api/v1/domains -> HTTP 404
+https://api.dmarcreport.com/api/v1/reports -> HTTP 404
+https://api.dmarcreport.com/api/v1/users/me -> HTTP 404

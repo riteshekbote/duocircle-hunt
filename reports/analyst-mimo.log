@@ -1,0 +1,479 @@
+===== ANALYST mimo 2026-08-21 19:18:11 UTC =====
+[0m
+> build · mimo-v2.5-free
+[0m
+[0m$ [0mls -la
+total 84
+drwxr-xr-x 11 runner runner 4096 Aug 21 19:16 .
+drwxr-xr-x  3 runner runner 4096 Aug 21 19:16 ..
+drwxr-xr-x  7 runner runner 4096 Aug 21 19:16 .git
+drwxr-xr-x  3 runner runner 4096 Aug 21 19:16 .github
+-rw-r--r--  1 runner runner 1383 Aug 21 19:16 README.md
+-rw-r--r--  1 runner runner   36 Aug 21 19:16 analyst-out.txt
+-rw-r--r--  1 runner runner 9558 Aug 21 19:16 analyst-prompt.txt
+-rw-r--r--  1 runner runner 5812 Aug 21 19:16 ctx.txt
+drwxr-xr-x  2 runner runner 4096 Aug 21 19:16 inventory
+drwxr-xr-x  2 runner runner 4096 Aug 21 19:16 knowledge
+drwxr-xr-x  2 runner runner 4096 Aug 21 19:16 leads
+-rw-r--r--  1 runner runner  449 Aug 21 19:16 probe-results.md
+drwxr-xr-x  2 runner runner 4096 Aug 21 19:16 reports
+drwxr-xr-x  4 runner runner 4096 Aug 21 19:16 reposcan-raw
+-rw-r--r--  1 runner runner 2491 Aug 21 19:16 scope.yml
+drwxr-xr-x  2 runner runner 4096 Aug 21 19:16 scripts
+-rw-r--r--  1 runner runner   33 Aug 21 19:16 state_mimo.json
+drwxr-xr-x  2 runner runner 4096 Aug 21 19:16 triage
+[0m
+[0m→ [0mRead state_mimo.json
+[0m→ [0mRead ctx.txt
+[0m→ [0mRead knowledge
+[0m→ [0mRead inventory
+[0m→ [0mRead leads
+[0m→ [0mRead leads/reposcan-latest.md
+[0m→ [0mRead knowledge/index.md
+[0m→ [0mRead inventory/duocircle.md
+[0m→ [0mRead probe-results.md
+[0m→ [0mRead reports
+[0m→ [0mRead leads/lead-nemotron3.md
+[0m→ [0mRead leads/lead-bigpickle.md
+[0m
+[0m$ [0mcurl -sI https://www.duocircle.com/llms.txt 2>&1 | head -20
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 0
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="llms.txt"
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/plain; charset=utf-8
+date: Fri, 21 Aug 2026 19:16:44 GMT
+etag: "334ecf8c72f344543cad431126e3c33b"
+last-modified: Fri, 21 Aug 2026 19:16:44 GMT
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: MISS
+x-vercel-id: iad1::2s4lw-1787339804411-abe3d9cdc610
+[0m
+[0m$ [0mcurl -sI https://www.duocircle.com/.well-known/agent-skills/markdown-negotiation/SKILL.md 2>&1 | head -20
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 0
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="SKILL.md"
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-signal: ai-train=yes, search=yes, ai-input=yes
+content-type: text/markdown; charset=utf-8
+date: Fri, 21 Aug 2026 19:16:45 GMT
+etag: "8a0a402e5e76e48deb2d8a00f2a63194"
+last-modified: Fri, 21 Aug 2026 19:16:45 GMT
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-robots-tag: noindex
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/ 2>&1 | head -20
+HTTP/2 302 
+cache-control: no-cache, private
+content-security-policy: base-uri 'self';connect-src 'self' autospf.com *.autospf.com api.autospf.com www.gstatic.com visithunter.io plugin.klenty.com www.kt-web2.com www.kl-wt1.com new-collect.albacross.com api.salespanel.io tracking-api.g2.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com;default-src 'self';media-src 'self';object-src 'none';form-action 'self' autospf.com *.autospf.com sptest.iamshowcase.com accounts.zohoportal.com subscriptions.zoho.com billing.zoho.com billing.autospf.com billing.zohosecure.com www.facebook.com;frame-ancestors *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com;frame-src *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com www.google.com *.googletagmanager.com *.googleadservices.com td.doubleclick.net www.facebook.com https://connect-js.stripe.com https://js.stripe.com;script-src 'self' 'unsafe-eval' 'strict-dynamic' *.autospf.com autospf.com www.gstatic.com s3-us-west-2.amazonaws.com/kl-website-tracking/klenty_track.js us3-cx.outplayhq.com insight.iljmp.com visithunter.io serve.albacross.com tracking.g2crowd.com cdnjs.cloudflare.com salespanel.io ddwl4m2hdecbv.cloudfront.net *.googletagmanager.com *.googleadservices.com 'nonce-m2JScQQF7rA2LRNfluFDCWO4uhGhpgW4' *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com connect.facebook.net https://connect-js.stripe.com https://js.stripe.com;style-src 'self' 'unsafe-inline' *.autospf.com autospf.com fonts.googleapis.com fonts.bunny.net use.fontawesome.com;font-src 'self' data: *.autospf.com autospf.com fonts.googleapis.com fonts.gstatic.com fonts.bunny.net use.fontawesome.com;img-src 'self' data: *.googleusercontent.com *.autospf.com autospf.com www.globalcyberalliance.org new-collect.albacross.com www.gravatar.com workoscdn.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com https://*.stripe.com
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 19:16:45 GMT
+location: https://api.autospf.com/login
+set-cookie: XSRF-TOKEN=eyJpdiI6IkZBZGNhQjh4WTd1bnBqbFI2dW9ZUHc9PSIsInZhbHVlIjoiY2FiaDhLOXZwL1Jpd2ZlZTN0cW9lQ0hwL3F2bkh5ZzJMSkxvVHJRWUdSVmdvbTFvNlY0VnZiem80c2VwU0hrdVV5UEs4VVQ1YXJDdFhnZ2lGRVFteEhpNEs2N2RDakRhRnoyTnBtdUQ0YktQajVTc3RwNVRURTQ3K2JjQmlCdk8iLCJtYWMiOiI1OWE2MjdiMmM2NmFhMWFjZThmNWQ0MmFmNzcwODIyMGYxNGQzNDEwN2NjZTZlOGFlOTIyNDUwMDBiODA2MDgyIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 21:16:45 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IjhTSzYxUTJocFV0QWloeWlrcUR5Z1E9PSIsInZhbHVlIjoianhIQ05MV3h6MjRxcTZCU01uVzh1T1J4QXd0MThVb1JqMTVlbEQrdlgwNFB0cGhvRm9PeHNpTVdjWCtCSDJZbCtVenBCRHdCbFBLNzlublpmV1BRcUJ6Zi9hMXJzeUU0bkFpWVhrRExiYSt6My9jbzRxbDZpeVhpamIydDlhOXEiLCJtYWMiOiI2Mzc3NzBmMzIzM2Y4MzViZGIyN2UwYTlhZTRhMjQ5YzZlMzcxYmEyNjkyMWE3NDM1Njk1NDhhZGI0MjIzODc5IiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 21:16:45 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -sI https://api.dmarcreport.com/ 2>&1 | head -20
+HTTP/2 200 
+alt-svc: h3=":443"; ma=2592000
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: application/json; charset=utf-8
+etag: W/"5568daabd081a764093328ee6303b798"
+referrer-policy: strict-origin-when-cross-origin
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: 689910f4-ccea-461e-83b4-b9363c952ab7
+x-runtime: 0.008028
+x-xss-protection: 0
+content-length: 0
+date: Fri, 21 Aug 2026 19:16:46 GMT
+[0m
+[0m$ [0mcurl -sI https://support.dmarcreport.com/ 2>&1 | head -20
+HTTP/2 302 
+date: Fri, 21 Aug 2026 19:16:46 GMT
+content-type: text/html; charset=utf-8
+location: https://support.dmarcreport.com/support/home
+status: 302 Found
+cache-control: no-store
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+pragma: no-cache
+x-xss-protection: 1; mode=block
+x-request-id: 5de21ffd-3247-9381-abcf-58ae1528c4fe
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' *.freshconnect.io/ *.freshsales.io/ *.freshworks.com/ *.freshdesk.com/ *.freshworksapi.com/ *.qualtrics.com/ *.freshdeskusercontent.com/ *.freshdeskusercontent-euc.com/ *.freshdeskusercontent-in.com/ *.freshdeskusercontent-aus.com/ *.fconstage.io/ analytics.inlinemanual.com/__profile analytics.inlinemanual.com/__ptm backend.getbeamer.com/ heapanalytics.com/ d3h0owdjgzys62.cloudfront.net/ d2uy6ubiilaqku.cloudfront.net/assets/ dcdu85ocrj5q6.cloudfront.net/ dtdafz6i4gvv1.cloudfront.net/ d3r4aewxkdubw4.cloudfront.net/ d2lz1e868xzctj.cloudfront.net/ rum.haystack.es/freshdesk/analytics rum.haystack.es/freshworks-rts/_logs fonts.googleapis.com/ fonts.gstatic.com/ sentry.io/api/ wss://*.freshworksapi.com/ wss://*.freshdesk.com/ fg8vvsvnieiv3ej16jby.litix.io/ distillery.wistia.com/ pipedream.wistia.com/ freshworks.asknice.ly/ embedwistia-a.akamaihd.net/ embed-fastly.wistia.com/ maps.googleapis.com/ graph.microsoft.com/v1.0/ freshcaller-attachments.s3.amazonaws.com/production/ euc-freshcaller-attachments.s3.eu-central-1.amazonaws.com/production/ mec-freshcaller-attachments.s3.me-central-1.amazonaws.com/production/ eun-freshcaller-attachments.s3.me-central-1.amazonaws.com/production/ au-freshcaller-attachments.s3-ap-southeast-2.amazonaws.com/production/ in-freshcaller-attachments.s3.ap-south-1.amazonaws.com/production/ pubsub.rtschannel.com/ api.fdcollab.com/ wss://pubsub.rtschannel.com/ cloudflareinsights.com/ data: blob: api.appcues.net/ wss://api.appcues.net/ fast.appcues.com/ cdn.jsdelivr.net/npm/@freshworks/crayons-icon@next/dist/ translate.googleapis.com/translate_a/t translate.googleapis.com/element/log fast.wistia.net/ fast.wistia.com/ embed-cloudfront.wistia.com/deliveries/ app.inlinemanual.com/ client-api.auryc.com/ *.surveyserv.com *.freshsurvey.com *.freddybot.com *.freshreports.com rum.haystack.es/freshreports/analytics dsv27oefxtf0.cloudfront.net/ d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ *.userpilot.io/ wss://*.userpilot.io/ www.youtube.com/oembed vimeo.com/api/ www.loom.com/v1/ api.vidyard.com/dashboard/; font-src 'self' *.freshdesk.com/ fonts.gstatic.com/ fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/ fast.wistia.net/ fast.wistia.com/ *.freddybot.com cdn.inlinemanual.com/inm/author/ d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ data:; frame-src 'self' https:; img-src 'self' https: data: blob:; media-src 'self' https: blob:; object-src 'none'; script-src 'self' *.freshworksapi.com/ *.freshworks.com/ *.myfreshworks.com/ *.freshdesk.com/ *.freshchat.com/ *.freshcaller.com/ *.freshconnect.io/ *.freshcloud.io/ *.fconstage.io/ accounts.freshworks.com/ wchat.freshchat.com/js/ wchat.freshchat.com/widget/js/ *.siteintercept.qualtrics.com/SIE/ *.qualtrics.com assets.calendly.com/assets/external/widget.js d3h0owdjgzys62.cloudfront.net/ d2uy6ubiilaqku.cloudfront.net/ dtdafz6i4gvv1.cloudfront.net/ dcdu85ocrj5q6.cloudfront.net/ d3r4aewxkdubw4.cloudfront.net/ app.getbeamer.com/js/beamer-embed.js analytics.inlinemanual.com/ cdn.inlinemanual.com/embed/ cdn.heapanalytics.com/ s3.amazonaws.com/assets.freshdesk.com/ cdnjs.cloudflare.com/ ajax.cloudflare.com/ static.cloudflareinsights.com/ js.chargebee.com/v1/chargebee.js js.braintreegateway.com/v1/braintree.js static.freshdev.io/ fast.wistia.net/ fast.wistia.com/ static.getbeamer.com/ calendly.com/ unpkg.com/@webcomponents/webcomponentsjs@2.4.3/custom-elements-es5-adapter.js unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js js-agent.newrelic.com/ www.googletagmanager.com/gtag/js static.asknice.ly/dist/standalone/asknicely-in-app-conversation.js www.dropbox.com/static/api/2/dropins.js js.live.net/v7.2/OneDrive.js apis.google.com/ asknice.ly bam.nr-data.net/ www.google-analytics.com/analytics.js maps.googleapis.com/ unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.esm.js unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.js s3.amazonaws.com/freshcaller-widget-loader/ in-freshcaller-widget-loader.s3.ap-south-1.amazonaws.com/ s3.eu-central-1.amazonaws.com/euc-freshcaller-widget-loader/ mec-freshcaller-widget-loader.s3.me-central-1.amazonaws.com/ eun-freshcaller-widget-loader.s3.me-central-1.amazonaws.com/ au-freshcaller-widget-loader.s3-ap-southeast-2.amazonaws.com/ www.dropbox.com/static/api/1/dropbox.js fast.appcues.com/ translate.google.com/translate_a/element.js translate.googleapis.com/_/translate_http/_/js/ translate-pa.googleapis.com/v1/supportedLanguages cdn.surveyserv.com/widget.min.js cdn.freshdev.io/assets/marketplace-heap.js cdn.freshcloud.io/assets/marketplace-heap.js cdn.freshdev.io/assets/marketplace-analytics.js cdn.inlinemanual.com/inm/author/ app.inlinemanual.com/ *.surveyserv.com *.freshsurvey.com www.google.com/recaptcha/ www.gstatic.com/recaptcha/ *.freddybot.com d3el5jsqgryo0a.cloudfront.net d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ accounts.google.com/ js.userpilot.io/ 'unsafe-inline' 'unsafe-eval'; style-src 'self' *.freshworks.com *.myfreshworks.com/ *.freshchat.com/ d3h0owdjgzys62.cloudfront.net/ dcdu85ocrj5q6.cloudfront.net/ dtdafz6i4gvv1.cloudfront.net/ d3r4aewxkdubw4.cloudfront.net/ d2uy6ubiilaqku.cloudfront.net/ d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ fonts.googleapis.com/ app.getbeamer.com/styles/beamer-embed.css s3.amazonaws.com/assets.freshdesk.com/ *.freshdesk.com/ wchat.freshchat.com/ calendly.com/ unpkg.com/@webcomponents/webcomponentsjs@2.4.3/custom-elements-es5-adapter.js unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js static.asknice.ly/dist/standalone/asknicely-in-app-conversation.css fast.appcues.com/ asknice.ly *.surveyserv.com *.freshsurvey.com *.freddybot.com cdn.inlinemanual.com/inm/author/ 'unsafe-inline'; worker-src 'self' blob:
+expires: Fri, 01 Jan 1990 00:00:00 GMT
+x-envoy-upstream-service-time: 43
+x-trace-id: 00-80a971d8cbfd6a8350a7114c3e5bee7b-9390399c19f6c1da-01
+nel: { "report_to": "nel-endpoint-freshdesk", "max_age": 2592000, "include_subdomains": true}
+report-to: { "group": "nel-endpoint-freshdesk", "max_age": 2592000, "include_subdomains": true, "endpoints": [{"url": "https://nel.us-east-1.freshedge.net/nelreports/freshdesk"}]}
+x-server-processing-time-ms: 47
+x-fw-ratelimiting-managed: false
+[0m
+Let me do fresh reconnaissance to check for any new or changed assets.
+[0m$ [0mcurl -sI https://dmarcreport.com/ 2>&1 | head -20
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 33116
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com https://*.clarity.ms https://salespanel.io https://*.g2.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com https://*.clarity.ms https://*.salespanel.io https://*.g2.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 19:16:47 GMT
+etag: "04f7ffe5335952b47091cf9fc9a0e57c"
+last-modified: Fri, 21 Aug 2026 10:04:50 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+[0m
+[0m$ [0mcurl -sI https://api.dmarcreport.com/api/v1/ 2>&1 | head -20
+HTTP/2 404 
+alt-svc: h3=":443"; ma=2592000
+cache-control: no-cache
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: text/html; charset=utf-8
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: _dmarc_reporter_session=2c280b4df2fec64ae440a1fd130b92fd; path=/; expires=Sat, 22 Aug 2026 19:16:54 GMT; HttpOnly; SameSite=Lax; secure
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: 2cf627fe-12a3-42dc-adfd-0cd10740d330
+x-runtime: 0.213851
+x-xss-protection: 0
+content-length: 0
+date: Fri, 21 Aug 2026 19:16:54 GMT
+[0m
+[0m$ [0mcurl -sI https://billing.dmarcreport.com/ 2>&1 | head -20
+HTTP/1.1 302 
+Server: ZGS
+Date: Fri, 21 Aug 2026 19:16:54 GMT
+Content-Type: text/html;charset=UTF-8
+Connection: keep-alive
+Set-Cookie: zalb_a8c51ae498=68c13ef22bd92866bd3f2ca7be9dcb32; Path=/; Secure; HttpOnly
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: JSESSIONID=C6A42A611F1C9284147DC83D09CD86B5; Path=/; Secure; HttpOnly
+Location: https://billing.dmarcreport.com/SetupOrganization.do?
+vary: accept-encoding
+Strict-Transport-Security: max-age=64072000; includeSubDomains; preload
+[0m
+[0m$ [0mcurl -sI https://unsent.dev/ 2>&1 | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 19:16:55 GMT
+content-type: text/html; charset=utf-8
+content-length: 336242
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+x-nextjs-cache: HIT
+x-nextjs-prerender: 1
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-powered-by: Next.js
+cache-control: s-maxage=31536000
+etag: "j11renfog77fo"
+[0m
+[0m$ [0mcurl -sI https://status.duocircle.com/ 2>&1 | head -20
+HTTP/1.1 400 
+Server: ZGS
+Date: Fri, 21 Aug 2026 19:16:55 GMT
+Content-Type: text/html;charset=ISO-8859-1
+Content-Length: 1352
+Connection: keep-alive
+Set-Cookie: zalb_28fc6058a7=94f330ed7cfe20fbb0cb495f2f5539a7; Path=/; Secure; HttpOnly
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Content-Language: en-US
+Strict-Transport-Security: max-age=64072000; includeSubDomains; preload
+[0m
+[0m$ [0mcurl -sI https://phishprotection.com/ 2>&1 | head -20
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 396369
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 19:16:58 GMT
+etag: "205e8633b0566b43d643a8b263b025d6"
+last-modified: Mon, 17 Aug 2026 05:10:49 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+[0m
+[0m$ [0mcurl -sI https://outboundsmtp.com/ 2>&1 | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 19:16:58 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "20e7bd7db0759d0d3f1236aac8270252"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Bs7ewpz3Y%2Fj35D0SSsDx9gJYXklzArz5iF6wfBa%2FaJt8x51iNYjeXlnead%2BPTlq4qkDqJdmzJGx8xB7hye8EMY2PFvxDFtZHT1PikLwGFa05acjGVinlvkEc8ixyWyXfaHvb"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2ebf9ab4d76c9a1-IAD
+alt-svc: h3=":443"; ma=86400
+[0m
+[0m$ [0mcurl -sI https://mailflowmonitoring.com/ 2>&1 | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 19:16:59 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "ae1cdf7d65f051a4531153aa829927db"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=HIV19xdjBnRe3yNN8zF5yBvEBQwqYX%2FXj4XdFUjsBwjQMRcDxfNFasG3zWL6e7o1GkgdixnhdskZ586Ky6syDCc41ibeb57PgGdtmJJlUGcd%2BOntI7C%2BW2GIFFu%2FCA7gLHQUF%2FK4lP9K"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2ebf9ae2e1fe03a-IAD
+alt-svc: h3=":443"; ma=86400
+[0m
+[0m$ [0mcurl -sI https://tenantmigration.com/ 2>&1 | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 19:16:59 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "2e3a228931f10cbe6092e68154307d26"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=v2JUp1GGg4OpdYobFzlOn7CuQzst8Yivh%2FzPSSyIYmLZRk1NWRSQnm5wyZ%2FXYrF%2BPOHCXgMRDAqTmWgloMgYOuGVIgUVuZ4nyVw1IoJluwaRzFreHm7Tf1G9bUAQW2Ju9uZFLBPk"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2ebf9b0a86d1753-IAD
+alt-svc: h3=":443"; ma=86400
+[0m
+[0m$ [0mcurl -s https://www.duocircle.com/llms.txt 2>&1 | head -80
+# DuoCircle
+
+> DuoCircle is a portfolio of specialized email products covering protection, authentication, delivery, and routing.
+> We deliver about 90% of category-leader capability at roughly half the price, backed by experts who own the outcome.
+> Trusted by 50,000+ organizations since 2014.
+## Authenticate
+
+- [SPF Management](https://www.duocircle.com/email/spf-management/)
+- [DMARC Reporting](https://www.duocircle.com/email/dmarc/)
+- [Mail Flow Monitoring](https://www.duocircle.com/email/mail-flow-monitoring/)
+- [All Authentication Products](https://www.duocircle.com/products/authenticate/)
+
+## Protect
+
+- [Phishing Protection](https://www.duocircle.com/email/phishing-protection/)
+- [Spam Filtering](https://www.duocircle.com/email/spam-filtering/)
+- [Lotus Notes Email Security](https://www.duocircle.com/email/lotus-notes-email-security/)
+- [All Protection Products](https://www.duocircle.com/products/protect/)
+
+## Deliver
+
+- [Outbound SMTP](https://www.duocircle.com/email/outbound-smtp/)
+- [Developer Email API](https://www.duocircle.com/email/developer-email-api/)
+- [Inbox Placement Testing](https://www.duocircle.com/email/inbox-placement-testing/)
+- [Cold Email Outreach](https://www.duocircle.com/email/cold-email-outreach/)
+- [All Delivery Products](https://www.duocircle.com/products/deliver/)
+
+## Route
+
+- [Alumni Forwarding](https://www.duocircle.com/email/alumni-forwarding/)
+- [Tenant Migration](https://www.duocircle.com/email/tenant-migration/)
+- [Email Forwarding](https://www.duocircle.com/email/email-forwarding/)
+- [Backup MX](https://www.duocircle.com/email/email-backup-mx/)
+- [All Routing Products](https://www.duocircle.com/products/route/)
+
+## Pages
+
+- [Home](https://www.duocircle.com/)
+- [Compare](https://www.duocircle.com/compare/)
+- [Customers](https://www.duocircle.com/case-study/)
+- [Partners](https://www.duocircle.com/partners/)
+
+## Resources
+
+- [Resources](https://www.duocircle.com/resources/)
+- [About](https://www.duocircle.com/about-us/)
+- [Contact](https://www.duocircle.com/contact/)
+- [Legal](https://www.duocircle.com/legal/)
+- [Transparent Pricing](https://www.duocircle.com/transparent-pricing/)
+- [Trust Center](https://trust.duocircle.com/)
+- [Status](https://status.duocircle.com)
+
+## Blog
+
+### Foundational
+
+- [How SOA Records Support Reliable DNS Zone Transfers](https://www.duocircle.com/blog/how-soa-records-support-reliable-dns-zone-transfers/): Discover how SOA records support reliable DNS zone transfers by coordinating DNS updates, synchronization, refresh intervals, retries, and server communication.
+- [How to Secure Business Communications on Public Wi-Fi](https://www.duocircle.com/blog/how-to-secure-business-communications-on-public-wi-fi/): Protect sensitive business communications on public Wi-Fi with practical security strategies that reduce cyber risks, data breaches, and unauthorized access.
+- [CNAME vs. A Record: Understanding the Right DNS Choice](https://www.duocircle.com/blog/cname-vs-a-record-understanding-the-right-dns-choice/): Learn the key differences between CNAME and A records, their uses, limitations, and how to choose the right DNS record for your domain.
+- [Email Downtime Detection: From Detection To Faster Recovery](https://www.duocircle.com/blog/email-downtime-detection-from-detection-to-faster-recovery/): Learn how email downtime detection identifies outages early, speeds up response, and helps organizations restore email services faster with less disruption.
+- [What Is Piggybacking in Cybersecurity? Types, Risks, Real-World Examples, and Prevention](https://www.duocircle.com/blog/what-is-piggybacking-in-cybersecurity-types-risks-prevention-guide/): Learn what piggybacking in cybersecurity means, its types, risks, real-world examples, and prevention strategies to protect against unauthorized access.
+- [GDPR Consent Emails For B2B Marketing What You Need To Know ](https://www.duocircle.com/blog/gdpr-consent-emails-b2b-marketing-what-you-need-to-know/): Learn what GDPR consent emails for B2B marketing require, how to stay compliant, avoid common mistakes, and build trust while improving email engagement.
+- [No DMARC Record Found: What It Means, Why It Matters, and How to Fix It](https://www.duocircle.com/blog/no-dmarc-record-found-meaning-risks-how-to-fix/): No DMARC record found? Learn what it means, why it puts your domain at risk, and how to create, verify, and manage a DMARC record to stop spoofing.
+- [Honey Trap Scams: How Cybercriminals Exploit Trust and How to Avoid Them](https://www.duocircle.com/blog/honey-trap-scams-how-cybercriminals-exploit-trust-and-avoid-them/): Learn how honey trap scams exploit trust through romance and social engineering.
+- [How Microsoft 365 Accounts Become Targets For Credential Harvesting Attacks](https://www.duocircle.com/blog/how-microsoft-365-accounts-become-targets-for-credential-harvesting-attacks/): Learn how Microsoft 365 accounts become targets for credential harvesting attacks, common tactics used by cybercriminals, and best practices to stay protected.
+- [What Is Ping Spoofing? Understanding How It Works and How to Prevent It](https://www.duocircle.com/blog/what-is-ping-spoofing-and-how-to-prevent-it/): Learn what ping spoofing is, how attackers use ICMP spoofing, the risks it creates, and practical steps to detect and prevent network security threats.
+
+### Intermediate
+
+- [Exchange Sever DKIM Troubleshooting for Large Email Message](https://www.duocircle.com/blog/exchange-sever-dkim-troubleshooting-for-large-email-message/): Learn how to troubleshoot DKIM failures in Exchange Server for large email messages, identify common causes, and restore reliable email authentication.
+- [How to Audit Your Email Deliverability Before Launching a Campaign](https://www.duocircle.com/blog/how-to-audit-your-email-deliverability-before-launching-a-campaign/): Audit your email deliverability before launching a campaign to improve inbox placement, avoid spam filters, and maximize open rates and engagement.
+- [Session Hijacking Via Email Attack Methods And Warning Signs](https://www.duocircle.com/blog/session-hijacking-via-email-attack-methods-and-warning-signs/): Learn common session hijacking via email attack methods, warning signs, and practical tips to detect threats early and protect your accounts from attackers.
+- [9 Ways AI and Automation Improve Email Queue Management](https://www.duocircle.com/blog/9-ways-ai-and-automation-improve-email-queue-management/): Discover 9 ways AI and automation improve email queue management by reducing delays, prioritizing messages, optimizing delivery, and boosting email performance.
+- [How OAuth 2.0 Is Changing SMTP Relay Authentication](https://www.duocircle.com/blog/how-oauth-2-0-is-changing-smtp-relay-authentication/): Learn how OAuth 2.0 is transforming SMTP relay authentication with secure, token-based access, stronger email security, and reduced reliance on passwords.
+- [Why Email Authentication Alone Doesn't Stop Gmail Threats](https://www.duocircle.com/blog/why-email-authentication-alone-doesn-t-stop-gmail-threats/): Email authentication helps verify senders, but Gmail threats can still exploit compromised accounts, malicious links, and social engineering to reach inboxes.
+- [Proven Methods for Corporate Email Cybersecurity Setup](https://www.duocircle.com/blog/proven-methods-for-corporate-email-cybersecurity-setup/): Strengthen corporate email cybersecurity with SPF, DKIM, DMARC, TLS, and monitoring to prevent spoofing, improve deliverability, and protect your brand.
+- [Common Email Throttling Mistakes That Lead to Deferred or Rejected Emails ](https://www.duocircle.com/blog/common-email-throttling-mistakes-that-lead-deferred-or-rejected-emails/): Avoid common email throttling mistakes that cause deferred or rejected emails. Learn proven strategies to improve email deliverability and sending success.
+- [12 Ways To Maintain Email Deliverability After Completing Email Warm-Up](https://www.duocircle.com/blog/12-ways-maintain-email-deliverability-after-completing-email-warm-up/): Learn 12 proven ways to maintain email deliverability after completing email warm-up, improve inbox placement, protect sender reputation, and boost engagement.
+- [10 Email Retention Strategies For Managing High-Volume Mailboxes](https://www.duocircle.com/blog/10-email-retention-strategies-for-managing-high-volume-mailboxes/): Discover 10 email retention strategies for managing high-volume mailboxes, improving compliance, reducing storage costs, and strengthening email security.
+[0m
+[0m$ [0mcurl -s https://api.dmarcreport.com/ 2>&1 | head -30
+{"status":"up"}
+[0m
+Now I have enough data. Let me also quickly check the dmarcreport.com API for any new endpoints.
+Now I have comprehensive recon data. Let me compile the structured output.
+
+---
+
+## STEP 1 — DELTA
+
+[CHANGED] phishprotection.com, outboundsmtp.com, mailflowmonitoring.com, tenantmigration.com: all serve markdown content-negotiation surfaces (link headers advertising `/index.md`, `SKILL.md`, `/llms.txt`) — previously only www.duocircle.com was flagged for this
+[NEW] api.autospf.com CSP reveals Stripe billing integration (`connect-js.stripe.com`, `js.stripe.com` in frame-src/connect-src) and references `billing.autospf.com` in form-action — billing subdomain not previously inventoried
+[NEW] api.dmarcreport.com health endpoint: `GET /` returns `{"status":"up"}` — confirms Rails API is live at root
+[CHANGED] api.dmarcreport.com sets `_dmarc_reporter_session` cookie with `SameSite=Lax` (confirmed live) — CSRF posture differs from api.autospf.com's `SameSite=none`
+
+---
+
+## STEP 2 — PRIORITIZE
+
+[PRIO] api.dmarcreport.com, 8.6, attack=9 business=9 tech=8 gate=8 cloud=9 fresh=8
+[PRIO] api.autospf.com, 8.3, attack=8 business=8 tech=9 gate=7 cloud=8 fresh=8
+[PRIO] billing.autospf.com (NEW), 7.5, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+[PRIO] dmarcreport.com API (documented endpoints), 7.2, attack=7 business=8 tech=7 gate=4 cloud=7 fresh=8
+[PRIO] support.dmarcreport.com, 6.8, attack=6 business=6 tech=6 gate=8 cloud=5 fresh=7
+[PRIO] product-marketing-domains (phishprotection/outboundsmtp/mailflowmonitoring/tenantmigration), 5.5, attack=5 business=5 tech=3 gate=9 cloud=3 fresh=7
+[PRIO] unsent.dev, 5.2, attack=5 business=5 tech=6 gate=7 cloud=7 fresh=5
+
+---
+
+## STEP 3 — HYPOTHESES
+
+[HYP] Cross-tenant DMARC report access via predictable API endpoints
+class: IDOR
+asset: api.dmarcreport.com
+confidence: 75
+reasoning: Multi-tenant DMARC SaaS with session-based auth (_dmarc_reporter_session cookie, SameSite=Lax); documented REST API covers per-customer domains, aggregate reports, forensic reports, MTA-STS; MCP client (dmarcreport-mcp) documents full passthrough; report/domain object IDs are classic weak point.
+evidence_needed: HTTP 200 response from session A returning tenant B's domain/report object (or proof every lookup re-validates ownership).
+verify_steps: PASSIVE: enumerate exact API paths from dmarcreport-mcp source (already read); AUTH_HELPED: register two trial accounts, use token A to request own objects vs. tenant B's domain/report identifiers (GET only, ≤1 rps), diff responses.
+impact: Cross-tenant read of customer DMARC/forensic data (sending infrastructure, internal hosts) — HIGH severity.
+testability: AUTH_HELPED
+
+[HYP] CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies
+class: AUTH
+asset: api.autospf.com
+confidence: 72
+reasoning: Laravel API sets XSRF-TOKEN and session cookies with SameSite=none; Secure; cross-site cookies enable CSRF if no CSRF token validation on state-changing endpoints; CSP reveals Stripe billing integration and billing.autospf.com — payment/billing endpoints may bypass standard CSRF checks.
+evidence_needed: State-changing endpoint (POST/PUT/DELETE) that accepts cookie auth without X-XSRF-TOKEN header verification; or billing endpoint (billing.autospf.com) with weak CSRF.
+verify_steps: AUTH_HELPED: GET /login to obtain cookies; POST /api/flatten or /api/records with cookie-only auth (no X-XSRF-TOKEN header); check if action succeeds; also probe billing.autospf.com for CSRF on payment endpoints.
+impact: Unauthorized SPF record modifications, domain delegation changes, billing tampering — HIGH severity.
+testability: AUTH_HELPED
+
+[HYP] Support-desk ticket/article/attachment access-control gap
+class: IDOR
+asset: support.dmarcreport.com
+confidence: 50
+reasoning: Freshdesk-hosted support desk serving sequential KB IDs (…/solutions/articles/5000873350); Freshdesk is third-party but ACL defaults may be permissive; adjacent ticket/attachment resources could be exposed if ACL not properly configured.
+evidence_needed: One resource (ticket body/attachment) retrievable without an owning session, or vendor banner enabling targeted known-CVE checks.
+verify_steps: PASSIVE: fingerprint vendor from HTML/meta; probe public search/list endpoints and HEAD adjacent article IDs for ACL uniformity (≤1 rps).
+impact: Exposure of other customers' tickets (domains, mail configs, token snippets) — MEDIUM severity.
+testability: PASSIVE
+
+---
+
+## STEP 4 — SELF-CRITIQUE
+
+[PARKED] Support-desk ticket/article/attachment access-control gap: confidence 50 < 60 threshold; Freshdesk is third-party vendor (limits direct exploitability of DuoCircle code); verify_steps rely on vendor behavior not DuoCircle configuration.
+
+[FINAL] 1. Cross-tenant DMARC report access via predictable API endpoints (api.dmarcreport.com, IDOR, 75%)
+[FINAL] 2. CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies (api.autospf.com, AUTH, 72%)
+
+---
+
+## STEP 5 — NEXT ACTION
+
+[NEXT] PROBE: GET https://api.dmarcreport.com/api/v1/domains (no auth, expect 401), then GET https://api.dmarcreport.com/api/v1/reports (no auth, expect 401), then GET https://api.dmarcreport.com/api/v1/users/me (no auth, expect 401) — map API structure and confirm auth enforcement before attempting authenticated tests
+
+---
+
+## STEP 6 — LEARNING
+
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: Multi-tenant DMARC SaaS with session auth is high-value target for cross-tenant data access
+[LEARN] ACCEPTED AUTH @ api.autospf.com: Laravel API with SameSite=none cookies presents CSRF risk on state-changing endpoints
+[LEARN] REJECTED AUTH @ account.duocircle.com: WorkOS AuthKit is third-party; auth flaws would be WorkOS responsibility, not DuoCircle direct code
+
+---
+
+## STEP 7 — RISK SCORE
+
+[RISK] duocircle.com: 70/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO, but auth/account subdomains on WorkOS, trust portal with PostHog analytics, and markdown content-negotiation surfaces across all product domains; attack surface moderate with diverse third-party integrations (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2)
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 82/100 — Multiple APIs (Rails, Laravel, Next.js) with session/token auth, cross-site cookies on api.autospf.com, multi-tenant data, Stripe billing integration, documented REST API; high business value; diverse tech stack increases exposure; Freshdesk support desk adds third-party attack surface
+[RISK] github.com/duocircle repos: 52/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities
