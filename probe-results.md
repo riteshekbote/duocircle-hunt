@@ -12,3 +12,9 @@ https://www.duocircle.com/.well-known/agent-skills/markdown-negotiation/SKILL.md
 https://api.dmarcreport.com/api/v1/domains -> HTTP 404
 https://api.dmarcreport.com/api/v1/reports -> HTTP 404
 https://api.dmarcreport.com/api/v1/users/me -> HTTP 404
+
+## 2026-08-21 19:45:38 UTC
+https://docs.dmarcreport.com/ -> 200 len=96054 type=text/html; charset=utf-8
+https://api.dmarcreport.com/v2/all_domains.json -> HTTP 401
+https://api.dmarcreport.com/v2/postmaster_account_records.json -> HTTP 401
+https://billing.autospf.com -> 200 len=49 type=text/html;charset=ISO-8859-1

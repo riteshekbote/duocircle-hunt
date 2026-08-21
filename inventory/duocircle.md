@@ -50,3 +50,24 @@
 - NEW app.duocircle.com: NXDOMAIN — no app panel at that name; assumed surface reduced
 - CHANGED github.com/duocircle/dmarcreport-mcp actively developed (pushed 2026-08-19)
 - CHANGED trust.duocircle.com confirmed Vercel-hosted (CNAME 10a739ef30de8834.vercel-dns-016.com, HTTP 200) with PostHog added to CSP — takeover surface closed, analytics surface added
+
+## 2026-08-21 19:45:35 UTC
+- NEW docs.dmarcreport.com — full API v2 documentation live; reveals token auth (Authorization: Token token=<token>), predictable integer IDs (accounts/:id, domains/:id, agg_reports/:id), and endpoints incl
+- CHANGED api.dmarcreport.com — v1 endpoints (/api/v1/*) return 404; actual API is /v2/* with token auth (not session); GET /v2/accounts returns 401 (auth enforced)
+- NEW app.dmarcreport.com/signup — live signup page with SOC-2 badge, free plan (1 domain, 10K reports)
+- NEW billing.autospf.com — empty response body (status unknown), referenced in api.autospf.com CSP form-action
+- CHANGED api.autospf.com — confirmed Laravel login page (Welcome back, Sign in with Google/Microsoft/SSO)
+- NEW api.autospf.com - Laravel API with cross-site cookies (SameSite=none)
+- NEW api.dmarcreport.com - Rails API with session auth, CSP reveals widget subdomains
+- NEW account.duocircle.com / account.duocircle-sandbox.com - WorkOS AuthKit auth endpoints
+- NEW billing.dmarcreport.com - Zoho billing (JSESSIONID)
+- NEW unsent.dev - Developer Email API (Next.js/Vercel)
+- NEW status.duocircle.com - Zoho status page
+- NEW github.com/duocircle - 13 repos (dmarcreport-mcp, youtrack-mcp, urlshortener, phishredirector, etc.)
+- NEW www.duocircle.com: markdown content-negotiation surface live (`/index.md`, `/llms.txt`, `/.well-known/agent-skills/markdown-negotiation/SKILL.md` advertised in link headers)
+- NEW support.dmarcreport.com: public support desk discovered via dmarcreport-mcp README (KB article 5000873350 - API tokens)
+- NEW dmarcreport.com: documented token-authed REST API ("full API coverage": domains, aggregate reports, forensic reports, MTA-STS) consumed by dmarcreport-mcp
+- NEW youtrack-mcp repo (TypeScript, pushed 2026-01) implies an internal YouTrack instance exists behind DuoCircle ops
+- NEW app.duocircle.com: NXDOMAIN — no app panel at that name; assumed surface reduced
+- CHANGED github.com/duocircle/dmarcreport-mcp actively developed (pushed 2026-08-19)
+- CHANGED trust.duocircle.com confirmed Vercel-hosted (CNAME 10a739ef30de8834.vercel-dns-016.com, HTTP 200) with PostHog added to CSP — takeover surface closed, analytics surface added

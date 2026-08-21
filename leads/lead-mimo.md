@@ -47,3 +47,53 @@ testability: PASSIVE
 [RISK] duocircle.com: 70/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO, but auth/account subdomains on WorkOS, trust portal with PostHog analytics, and markdown content-negotiation surfaces across all product domains; attack surface moderate with diverse third-party integrations (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2)
 [RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 82/100 — Multiple APIs (Rails, Laravel, Next.js) with session/token auth, cross-site cookies on api.autospf.com, multi-tenant data, Stripe billing integration, documented REST API; high business value; diverse tech stack increases exposure; Freshdesk support desk adds third-party attack surface
 [RISK] github.com/duocircle repos: 52/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities
+## 2026-08-21 19:45:26 UTC [www] (model mimo)
+[NEW] docs.dmarcreport.com — full API v2 documentation live; reveals token auth (Authorization: Token token=<token>), predictable integer IDs (accounts/:id, domains/:id, agg_reports/:id), and endpoints including /v2/all_domains.json, /v2/postmaster_account_records.json, /v2/email_tests
+[CHANGED] api.dmarcreport.com — v1 endpoints (/api/v1/*) return 404; actual API is /v2/* with token auth (not session); GET /v2/accounts returns 401 (auth enforced)
+[NEW] app.dmarcreport.com/signup — live signup page with SOC-2 badge, free plan (1 domain, 10K reports)
+[NEW] billing.autospf.com — empty response body (status unknown), referenced in api.autospf.com CSP form-action
+[CHANGED] api.autospf.com — confirmed Laravel login page (Welcome back, Sign in with Google/Microsoft/SSO)
+[PRIO] api.dmarcreport.com (v2 API), 8.8, attack=9 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 8.3, attack=8 business=8 tech=9 gate=7 cloud=8 fresh=8
+[PRIO] billing.autospf.com (NEW), 7.5, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+[PRIO] docs.dmarcreport.com (NEW), 7.0, attack=6 business=7 tech=8 gate=9 cloud=5 fresh=9
+[PRIO] app.dmarcreport.com/signup, 6.5, attack=6 business=7 tech=6 gate=8 cloud=6 fresh=8
+[PRIO] support.dmarcreport.com, 5.8, attack=5 business=5 tech=5 gate=8 cloud=4 fresh=6
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 78
+reasoning: API uses sequential integer IDs for accounts, domains, agg_reports, forensic_reports, mta_sts_reports (all documented at docs.dmarcreport.com). Token auth is per-account (Authorization: Token token=<token>) but /v2/all_domains.json endpoint lists ALL domains — question is whether token scope is enforced per-endpoint or only at account level. If token A can access /v2/accounts/<account_B_id>/domains/<domain_B_id>/agg_reports.json, cross-tenant data leak is confirmed. MCP client (dmarcreport-mcp) documents full passthrough with no ownership validation mentioned.
+evidence_needed: HTTP 200 from token A requesting account B's domain/report objects; or 403/401 proving per-resource validation.
+verify_steps: AUTH_HELPED: register two free trial accounts (token_A, token_B); GET /v2/accounts with token_A → extract account_A_id; GET /v2/accounts with token_B → extract account_B_id; GET /v2/accounts/<account_B_id>/domains.json with token_A; GET /v2/accounts/<account_B_id>/domains/1/agg_reports.json with token_A. Diff responses.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: AUTH_HELPED
+[HYP] CSRF on AutoSPF API billing endpoints via SameSite=none cookies
+class: AUTH
+asset: api.autospf.com / billing.autospf.com
+confidence: 70
+reasoning: Laravel API sets XSRF-TOKEN and session cookies with SameSite=none; CSP references billing.autospf.com in form-action; Stripe integration (connect-js.stripe.com, js.stripe.com) on api.autospf.com. Billing endpoints may have different CSRF protections than core API. billing.autospf.com returned empty body (status unknown) — may be Stripe-redirect or separate payment flow.
+evidence_needed: State-changing endpoint on api.autospf.com accepting cookie auth without X-XSRF-TOKEN; or billing.autospf.com payment flow without CSRF token.
+verify_steps: AUTH_HELPED: GET /login on api.autospf.com to obtain cookies; POST /api/flatten or /api/records with cookie-only auth (no X-XSRF-TOKEN header); check if action succeeds. HEAD billing.autospf.com to determine status.
+impact: Unauthorized SPF record modifications, domain delegation changes, billing tampering — HIGH severity.
+testability: AUTH_HELPED
+[HYP] IDOR on DMARC Report v2 API — postmaster account records cross-tenant access
+class: IDOR
+asset: api.dmarcreport.com/v2/postmaster_account_records
+confidence: 68
+reasoning: /v2/postmaster_account_records.json and /v2/postmaster_account_records/:id.json endpoints exist (documented). Postmaster accounts are external mailbox providers (Google, Microsoft) — cross-tenant access would reveal other customers' mailbox provider connections and aggregate data. Endpoint may not enforce token-account binding.
+evidence_needed: HTTP 200 from token A requesting postmaster_account_records for account B; or proof of ownership validation.
+verify_steps: AUTH_HELPED: same two-account setup as HYP 1; GET /v2/postmaster_account_records.json with token_A (should return only A's data); GET /v2/postmaster_account_records/<id_from_B>.json with token_A.
+impact: Cross-tenant read of mailbox provider connections and email metadata — MEDIUM-HIGH severity.
+testability: AUTH_HELPED
+[PARKED] billing.autospf.com CSRF: confidence 70 > 40, but billing.autospf.com returned empty body (status unknown); cannot confirm the subdomain is active or has CSRF-relevant endpoints. Park until status confirmed.
+[PARKED] postmaster_account_records IDOR: confidence 68 — lower than primary IDOR hypothesis (78); same attack path but narrower data scope. Merged into primary IDOR hypothesis as secondary verification target.
+[FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 78%)
+[FINAL] 2. CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies (api.autospf.com, AUTH, 70%)
+[NEXT] PROBE: GET https://docs.dmarcreport.com/ — parse full API endpoint list; GET https://api.dmarcreport.com/v2/all_domains.json (no auth, expect 401); GET https://api.dmarcreport.com/v2/postmaster_account_records.json (no auth, expect 401); GET https://billing.autospf.com with HEAD to determine HTTP status — map complete attack surface before authenticated testing
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target
+[LEARN] ACCEPTED AUTH @ api.autospf.com: Laravel login page confirmed, SameSite=none cookies, Stripe billing integration — CSRF risk confirmed
+[LEARN] REJECTED AUTH @ account.duocircle.com: WorkOS AuthKit is third-party; auth flaws would be WorkOS responsibility
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2); attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; Freshdesk support desk; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
