@@ -1,35 +1,65 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=10][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=393, limit=15][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts[90m [offset=1, limit=40][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
+[0m• [0mTriage dmarcreport-mcp secrets[90m General Agent[0m
+[0m✓ [0mTriage dmarcreport-mcp secrets[90m General Agent[0m
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
-## Classification Table
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts
+Now let me check the youtrack-mcp test scripts more carefully for any additional secrets beyond what the agent reported:
+[0m✱ [0mGlob "reposcan-raw/duocircle/youtrack-mcp/**/.env*"[90m 1 match[0m
+[0m✱ [0mGlob "reposcan-raw/duocircle/dmarcreport-mcp/**/.env*"[90m 0 matches[0m
+[0m✱ [0mGlob "reposcan-raw/duocircle/**/config*.{json,yaml,yml}"[90m 1 match[0m
+Let me check for any `.env` files or config files that might contain real credentials:
+[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/.env.example
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/config.example.json
+## Triage Results — 17 Hits Across 104 Files
 
-| File | Line | Content (redacted) | Category | Notes |
-|---|---|---|---|---|
-| `youtrack-mcp/scripts/test-field-values.js` | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | **TEST_OR_EXAMPLE** | Mock config, subclasses real client with hardcoded mocks |
-| `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | **TEST_OR_EXAMPLE** | Same pattern — demo client overriding all methods |
-| `dmarcreport-mcp/package.json` | 2,8,22 | Package name `@duocircle/dmarcreport-mcp` | **TEST_OR_EXAMPLE** | npm package naming, no secret material |
-| `dmarcreport-mcp/docker-compose.yml` | 2,4,7 | Image name, default `api.dmarcreport.com` URL | **TEST_OR_EXAMPLE** | Compose config referencing public API endpoint |
-| `dmarcreport-mcp/src/index.ts` | 10 | `DMARCREPORT_API_KEY=your-key` (usage comment) | **TEST_OR_EXAMPLE** | Placeholder in JSDoc, not a real key |
-| `dmarcreport-mcp/src/index.ts` | 14,33 | `api.dmarcreport.com` default URL | **TEST_OR_EXAMPLE** | Public API URL already in KB; env var placeholder pattern |
-| `dmarcreport-mcp/src/tools/help.ts` | 355 | `support.dmarcreport.com` KB link | **TEST_OR_EXAMPLE** | Public support URL already in inventory |
-| `dmarcreport-mcp/src/guidance/patterns.ts` | 398-404 | `autospf.email`, `autospf.com` regex patterns | **TEST_OR_EXAMPLE** | Product identification patterns for DMARC analysis; public domain names |
+### Category: TEST_OR_EXAMPLE (4 hits)
 
-## Verdict
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| `youtrack-mcp/scripts/test-field-values.js` | 17 | `baseURL: 'https://test.youtrack.cloud'` | Mock test URL, `test.youtrack.cloud` is YouTrack's sandbox |
+| `youtrack-mcp/scripts/test-field-values.js` | 18 | `token: 'test-token'` | Literal placeholder string |
+| `youtrack-mcp/scripts/test-error-handling.js` | 15 | `baseURL: 'https://test.youtrack.cloud'` | Same mock URL |
+| `youtrack-mcp/scripts/test-error-handling.js` | 16 | `token: 'test-token'` | Literal placeholder string |
 
-| Candidate | REPORT_CANDIDATE |
-|---|---|
-| YouTrack test fixtures | no |
-| DMARCReport MCP package config | no |
-| DMARCReport docker-compose defaults | no |
-| API URL placeholders | no |
-| Public support KB link | no |
-| AutoSPF regex patterns | no |
+### Category: SAFE (12 hits — no action)
 
-**Summary: 0 reportable candidates.** All 17 hits are test/example data, package naming, or references to already-known public endpoints. No hardcoded real credentials, internal URLs, or novel secrets found in this scan delta.
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| `dmarcreport-mcp/package.json` | 2 | `"name": "@duocircle/dmarcreport-mcp"` | Package name |
+| `dmarcreport-mcp/package.json` | 8 | `"dmarcreport-mcp": "dist/index.js"` | Bin entry |
+| `dmarcreport-mcp/package.json` | 22 | `"dmarcreport"` keyword | Metadata |
+| `dmarcreport-mcp/docker-compose.yml` | 2 | `dmarcreport-mcp:` | Service name |
+| `dmarcreport-mcp/docker-compose.yml` | 4 | `image: duocircle/dmarcreport-mcp:latest` | Public Docker image ref |
+| `dmarcreport-mcp/docker-compose.yml` | 7 | `DMARCREPORT_API_URL=${VAR:-https://api.dmarcreport.com}` | Env var with public default |
+| `dmarcreport-mcp/src/index.ts` | 10 | `DMARCREPORT_API_KEY=your-key` in comment | Doc placeholder |
+| `dmarcreport-mcp/src/index.ts` | 14 | `DMARCREPORT_API_URL` in comment | Doc placeholder |
+| `dmarcreport-mcp/src/index.ts` | 33 | `process.env.DMARCREPORT_API_URL \|\| 'https://api.dmarcreport.com'` | Env var read with public default |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 398 | `/include:_s\d+\.autospf\.email/i` | Regex for SPF detection |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 400 | `dashboard_url: "https://autospf.com/dashboard"` | Public dashboard URL |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 404 | `/include:.*\.autospf\.com/i` | Regex for SPF detection |
+
+### Category: INTERESTING (1 hit)
+
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| `dmarcreport-mcp/src/tools/help.ts` | 355 | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | Public support KB link — confirms support.dmarcreport.com is live with Freshdesk-style article structure. Already inventoried, low risk. |
+
+### Category: REAL_SECRET — 0 hits
+
+### Category: ENDPOINT_LEAK — 0 hits
+
+---
+
+### Verdict
+
+| Category | Report Candidate? | Notes |
+|----------|------------------|-------|
+| REAL_SECRET | No | None found |
+| TEST_OR_EXAMPLE | No | 4 hits, all mock data |
+| INTERESTING | No | 1 hit, already in inventory |
+| ENDPOINT_LEAK | No | None found |
+
+**REPORT_CANDIDATE: no** — All 17 hits are either test fixtures, safe documentation, or already-known surfaces. No new reportable findings from this scan.
