@@ -30,3 +30,8 @@ https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json -> HTTP 401
 ## 2026-08-21 21:00:29 UTC
 https://api.dmarcreport.com/v2/accounts -> HTTP 401
 https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json -> HTTP 401
+
+## 2026-08-21 21:37:09 UTC
+https://api.dmarcreport.com/v2/accounts -> HTTP 401
+https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json -> HTTP 401
+https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/1/agg_reports.json -> HTTP 401

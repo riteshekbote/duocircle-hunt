@@ -977,3 +977,266 @@ testability: PASSIVE
 ### EXECUTION NOTE
 
 **Blocked on AUTH_HELPED verification.** Both final hypotheses require registering accounts on app.dmarcreport.com/signup to obtain API tokens. This is an authorized bug bounty test (DuoCircle scope, trust.duocircle.com/responsible-disclosure/). Current phase is RECON but the primary IDOR hypothesis cannot progress without credential acquisition. Recommend transitioning to `EXEC` phase once two free trial accounts are registered.
+===== ANALYST mimo 2026-08-21 21:37:06 UTC =====
+[0m
+> build · mimo-v2.5-free
+[0m
+[0m# [0mTodos
+[•] STEP 1: DELTA — Compare inventory + knowledge + last leads vs current surface
+[ ] STEP 2: PRIORITIZE — Score top assets on 6 axes
+[ ] STEP 3: HYPOTHESES — Emit top 3 max 1 each
+[ ] STEP 4: SELF-CRITIQUE — Drop weak, emit [FINAL]
+[ ] STEP 5: NEXT ACTION — Pick one concrete probe
+[ ] STEP 6: LEARNING — Emit [LEARN] lines
+[ ] STEP 7: RISK SCORE — Emit [RISK] blocks
+[0m
+[0m# [0mTodos
+[✓] STEP 1: DELTA — Compare inventory + knowledge + last leads vs current surface
+[✓] STEP 2: PRIORITIZE — Score top assets on 6 axes
+[✓] STEP 3: HYPOTHESES — Emit top 3 max 1 each
+[✓] STEP 4: SELF-CRITIQUE — Drop weak, emit [FINAL]
+[•] STEP 5: NEXT ACTION — Probe CSRF on api.autospf.com
+[ ] STEP 6: LEARNING — Emit [LEARN] lines
+[ ] STEP 7: RISK SCORE — Emit [RISK] blocks
+[0m
+No new cycle delta detected. Top hypotheses already identified. Let me continue probing the CSRF on AutoSPF (highest testability next step).
+[0m$ [0mcurl -sI -c /tmp/autospf-cookies.txt https://api.autospf.com/ 2>&1 | head -30
+HTTP/2 302 
+cache-control: no-cache, private
+content-security-policy: base-uri 'self';connect-src 'self' autospf.com *.autospf.com api.autospf.com www.gstatic.com visithunter.io plugin.klenty.com www.kt-web2.com www.kl-wt1.com new-collect.albacross.com api.salespanel.io tracking-api.g2.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com;default-src 'self';media-src 'self';object-src 'none';form-action 'self' autospf.com *.autospf.com sptest.iamshowcase.com accounts.zohoportal.com subscriptions.zoho.com billing.zoho.com billing.autospf.com billing.zohosecure.com www.facebook.com;frame-ancestors *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com;frame-src *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com www.google.com *.googletagmanager.com *.googleadservices.com td.doubleclick.net www.facebook.com https://connect-js.stripe.com https://js.stripe.com;script-src 'self' 'unsafe-eval' 'strict-dynamic' *.autospf.com autospf.com www.gstatic.com s3-us-west-2.amazonaws.com/kl-website-tracking/klenty_track.js us3-cx.outplayhq.com insight.iljmp.com visithunter.io serve.albacross.com tracking.g2crowd.com cdnjs.cloudflare.com salespanel.io ddwl4m2hdecbv.cloudfront.net *.googletagmanager.com *.googleadservices.com 'nonce-hYg8w7QG2yxqkJ5BmxvlEui6cfYO3BNm' *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com connect.facebook.net https://connect-js.stripe.com https://js.stripe.com;style-src 'self' 'unsafe-inline' *.autospf.com autospf.com fonts.googleapis.com fonts.bunny.net use.fontawesome.com;font-src 'self' data: *.autospf.com autospf.com fonts.googleapis.com fonts.gstatic.com fonts.bunny.net use.fontawesome.com;img-src 'self' data: *.googleusercontent.com *.autospf.com autospf.com www.globalcyberalliance.org new-collect.albacross.com www.gravatar.com workoscdn.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com https://*.stripe.com
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:02 GMT
+location: https://api.autospf.com/login
+set-cookie: XSRF-TOKEN=eyJpdiI6IkxBSzcraU1CMVNYUmUzWjk3VGRVNUE9PSIsInZhbHVlIjoiV0VKMm0zbVRWcjR1VnNuaVUvTS9KUWorMDk0R0ZPM0ZsSFVRZzhwVjJmUm9wcEM0TG1UdGoyUldIblpid2JqZ1djclFZeFpVTVVNWHB2dHhQdEFYQWIxczEwbnVQbU5pMkxnYXRGeEkvVkIrM2dETG5BamdTaXBmR0E1eDNhNXQiLCJtYWMiOiJiOTZkZDIwOGQ1MzY5YWFkOWQyNTc2ZmJjZTljOGEzODU4NmEyMGQyOGNjNzk2NDQ2YTM3YzMyY2NhNGY5MmUwIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:02 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IjFXWWJXNFhDd2M4bXdVam1iQUJKeVE9PSIsInZhbHVlIjoiN2hEdDMzakNJY1IzemdsaFU4dDZVT0l1Ukc5UHhDU1ZxL0lSemtQd3dPNEFJa0dGaFdPQ0N5eDdjZC9QYUx3LzZaT3VaSU54WUt3ZytFMi9mWlliRkkyOG03cmsydlk2SXNFYnJxekN3aG1jdlBHWjlWVWhmU0I2MnpxWUxjcGQiLCJtYWMiOiJiMjc0MWVhN2QzMGU4MzM0NGI5YzljNWEwN2I1MjAzZWZiZjJiNGM5NmQ0OWY3ZTNjOWIwZGFhN2EyMmI2NmUzIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:02 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/api/records 2>&1 | head -20
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:02 GMT
+[0m
+Probing api.autospf.com for CSRF — checking cookie/XSRF behavior.
+[0m$ [0mcurl -sI https://api.autospf.com/login 2>&1 | head -20
+HTTP/2 200 
+cache-control: no-cache, private
+content-security-policy: base-uri 'self';connect-src 'self' autospf.com *.autospf.com api.autospf.com www.gstatic.com visithunter.io plugin.klenty.com www.kt-web2.com www.kl-wt1.com new-collect.albacross.com api.salespanel.io tracking-api.g2.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com;default-src 'self';media-src 'self';object-src 'none';form-action 'self' autospf.com *.autospf.com sptest.iamshowcase.com accounts.zohoportal.com subscriptions.zoho.com billing.zoho.com billing.autospf.com billing.zohosecure.com www.facebook.com;frame-ancestors *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com;frame-src *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com www.google.com *.googletagmanager.com *.googleadservices.com td.doubleclick.net www.facebook.com https://connect-js.stripe.com https://js.stripe.com;script-src 'self' 'unsafe-eval' 'strict-dynamic' *.autospf.com autospf.com www.gstatic.com s3-us-west-2.amazonaws.com/kl-website-tracking/klenty_track.js us3-cx.outplayhq.com insight.iljmp.com visithunter.io serve.albacross.com tracking.g2crowd.com cdnjs.cloudflare.com salespanel.io ddwl4m2hdecbv.cloudfront.net *.googletagmanager.com *.googleadservices.com 'nonce-KKRmHf2YSVnMcRufAHO5gCaUetMiOAFl' *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com connect.facebook.net https://connect-js.stripe.com https://js.stripe.com;style-src 'self' 'unsafe-inline' *.autospf.com autospf.com fonts.googleapis.com fonts.bunny.net use.fontawesome.com;font-src 'self' data: *.autospf.com autospf.com fonts.googleapis.com fonts.gstatic.com fonts.bunny.net use.fontawesome.com;img-src 'self' data: *.googleusercontent.com *.autospf.com autospf.com www.globalcyberalliance.org new-collect.albacross.com www.gravatar.com workoscdn.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com https://*.stripe.com
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:03 GMT
+set-cookie: XSRF-TOKEN=eyJpdiI6IkZwVDRVYlRtM3BzRk0vUWpxV0t6VHc9PSIsInZhbHVlIjoiWjZUUkoxbzV4NnJITk5QNVFGdEJIeTNCOTRSSmhvWmVGV0RRL0FYNWVxc3pMQlJsKzJhZkpLMjlxc1JNNUtTbVhEUlRHYnk1eGFNem1VVERMaWUwN0ZvL3FiQmlXNHNveUM0QmQySk5DMys4M0d2MkJRS0FMUVhjTld3Um9PQXIiLCJtYWMiOiI1NDUzYTdhNzIwMjFkMTAxNTlhMTI1OTI0M2ViZjc2ODJmYzFmYmI4YzZjYjQxOWMyZTg1OTYyOGQyMjNhOTk2IiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:03 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6ImRUaUNLL0orNEZzcnJ0SDlPTDhZc3c9PSIsInZhbHVlIjoiQ25EcXdqRVBPcHQyT25VWDZQWTFBYkFnSWFlZjY4TjYweVk4UXRERk40WHVIUGpRc1lDMVhpWlN1bEpqNlhRQVkzSjhlbXZwaGNpYjlPV3RyZHBoMXNicWdNcmpOdzUzSkEzRjJMVnEvQ09WamhUTldpR0lma0F2NTJaYWJWeWwiLCJtYWMiOiJiMmMwYzlmODAwODRmZTg4MjFjOThmYzYyMDk4NjRiZTAyNTcwYTNmZGFlYjhlMzZkZmNkMzdmMWVlZWM3NGQ0IiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:03 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -s -b /tmp/autospf-cookies.txt https://api.autospf.com/login 2>&1 | grep -oP 'action="[^"]*"' | head -5
+action="/login"
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/api/ 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:08 GMT
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/api/domains 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:09 GMT
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/api/spf 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:09 GMT
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/api/v1/domains 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:13 GMT
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/flatten 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:13 GMT
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/api/flatten 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:14 GMT
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/dashboard 2>&1 | head -15
+HTTP/2 302 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:23 GMT
+location: https://api.autospf.com/login
+set-cookie: XSRF-TOKEN=eyJpdiI6IlFuQlNtZUhpKytWNHBIaEtvZkdCN1E9PSIsInZhbHVlIjoiTWNiSW9kbzh5L3FsYkxvdXF0REk3WGZYOTVPanI3RFVUb2xpMnUrMm1FRjBKcXRJNzFjdHh0OWl2dGFDOE5VL2kxb2dDSjBISWJzenZEaVRoTXA2T1BONDU1enJtSCt0TEhUTTllN3MwMkN0Qi9tU1Q5Yk9iQXc3VWVqbDdiRmkiLCJtYWMiOiIyYzI1YTM3MGJmOWQ4ZWQxNDJjN2I0YmY5ODMyNTQ4ZjE1ZDI1YzRkYmYwZGEyZGRjNTQwZTc1NjY0YmM1Y2ZmIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:23 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IkwrQ0FMWndXMklQZDVrSGFnanlyRkE9PSIsInZhbHVlIjoiZDRKV2dZc0VBeWxoSnhNMkZ0U29WQVJ4NCtDdWdNdUpuNy9odUt5Ui9saERuejdTV0pxNXRoS2RBRmRQR3c5VWk4OXV4M29HaDZEYlozLzNZUTR0UjlZcmZRZDU2R3hhbEFGemhFNUtBakFMcytuZ0dqa051WVcyTzNLUFZIMjciLCJtYWMiOiI1Mjg2NzM5OWVjNTVmMjM0YjBhMDhmOTYxNzA4MzQxMzIwZjg1Yzk3Mjg0MTMxMDA0MjU4YTY2NWM5OTQ1Y2EzIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:23 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/settings 2>&1 | head -15
+HTTP/2 302 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:23 GMT
+location: https://api.autospf.com/login
+set-cookie: XSRF-TOKEN=eyJpdiI6IlhGTEJxUGxiM1J3ZENwRVNTRGdXbmc9PSIsInZhbHVlIjoiMGJBYUNJeWpKcktwbm5wUEZpRU9JTFpRYkswRGJWaGU5RDRXQmUzUVB3YnhpNjZUZ3MwREVVY0NKc1dsODN4d0Nyc1NZQTJCMUs1TTZKR1JpZUtSMkNWMVFWaXJzVjRXZ2R5VzhjcGthdVJ5SUhYSGdKeDIzbGRlWFJzQitobmQiLCJtYWMiOiJjYzdlZWUxMDY0Mjg1NjFhZGRmMTFhOTcwYTc2MzAyMWQyYWIyYmQ5OTdiOWEwNTY4MTRmYmZiYWExYzFmZGJmIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:23 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IjFnVmhyZEdlTWpEZ0cyVjlZMFNnT3c9PSIsInZhbHVlIjoiY0w0a1M4TEZ3TmFlS0hwOUJvUHRWVit2S04wMFR4L29OVnk1YktscHp2NmpFVDVhWnZxYjZwbEJYdEdWbHVQdXp3R1V4aVEwcWU2WWFyTlhCZDkwemEzZnJyUmFYb3lEcllNUTl1MFBnZ09QbmRWQlRyY0lGNERXT0dNSHFGTGUiLCJtYWMiOiIwZWQ4Y2Q5YTM2MGJhYmQ3MTI4MWE0N2ZlYWIyNDg3ODNkMjUzY2NhOTc3ODIyYTg3ODJkMDczNjQ2YTQ0ZGY3IiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:23 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/records 2>&1 | head -15
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:26 GMT
+[0m
+[0m$ [0mcurl -sI https://app.dmarcreport.com/signup 2>&1 | head -15
+HTTP/2 200 
+alt-svc: h3=":443"; ma=2592000
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: text/html; charset=utf-8
+etag: W/"32c8bbdec73d2a470763d42b8c690e9d"
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: _dmarc_reporter_session=b5193619dcb49b5ffdf8d6b72cb599a2; path=/; expires=Sat, 22 Aug 2026 21:35:59 GMT; HttpOnly; SameSite=Lax; secure
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: e06a8eb0-180e-4d60-8237-3a31a4ca1b94
+[0m
+[0m$ [0mcurl -sI -X POST https://api.autospf.com/login 2>&1 | head -20
+HTTP/2 419 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:35:59 GMT
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IlBFOWJCRE5kZnd3anFoZnVETkQ3K0E9PSIsInZhbHVlIjoiQjFEbHVSYTQyOE1Ld0VZUHdjaXJDSkt5aWxMZW14Nk5ueThBT0VUR2xmZ3BoSE5yQ0JiL3Z6VENKSkJoczFhNWoybFhEdXBrdDJDSERWT2RuNkI1S3FLcEVKS3hwdGtRbzk4Q0QxeFZhdkRmbW5ZZU96eVR6SnNUb2xPbVdaY2UiLCJtYWMiOiI1MWFmODIzMGZkZDdjZjFiMjU2YTI0M2I0M2I2MjA2Mjc3NjBjMDI2MDRhOGJlYTljZjBmNjgzMDk0NDBiODFhIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 23:35:59 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+[0m
+[0m$ [0mcurl -s https://api.autospf.com/robots.txt 2>&1 | head -30
+User-agent: *
+Disallow:
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/sitemap.xml 2>&1 | head -10
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:36:12 GMT
+[0m
+[0m$ [0mcurl -sI 'https://api.autospf.com/api/v1/flatten?domain=example.com' 2>&1 | head -15
+HTTP/2 404 
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 21:36:13 GMT
+[0m
+[0m# [0mTodos
+[✓] STEP 1: DELTA — Compare inventory + knowledge + last leads vs current surface
+[✓] STEP 2: PRIORITIZE — Score top assets on 6 axes
+[✓] STEP 3: HYPOTHESES — Emit top 3 max 1 each
+[✓] STEP 4: SELF-CRITIQUE — Drop weak, emit [FINAL]
+[✓] STEP 5: NEXT ACTION — Probe CSRF on api.autospf.com
+[•] STEP 6: LEARNING — Emit [LEARN] lines
+[ ] STEP 7: RISK SCORE — Emit [RISK] blocks
+[0m
+## 2026-08-21 21:36:15 UTC [www] — PROBE COMPLETE
+
+---
+
+### STEP 1 — DELTA
+NO_DELTA — All inventory items from last cycle remain current. No new subdomains or endpoints discovered this probe.
+
+---
+
+### STEP 2 — PRIORITIZE
+```
+[PRIO] api.dmarcreport.com/v2, 8.8, attack=9 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 8.0, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
+[PRIO] app.dmarcreport.com/signup, 7.5, attack=7 business=8 tech=7 gate=3 cloud=7 fresh=9
+[PRIO] billing.autospf.com, 7.2, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+```
+
+---
+
+### STEP 3 — HYPOTHESES
+
+**[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs**
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 82
+reasoning: API uses sequential integer IDs for accounts (1462, 1473, 1487, 1488) and domains (2503, 2593, 2596). Token auth is per-account but docs show /v2/all_domains.json returns "all domains across all accounts for the authenticated user" — unclear if cross-account ID access is blocked. Predictable IDs enable enumeration. Auth enforced (401 without token) but no evidence of per-resource ownership validation. app.dmarcreport.com/signup returns 200 with WorkOS AuthKit — free trial accounts accessible.
+evidence_needed: HTTP 200 from token_A requesting /v2/accounts/<account_B_id>/domains.json; or 403/401 proving per-resource validation.
+verify_steps: AUTH_HELPED: register two free trial accounts at app.dmarcreport.com/signup; extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/1/agg_reports.json with token_A. Diff responses.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: AUTH_HELPED
+
+**[HYP] Subdomain takeover → CSRF chain on api.autospf.com via XSRF-TOKEN cookie theft**
+class: AUTH
+asset: api.autospf.com
+confidence: 68
+reasoning: api.autospf.com sets XSRF-TOKEN cookie with SameSite=none AND no HttpOnly flag. POST to /login without X-XSRF-TOKEN header → 419 (Page Expired) confirming CSRF protection IS enforced. However, any compromised *.autospf.com subdomain can read the XSRF-TOKEN via JS (not httponly) and include it as X-XSRF-TOKEN header, bypassing CSRF. CSP allows many third-party domains (Klenty, SalesPanel, Elfsight, Facebook) increasing XSS → subdomain takeover risk.
+evidence_needed: A live *.autospf.com subdomain that is unclaimed or has XSS; or confirmation that XSRF-TOKEN can be exfiltrated from a subdomain context.
+verify_steps: PASSIVE: enumerate autospf.com subdomains via crt.sh/CRT.sh; check each for HTTP 200/404 (potential takeover). AUTH_HELPED: if takeover found, host JS on taken-over subdomain that reads XSRF-TOKEN cookie and POSTs to api.autospf.com/auth/logout with the token in header.
+impact: Account takeover via session hijacking + CSRF bypass — HIGH severity.
+testability: PASSIVE (subdomain enum) → AUTH_HELPED (exploitation)
+
+**[HYP] CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies**
+class: AUTH
+asset: api.autospf.com
+confidence: 45
+reasoning: Confirmed SameSite=none on both XSRF-TOKEN and session cookies. However, POST to /login without X-XSRF-TOKEN header returns 419 — CSRF protection IS enforced on state-changing endpoints. Direct CSRF from external origin is blocked by the XSRF-TOKEN header check. The vulnerability requires a prerequisite (subdomain takeover or XSS) to read the token.
+evidence_needed: An API endpoint on api.autospf.com that accepts cookie auth without XSRF-TOKEN validation.
+verify_steps: AUTH_HELPED: POST to /login with valid credentials but missing X-XSRF-TOKEN header → expect 419. Then try authenticated state-changing endpoints (POST /dashboard, POST /settings) without header.
+impact: Unauthorized SPF record modifications if CSRF bypassed — MEDIUM severity (requires prerequisite).
+testability: AUTH_HELPED
+
+---
+
+### STEP 4 — SELF-CRITIQUE
+
+**[PARKED] CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies**: Confidence dropped from 70→45 after direct probe. POST /login without XSRF-TOKEN → 419 confirms CSRF protection works. Direct CSRF from external origin is NOT exploitable. This hypothesis is now subsumed by the stronger "subdomain takeover → CSRF chain" hypothesis. Parked.
+
+**[FINAL] Survival list:**
+1. [82] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+2. [68] Subdomain takeover → CSRF chain on api.autospf.com via XSRF-TOKEN cookie theft
+
+---
+
+### STEP 5 — NEXT ACTION
+
+```
+[NEXT] PROBE: AUTH_HELPED — Register two free trial accounts at app.dmarcreport.com/signup; extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A — test cross-tenant IDOR.
+```
+
+---
+
+### STEP 6 — LEARNING
+```
+[LEARN] ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: app.dmarcreport.com/signup returns HTTP 200; WorkOS AuthKit signup accessible; free trial accounts available for IDOR testing.
+[LEARN] CHANGED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
+```
+
+---
+
+### STEP 7 — RISK SCORE
+```
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2); attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
+```

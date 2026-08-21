@@ -5,3 +5,6 @@
 - 2026-08-21 ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target
 - 2026-08-21 ACCEPTED AUTH @ api.autospf.com: Laravel login page confirmed, SameSite=none cookies, Stripe billing integration — CSRF risk confirmed
 - 2026-08-21 ACCEPTED AUTH @ billing.autospf.com: Zoho billing portal active (JSESSIONID, 302→SetupOrganization.do) — billing subdomain confirmed live
+- 2026-08-21 ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
+- 2026-08-21 ACCEPTED IDOR @ api.dmarcreport.com: app.dmarcreport.com/signup returns HTTP 200; WorkOS AuthKit signup accessible; free trial accounts available for IDOR testing.
+- 2026-08-21 CHANGED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
