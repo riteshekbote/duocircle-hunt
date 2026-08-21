@@ -1,51 +1,33 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=390, limit=20][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=15][0m
-## Classification Tables
+## Triage Results
 
-### REAL_SECRET
-*None found.*
+| # | File | Line | Value | Category |
+|---|------|------|-------|----------|
+| 1 | `youtrack-mcp/scripts/test-field-values.js` | 17-18 | `token: 'test-token'` | TEST_OR_EXAMPLE |
+| 2 | `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | `token: 'test-token'` | TEST_OR_EXAMPLE |
+| 3 | `dmarcreport-mcp/package.json` | 2,8,22 | package name `"@duocircle/dmarcreport-mcp"` | TEST_OR_EXAMPLE |
+| 4 | `dmarcreport-mcp/docker-compose.yml` | 2,4 | image name `duocircle/dmarcreport-mcp:latest` | TEST_OR_EXAMPLE |
+| 5 | `dmarcreport-mcp/docker-compose.yml` | 7 | `${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | ENDPOINT_LEAK (already known public API endpoint) |
+| 6 | `dmarcreport-mcp/src/index.ts` | 10 | `DMARCREPORT_API_KEY=your-key` | TEST_OR_EXAMPLE (placeholder) |
+| 7 | `dmarcreport-mcp/src/index.ts` | 14,33 | `https://api.dmarcreport.com` | ENDPOINT_LEAK (already in RAG inventory) |
+| 8 | `dmarcreport-mcp/src/tools/help.ts` | 355 | `https://support.dmarcreport.com/...` | TEST_OR_EXAMPLE (help text) |
+| 9 | `dmarcreport-mcp/src/guidance/patterns.ts` | 398-404 | `autospf.email`, `autospf.com/dashboard`, `autospf.com` | TEST_OR_EXAMPLE (guidance patterns) |
 
-### TEST_OR_EXAMPLE
-
-| File | Line | Value | Rationale |
-|---|---|---|---|
-| `youtrack-mcp/scripts/test-field-values.js:17` | `baseURL: 'https://test.youtrack.cloud'` | Placeholder/test domain, not a real instance | Mock config in demo script, not a real credential |
-| `youtrack-mcp/scripts/test-field-values.js:18` | `token: 'test-token'` | Obvious dummy token string | Mock config in demo script |
-| `youtrack-mcp/scripts/test-error-handling.js:15` | `baseURL: 'https://test.youtrack.cloud'` | Placeholder/test domain | Same mock pattern as above |
-| `youtrack-mcp/scripts/test-error-handling.js:16` | `token: 'test-token'` | Obvious dummy token string | Same mock pattern as above |
-
-### ENDPOINT_LEAK
-*None new — all endpoints are already documented in knowledge base.*
-
-### INTERESTING
-
-| File | Line | Detail | Rationale |
-|---|---|---|---|
-| `dmarcreport-mcp/src/tools/help.ts:355` | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | Live KB article link embedded in source | Confirms support.dmarcreport.com is public and documented; low risk but confirms attack surface |
-| `dmarcreport-mcp/src/guidance/patterns.ts:398-404` | `autospf.email` and `autospf.com` references | In-scope domain patterns in code guidance | Expected — these are the product domains the tool helps users manage |
-| `dmarcreport-mcp/docker-compose.yml:7` | `DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | Default API URL in docker-compose | Expected — confirms the live API endpoint; already known |
-
-### Candidates Summary
-
-| # | Category | File | Line | Assessment |
-|---|---|---|---|---|
-| 1 | TEST_OR_EXAMPLE | `youtrack-mcp/scripts/test-field-values.js` | 17-18 | `test-token` / `test.youtrack.cloud` — demo mock, **not reportable** |
-| 2 | TEST_OR_EXAMPLE | `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | `test-token` / `test.youtrack.cloud` — demo mock, **not reportable** |
+### Key observations
+- **`test-token`** in youtrack-mcp test scripts: literal placeholder, no signs of life. Safe.
+- **`your-key`** placeholder in index.ts usage comment: not a real credential.
+- **`api.dmarcreport.com`** endpoints: already in RAG inventory; public API, not a leak.
+- **No hardcoded real API keys, tokens, or credentials found.** All hits are test fixtures, docs, or known endpoints.
 
 ### Verdict
 
 | Candidate | REPORT_CANDIDATE |
-|---|---|
-| `test-token` in youtrack-mcp test scripts | **No** — clearly mock/fixture values, no signs of life |
-| `support.dmarcreport.com` KB link | **No** — public documentation URL, expected |
-| `api.dmarcreport.com` default URL | **No** — already known live endpoint, public API |
+|-----------|-----------------|
+| youtrack-mcp test tokens | No |
+| dmarcreport-mcp endpoints | No (already known) |
+| dmarcreport-mcp placeholder key | No |
+| autospf guidance patterns | No |
 
-**Overall: No reportable findings from this delta.** All 17 hits are either test mocks, known endpoints, or expected product-domain references. The `test-token` values are obvious placeholders with no connection to real credentials.
+**No reportable candidates.** All 17 hits are test/example data or already-inventoried public endpoints.
