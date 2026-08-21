@@ -1,0 +1,1001 @@
+===== ANALYST nemotron3 2026-08-21 18:20:51 UTC =====
+[0m
+> build · nemotron-3-ultra-free
+[0m
+[0m$ [0mls -la
+total 68
+drwxr-xr-x 11 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:08 ..
+drwxr-xr-x  7 runner runner 4096 Aug 21 18:08 .git
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:08 .github
+-rw-r--r--  1 runner runner 1383 Aug 21 18:08 README.md
+-rw-r--r--  1 runner runner   43 Aug 21 18:08 analyst-out.txt
+-rw-r--r--  1 runner runner 3947 Aug 21 18:08 analyst-prompt.txt
+-rw-r--r--  1 runner runner  201 Aug 21 18:08 ctx.txt
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 inventory
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 knowledge
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 leads
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 reports
+drwxr-xr-x  4 runner runner 4096 Aug 21 18:08 reposcan-raw
+-rw-r--r--  1 runner runner 2712 Aug 21 18:08 scope.yml
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 scripts
+-rw-r--r--  1 runner runner   33 Aug 21 18:08 state_nemotron3.json
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 triage
+[0m
+[0m$ [0mcat state_nemotron3.json && echo "---" && cat ctx.txt
+{"phase":"RECON","target":"www"}
+---
+=== KNOWLEDGE BASE ===
+# Knowledge Base (seed)
+=== MY STATE ===
+{"phase":"RECON","target":"www"}
+=== MY LAST LEADS (tail) ===
+none
+=== AGGREGATED HYPOTHESES (tail) ===
+none
+=== INVENTORY duocircle ===
+[0m
+[0m$ [0mls -la inventory/ knowledge/ leads/ scripts/ scope.yml
+-rw-r--r-- 1 runner runner 2712 Aug 21 18:08 scope.yml
+
+inventory/:
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 11 runner runner 4096 Aug 21 18:08 ..
+-rw-r--r--  1 runner runner    0 Aug 21 18:08 duocircle.md
+
+knowledge/:
+total 12
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 11 runner runner 4096 Aug 21 18:08 ..
+-rw-r--r--  1 runner runner   24 Aug 21 18:08 index.md
+
+leads/:
+total 20
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 11 runner runner 4096 Aug 21 18:08 ..
+-rw-r--r--  1 runner runner    0 Aug 21 18:08 .gitkeep
+-rw-r--r--  1 runner runner 4068 Aug 21 18:08 reposcan-2026-08-21-17-56.md
+-rw-r--r--  1 runner runner 3811 Aug 21 18:08 reposcan-2026-08-21-18-05.md
+-rw-r--r--  1 runner runner 3811 Aug 21 18:08 reposcan-latest.md
+
+scripts/:
+total 28
+drwxr-xr-x  2 runner runner  4096 Aug 21 18:08 .
+drwxr-xr-x 11 runner runner  4096 Aug 21 18:08 ..
+-rw-r--r--  1 runner runner 17327 Aug 21 18:08 sync-issues.py
+[0m
+[0m→ [0mRead scope.yml
+[0m→ [0mRead inventory/duocircle.md
+[0m→ [0mRead knowledge/index.md
+[0m→ [0mRead leads/reposcan-latest.md
+[0m→ [0mRead leads/reposcan-2026-08-21-17-56.md
+[0m
+[0m$ [0mfind reposcan-raw -type f -name "*.js" -o -name "*.ts" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" | head -50
+reposcan-raw/npm/phishprotection.json
+reposcan-raw/npm/inboxissue.json
+reposcan-raw/npm/nureply.json
+reposcan-raw/npm/mailflowmonitoring.json
+reposcan-raw/npm/tenantmigration.json
+reposcan-raw/npm/autospf.json
+reposcan-raw/npm/outboundsmtp.json
+reposcan-raw/npm/alumniforwarding.json
+reposcan-raw/npm/_duocircle_dmarc.json
+reposcan-raw/npm/dmarcreport.json
+[0m
+[0m$ [0mfind reposcan-raw -type f | head -100
+reposcan-raw/grep-delta.txt
+reposcan-raw/.gitkeep
+reposcan-raw/grep-hits.prev.txt
+reposcan-raw/rag.txt
+reposcan-raw/npm/phishprotection.json
+reposcan-raw/npm/inboxissue.json
+reposcan-raw/npm/nureply.json
+reposcan-raw/npm/mailflowmonitoring.json
+reposcan-raw/npm/tenantmigration.json
+reposcan-raw/npm/autospf.json
+reposcan-raw/npm/outboundsmtp.json
+reposcan-raw/npm/alumniforwarding.json
+reposcan-raw/npm/_duocircle_dmarc.json
+reposcan-raw/npm/dmarcreport.json
+reposcan-raw/grep-hits.txt
+reposcan-raw/analysis.txt
+[0m
+[0m$ [0mls -la reposcan-raw/duocircle/ 2>/dev/null && cat reposcan-raw/analysis.txt
+total 56
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x  4 runner runner 4096 Aug 21 18:08 ..
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 Office365-Phishing-Rules
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 Office365-Setup-DKIM-DMARC-SPF
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 dmarc
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 dmarcreport-mcp
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 legal-policies
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 microsoft-365-dmarc-mailbox-export
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 phishing-test-bypass-o365
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 phishredirector
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 sba-certificate-renewal
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 terraform-aws-letsencrypt
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 urlshortener
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 youtrack-mcp
+[0m
+> build · nemotron-3-ultra-free
+[0m
+## Classification Tables
+
+### TEST_OR_EXAMPLE
+| File | Line | Content | Reason |
+|------|------|---------|--------|
+| youtrack-mcp/scripts/test-field-values.js | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token:
+| youtrack-mcp/scripts/test-error-handling.js | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Test fixture data in test scripts |
+| dmarcreport-mcp/src/index.ts | 10 | `DMARCREPORT_API_KEY=your-key` | Example placeholder in usage docs |
+
+### ENDPOINT_LEAK
+| File | Line | Content | Reason |
+|------|------|---------|--------|
+| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | Production API endpoint as default in committed compose file |
+| dmarcreport-mcp/src/index.ts | 33 | `const API_URL = process.env.DMARCREPORT_API_URL || 'https://api.dmarcreport.com';` | Hardcoded production default in source |
+
+### INTERESTING
+| File | Line | Content | Reason |
+|------|------|---------|--------|
+| dmarcreport-mcp/src/guidance/patterns.ts | 398, 400, 404 | Regex patterns & URLs for `autospf.com`, `autospf.email` | References to in-scope sibling domains (expected) |
+
+### REAL_SECRET
+*None found*
+
+---
+
+## Verdict List
+
+| Candidate | File | Line | REPORT_CANDIDATE |
+|-----------|------|------|------------------|
+| Default prod API in docker-compose | docker-compose.yml | 7 | **no** (config default, not a secret) |
+| Hardcoded prod API default in source | src/index.ts | 33 | **no** (fallback default, env-overridable) |
+
+**Summary:** No reportable secrets. Two endpoint defaults leaked in committed config/source—low risk, but consider moving defaults to `.env.example` only.
+[0m
+[0m$ [0mls -la reposcan-raw/duocircle/urlshortener/ && ls -la reposcan-raw/duocircle/phishredirector/ && ls -la reposcan-raw/duocircle/dmarc/
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+[0m
+[0m$ [0mfor d in reposcan-raw/duocircle/*/; do echo "=== $d ==="; ls -la "$d"; done
+=== reposcan-raw/duocircle/Office365-Phishing-Rules/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/Office365-Setup-DKIM-DMARC-SPF/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/dmarc/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/dmarcreport-mcp/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/legal-policies/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/microsoft-365-dmarc-mailbox-export/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/phishing-test-bypass-o365/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/phishredirector/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/sba-certificate-renewal/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/terraform-aws-letsencrypt/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/urlshortener/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+=== reposcan-raw/duocircle/youtrack-mcp/ ===
+total 8
+drwxr-xr-x  2 runner runner 4096 Aug 21 18:08 .
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:08 ..
+[0m
+[0m→ [0mRead reposcan-raw/grep-hits.txt
+[0m→ [0mRead reposcan-raw/rag.txt
+[0m→ [0mRead reposcan-raw/npm/autospf.json
+[0m→ [0mRead reposcan-raw/npm/dmarcreport.json
+[0m
+[0m$ [0mcurl -s -I https://duocircle.com | head -20 && echo "---" && curl -s -I https://trust.duocircle.com | head -20
+HTTP/2 301 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Fri, 21 Aug 2026 18:12:41 GMT
+location: https://www.duocircle.com/
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: iad1::vq76f-1787335961655-663ef0cd3240
+
+---
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 188630
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com https://us-assets.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com https://us.i.posthog.com https://us-assets.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:12:41 GMT
+etag: "5a024077cc3b072d71e759deedac0d96"
+last-modified: Wed, 19 Aug 2026 13:48:51 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+[0m
+[0m$ [0mcurl -s -I https://autospf.com | head -20 && echo "---" && curl -s -I https://dmarcreport.com | head -20 && echo "---" && curl -s -I https://phishprotection.com | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:13:02 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "ff6a19fb6e9eda7b270a246dc72eeb0c"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com https://*.g2crowd.com https://*.albacross.com https://*.clarity.ms https://salespanel.io https://insight.iljmp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com https://*.g2crowd.com https://*.albacross.com https://*.clarity.ms https://*.salespanel.io https://insight.iljmp.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=nZ7lWzqVmJeSB4noG9U0vgV8OIteVoAurhj5M5%2F8Pqi3tQaPi%2BgHPTjrq%2Fzu%2B%2FhDW%2FVSENl%2F4YVbgYQspEeI1rRFyH7k99bLd%2FlbYPHVOWMZ5pzavxbTC1%2B3oGPlRg%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eb9bff19dfd471-IAD
+alt-svc: h3=":443"; ma=86400
+
+---
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 29291
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com https://*.clarity.ms https://salespanel.io https://*.g2.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com https://*.clarity.ms https://*.salespanel.io https://*.g2.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:13:02 GMT
+etag: "04f7ffe5335952b47091cf9fc9a0e57c"
+last-modified: Fri, 21 Aug 2026 10:04:50 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+---
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 392533
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:13:02 GMT
+etag: "205e8633b0566b43d643a8b263b025d6"
+last-modified: Mon, 17 Aug 2026 05:10:49 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+[0m
+[0m$ [0mcurl -s -I https://outboundsmtp.com | head -20 && echo "---" && curl -s -I https://tenantmigration.com | head -20 && echo "---" && curl -s -I https://mailflowmonitoring.com | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:13:28 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "20e7bd7db0759d0d3f1236aac8270252"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=8W2hVGvMZnBYVrt25B%2Bnd4w5FQG0OVBg8z%2FKwWD5aXGRjJPXUFs%2FM8dwwywREC8R3ZAIQQxN0yJBDTpBO9ocGC9doccqCgg2u1AXZbpn1rLk%2FXL74shsQnMlIvebutFny%2Bku"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eb9ca6a95dc3cb-IAD
+alt-svc: h3=":443"; ma=86400
+
+---
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:13:29 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "2e3a228931f10cbe6092e68154307d26"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tuTSf9drpZeijUecKcYeYycb4S%2BtTjWBmxbijb0R7tSh%2FrV4AtaJu17pz%2FEx%2FG9yrpi9qnQUD4lGDmhV6IGD%2Ffh%2BR1%2BPKY%2Bhge0rhIBtQ7THC40vqyk6Dp0%2BwJSisl5WHHtsSxVT"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eb9ca7aa856cdb-IAD
+alt-svc: h3=":443"; ma=86400
+
+---
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:13:29 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "ae1cdf7d65f051a4531153aa829927db"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=HxNGtF%2FbMEvH74kPgfwCXoOHRsm7uU%2BTgJpHdTZ1AA9d5RV43O7wS0SS65OR%2B31uOKjrMRRmg5MuyOGM8U649gtepCK1F1XCrs%2BsCgLwn9xIb6VOnJzD%2FcKoJKcrN79qi%2F8fS%2FlykHLK"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eb9ca8dd24d703-IAD
+alt-svc: h3=":443"; ma=86400
+[0m
+[0m$ [0mcurl -s -I https://alumniforwarding.com | head -20 && echo "---" && curl -s -I https://nureply.com | head -20 && echo "---" && curl -s -I https://inboxissue.com | head -20
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:13:48 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "da624ee3599e8a28f05010d91237c0ea"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com https://*.zohopublic.com https://*.zohocdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=egkAp0dgB0TXJm48mYrGoMNJWMsX1u06bZHzlRovlwsMcSk6qOxJTjBjAp%2BPvWvgyI7M4vPVh3JSPdFZLYQyx42Bcc%2BRSodG%2FUiGB7LwDMlBNyEZ%2FN%2FVw5n0qINou2ODb4TXyjYPdQ%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eb9d222f87d6e7-IAD
+alt-svc: h3=":443"; ma=86400
+
+---
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:13:48 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "d1dd408d800beea805e94725578f9952"
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=lCb2ebqWPp50%2FudqXped14%2FNVuEhx8jtmzW49bhXtBtZVxRLVQvx5L5%2F6q4rH1ehrZHwn1Nt6IUXNDg3%2FkNhijYlCgXxlvfKq97RfgHY90CJzWf3HuvlPTN9iMBs3g%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eb9d234a9b9c61-IAD
+alt-svc: h3=":443"; ma=86400
+
+---
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 188229
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:13:48 GMT
+etag: "d169ffd3ecffec0bb4e5176b639028e4"
+last-modified: Wed, 19 Aug 2026 13:56:39 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+[0m
+[0m$ [0mcurl -s -I https://api.dmarcreport.com | head -20 && echo "---" && curl -s -I https://support.dmarcreport.com | head -20
+HTTP/2 200 
+alt-svc: h3=":443"; ma=2592000
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: application/json; charset=utf-8
+etag: W/"5568daabd081a764093328ee6303b798"
+referrer-policy: strict-origin-when-cross-origin
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: 3cd78787-cedd-4576-8071-6f79e1d2d4f7
+x-runtime: 0.009164
+x-xss-protection: 0
+content-length: 0
+date: Fri, 21 Aug 2026 18:14:15 GMT
+
+---
+HTTP/2 302 
+date: Fri, 21 Aug 2026 18:14:15 GMT
+content-type: text/html; charset=utf-8
+location: https://support.dmarcreport.com/support/home
+status: 302 Found
+cache-control: no-store
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+pragma: no-cache
+x-xss-protection: 1; mode=block
+x-request-id: ebe8ba05-4bfa-9790-b6a2-0a02411417d5
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' *.freshconnect.io/ *.freshsales.io/ *.freshworks.com/ *.freshdesk.com/ *.freshworksapi.com/ *.qualtrics.com/ *.freshdeskusercontent.com/ *.freshdeskusercontent-euc.com/ *.freshdeskusercontent-in.com/ *.freshdeskusercontent-aus.com/ *.fconstage.io/ analytics.inlinemanual.com/__profile analytics.inlinemanual.com/__ptm backend.getbeamer.com/ heapanalytics.com/ d3h0owdjgzys62.cloudfront.net/ d2uy6ubiilaqku.cloudfront.net/assets/ dcdu85ocrj5q6.cloudfront.net/ dtdafz6i4gvv1.cloudfront.net/ d3r4aewxkdubw4.cloudfront.net/ d2lz1e868xzctj.cloudfront.net/ rum.haystack.es/freshdesk/analytics rum.haystack.es/freshworks-rts/_logs fonts.googleapis.com/ fonts.gstatic.com/ sentry.io/api/ wss://*.freshworksapi.com/ wss://*.freshdesk.com/ fg8vvsvnieiv3ej16jby.litix.io/ distillery.wistia.com/ pipedream.wistia.com/ freshworks.asknice.ly/ embedwistia-a.akamaihd.net/ embed-fastly.wistia.com/ maps.googleapis.com/ graph.microsoft.com/v1.0/ freshcaller-attachments.s3.amazonaws.com/production/ euc-freshcaller-attachments.s3.eu-central-1.amazonaws.com/production/ mec-freshcaller-attachments.s3.me-central-1.amazonaws.com/production/ eun-freshcaller-attachments.s3.me-central-1.amazonaws.com/production/ au-freshcaller-attachments.s3-ap-southeast-2.amazonaws.com/production/ in-freshcaller-attachments.s3.ap-south-1.amazonaws.com/production/ pubsub.rtschannel.com/ api.fdcollab.com/ wss://pubsub.rtschannel.com/ cloudflareinsights.com/ data: blob: api.appcues.net/ wss://api.appcues.net/ fast.appcues.com/ cdn.jsdelivr.net/npm/@freshworks/crayons-icon@next/dist/ translate.googleapis.com/translate_a/t translate.googleapis.com/element/log fast.wistia.net/ fast.wistia.com/ embed-cloudfront.wistia.com/deliveries/ app.inlinemanual.com/ client-api.auryc.com/ *.surveyserv.com *.freshsurvey.com *.freddybot.com *.freshreports.com rum.haystack.es/freshreports/analytics dsv27oefxtf0.cloudfront.net/ d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ *.userpilot.io/ wss://*.userpilot.io/ www.youtube.com/oembed vimeo.com/api/ www.loom.com/v1/ api.vidyard.com/dashboard/; font-src 'self' *.freshdesk.com/ fonts.gstatic.com/ fonts.googleapis.com/ cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/ fast.wistia.net/ fast.wistia.com/ *.freddybot.com cdn.inlinemanual.com/inm/author/ d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ data:; frame-src 'self' https:; img-src 'self' https: data: blob:; media-src 'self' https: blob:; object-src 'none'; script-src 'self' *.freshworksapi.com/ *.freshworks.com/ *.myfreshworks.com/ *.freshdesk.com/ *.freshchat.com/ *.freshcaller.com/ *.freshconnect.io/ *.freshcloud.io/ *.fconstage.io/ accounts.freshworks.com/ wchat.freshchat.com/js/ wchat.freshchat.com/widget/js/ *.siteintercept.qualtrics.com/SIE/ *.qualtrics.com assets.calendly.com/assets/external/widget.js d3h0owdjgzys62.cloudfront.net/ d2uy6ubiilaqku.cloudfront.net/ dtdafz6i4gvv1.cloudfront.net/ dcdu85ocrj5q6.cloudfront.net/ d3r4aewxkdubw4.cloudfront.net/ app.getbeamer.com/js/beamer-embed.js analytics.inlinemanual.com/ cdn.inlinemanual.com/embed/ cdn.heapanalytics.com/ s3.amazonaws.com/assets.freshdesk.com/ cdnjs.cloudflare.com/ ajax.cloudflare.com/ static.cloudflareinsights.com/ js.chargebee.com/v1/chargebee.js js.braintreegateway.com/v1/braintree.js static.freshdev.io/ fast.wistia.net/ fast.wistia.com/ static.getbeamer.com/ calendly.com/ unpkg.com/@webcomponents/webcomponentsjs@2.4.3/custom-elements-es5-adapter.js unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js js-agent.newrelic.com/ www.googletagmanager.com/gtag/js static.asknice.ly/dist/standalone/asknicely-in-app-conversation.js www.dropbox.com/static/api/2/dropins.js js.live.net/v7.2/OneDrive.js apis.google.com/ asknice.ly bam.nr-data.net/ www.google-analytics.com/analytics.js maps.googleapis.com/ unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.esm.js unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.js s3.amazonaws.com/freshcaller-widget-loader/ in-freshcaller-widget-loader.s3.ap-south-1.amazonaws.com/ s3.eu-central-1.amazonaws.com/euc-freshcaller-widget-loader/ mec-freshcaller-widget-loader.s3.me-central-1.amazonaws.com/ eun-freshcaller-widget-loader.s3.me-central-1.amazonaws.com/ au-freshcaller-widget-loader.s3-ap-southeast-2.amazonaws.com/ www.dropbox.com/static/api/1/dropbox.js fast.appcues.com/ translate.google.com/translate_a/element.js translate.googleapis.com/_/translate_http/_/js/ translate-pa.googleapis.com/v1/supportedLanguages cdn.surveyserv.com/widget.min.js cdn.freshdev.io/assets/marketplace-heap.js cdn.freshcloud.io/assets/marketplace-heap.js cdn.freshdev.io/assets/marketplace-analytics.js cdn.inlinemanual.com/inm/author/ app.inlinemanual.com/ *.surveyserv.com *.freshsurvey.com www.google.com/recaptcha/ www.gstatic.com/recaptcha/ *.freddybot.com d3el5jsqgryo0a.cloudfront.net d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ accounts.google.com/ js.userpilot.io/ 'unsafe-inline' 'unsafe-eval'; style-src 'self' *.freshworks.com *.myfreshworks.com/ *.freshchat.com/ d3h0owdjgzys62.cloudfront.net/ dcdu85ocrj5q6.cloudfront.net/ dtdafz6i4gvv1.cloudfront.net/ d3r4aewxkdubw4.cloudfront.net/ d2uy6ubiilaqku.cloudfront.net/ d259946rb8u125.cloudfront.net/ d26h8g5t9na1ph.cloudfront.net/ d3k2px406bziu5.cloudfront.net/ d3vemg63yfopge.cloudfront.net/ d18u0ykezz20xl.cloudfront.net/ d38bgnd74qpt7g.cloudfront.net/ fonts.googleapis.com/ app.getbeamer.com/styles/beamer-embed.css s3.amazonaws.com/assets.freshdesk.com/ *.freshdesk.com/ wchat.freshchat.com/ calendly.com/ unpkg.com/@webcomponents/webcomponentsjs@2.4.3/custom-elements-es5-adapter.js unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js static.asknice.ly/dist/standalone/asknicely-in-app-conversation.css fast.appcues.com/ asknice.ly *.surveyserv.com *.freshsurvey.com *.freddybot.com cdn.inlinemanual.com/inm/author/ 'unsafe-inline'; worker-src 'self' blob:
+expires: Fri, 01 Jan 1990 00:00:00 GMT
+x-envoy-upstream-service-time: 45
+x-trace-id: 00-4b7eccc0c373a232baf282378b965297-15832bb21d882b83-01
+nel: { "report_to": "nel-endpoint-freshdesk", "max_age": 2592000, "include_subdomains": true}
+report-to: { "group": "nel-endpoint-freshdesk", "max_age": 2592000, "include_subdomains": true, "endpoints": [{"url": "https://nel.us-east-1.freshedge.net/nelreports/freshdesk"}]}
+x-server-processing-time-ms: 50
+x-fw-ratelimiting-managed: false
+[0m
+[0m$ [0mcurl -s -I https://account.duocircle.com | head -30 && echo "---" && curl -s -I https://account.duocircle-sandbox.com | head -30
+HTTP/2 307 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Fri, 21 Aug 2026 18:14:32 GMT
+location: https://api.workos.com/user_management/authorize?client_id=client_01G5EQD1DWM39Q4DAGZ72SVY30&code_challenge=gLX8x5KrxY1Z1bNwIE8x64zaOfMiIHy4dcN8bI3puDM&code_challenge_method=S256&provider=authkit&redirect_uri=https%3A%2F%2Faccount.duocircle.com%2Fcallback&response_type=code&screen_hint=sign-in&state=Fe26.2%2A1%2A4954e8d1025c0f35a2b49e4463d74d5ef3c1a2edcfe445e9dd3192ebd9cc4a80%2AqnxfmmCzBIrp2MfK7WH9hA%2A0Pb2MvJvm4615eJmOvKKomXSd7dsN-W_Wz_ZmNJmqlV5XcxzDwoVADlx1derSVTmiatqUjoNEhQycsYY78JemsW3xRXK0DFKmWoz0fsrwymJ_hzogl1-26RpkDuO_SUAl_PbDe4gKNWCV-dm2dLLQX-AKrl6_CFjt2ZLMQK5l74reVYbngVw6HHRE2GNvLYF%2A1787336672459%2Abf8fbb129f9bb0629493f5d8d77f20e096b7c6db17da6fc969a2d9cda971da7f%2A8qEDjUKoCsmszJu2tkSnhKAnTod-6Unvu6udGi1cB2M~2
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: iad1::6bpz2-1787336072415-b59867da8806
+
+---
+HTTP/2 307 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Fri, 21 Aug 2026 18:14:33 GMT
+location: https://api.workos.com/user_management/authorize?client_id=client_01G5EQD1DBCQC04R6DS54YKK71&code_challenge=BpUgrWgKMk2zanS3lEdoLtraEqBB2CGcxuxxYNlbwKc&code_challenge_method=S256&provider=authkit&redirect_uri=https%3A%2F%2Faccount.duocircle-sandbox.com%2Fcallback&response_type=code&screen_hint=sign-in&state=Fe26.2%2A1%2A91ad2df376d0880757cb3fabbe016b9f32daf5b5990372bbcdcfd41dfb5334fe%2AhOH67OBr69z1v6X47Vf8VA%2AZlgnKIlGGqV0C35j32OHvf1ZARGhL7x1JnwUmII1B7zmQ3-LE8qRU-PSMk28zhoFiN7aJhtHcloyIQfX6D9vJJERJDwwATCQaHlTCxdnqo4iikjgGq1GY3t594ZCcf4-bECc7gJdCUlcqW_HQpFgJJySREM5b3nwmJAl9UNh4Brgr2hY8PJd2Ju2oN_tgMI-%2A1787336673677%2Afaebc5e1c68393ead1cc2e58083ae29a31d2ae28c0a74a4fbdf14976ffdefa6f%2Aov_FCainAQ528-I4igrbWeYSaqN_V_PA8Co5zI-DD0k~2
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: iad1::cvkkl-1787336072725-88d361951ae7
+[0m
+[0m$ [0mcurl -s -I https://billing.dmarcreport.com | head -30 && echo "---" && curl -s -I https://www.duocircle.com | head -30
+HTTP/1.1 302 
+Server: ZGS
+Date: Fri, 21 Aug 2026 18:14:53 GMT
+Content-Type: text/html;charset=UTF-8
+Connection: keep-alive
+Set-Cookie: zalb_a8c51ae498=1d251852797479cfb3436e298c1dd0a8; Path=/; Secure; HttpOnly
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: JSESSIONID=4DE0374E26ECC6B797638EB19BEA8463; Path=/; Secure; HttpOnly
+Location: https://billing.dmarcreport.com/SetupOrganization.do?
+vary: accept-encoding
+Strict-Transport-Security: max-age=64072000; includeSubDomains; preload
+
+---
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 24561
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:14:53 GMT
+etag: "12732f1cd3adddc471bd39c38ad07378"
+last-modified: Fri, 21 Aug 2026 11:25:32 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+x-vercel-id: iad1::6r2j8-1787336093834-631c8fbf9bce
+content-length: 91219
+[0m
+[0m$ [0mcurl -s -I https://widgets.dmarcinput.com | head -30 && echo "---" && curl -s -I https://widgets.dev.dmarcinput.com | head -30
+---
+[0m
+[0m$ [0mcurl -s -I http://widgets.dmarcinput.com 2>&1 | head -30 && echo "---" && curl -s -I https://dmarcinput.com 2>&1 | head -30
+---
+[0m
+[0m$ [0mcurl -s https://www.duocircle.com | head -200
+...output truncated...
+
+Full output saved to: /home/runner/.local/share/opencode/tool-output/tool_0258946eb001W7Uutm08MVwAWw
+
+See Authenticate products &rarr;
+</span> </a><a href="/products/protect/" class="group block rounded-2xl p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid var(--color-brand-purple-light); text-decoration: none;"> <div class="flex items-start justify-between mb-4"> <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: color-mix(in srgb, var(--color-brand-purple-light) 12%, transparent);"> <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="var(--color-brand-purple-light)"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"></path> </svg> </div> <span class="text-xs font-bold tracking-widest" style="font-family: var(--font-mono); color: #5751cd;">02</span> </div> <h3 class="text-2xl font-extrabold mb-2 transition-colors" style="font-family: var(--font-heading); color: var(--t-text);">Protect</h3> <p class="text-base leading-relaxed mb-4" style="color: var(--t-text-secondary);">Phishing Protection, Spam Filtering, Visual Mail Verification (Verisend for M365), and SpamSentinel for HCL Notes / Domino.</p> <ul class="flex flex-wrap gap-1.5 mb-4"> <li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Phishing Protection</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Spam Filtering</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Verisend</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">SpamSentinel</li> </ul> <span class="text-sm font-semibold inline-flex items-center gap-1 transition-transform group-hover:gap-2" style="color: #5751cd;">
+See Protect products &rarr;
+</span> </a><a href="/products/deliver/" class="group block rounded-2xl p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid var(--color-brand-cyan); text-decoration: none;"> <div class="flex items-start justify-between mb-4"> <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: color-mix(in srgb, var(--color-brand-cyan) 12%, transparent);"> <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="var(--color-brand-cyan)"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"></path> </svg> </div> <span class="text-xs font-bold tracking-widest" style="font-family: var(--font-mono); color: #0e7490;">03</span> </div> <h3 class="text-2xl font-extrabold mb-2 transition-colors" style="font-family: var(--font-heading); color: var(--t-text);">Deliver</h3> <p class="text-base leading-relaxed mb-4" style="color: var(--t-text-secondary);">Outbound SMTP (outboundsmtp.com), Developer Email API (unsent.dev), Inbox Placement Testing (InboxIssue), Cold Email Outreach (NuReply).</p> <ul class="flex flex-wrap gap-1.5 mb-4"> <li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Outbound SMTP</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">unsent.dev</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">InboxIssue</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">NuReply</li> </ul> <span class="text-sm font-semibold inline-flex items-center gap-1 transition-transform group-hover:gap-2" style="color: #0e7490;">
+See Deliver products &rarr;
+</span> </a><a href="/products/route/" class="group block rounded-2xl p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid #4ec1cd; text-decoration: none;"> <div class="flex items-start justify-between mb-4"> <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: color-mix(in srgb, #4ec1cd 12%, transparent);"> <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="#4ec1cd"> <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"></path> </svg> </div> <span class="text-xs font-bold tracking-widest" style="font-family: var(--font-mono); color: #0e7490;">04</span> </div> <h3 class="text-2xl font-extrabold mb-2 transition-colors" style="font-family: var(--font-heading); color: var(--t-text);">Route</h3> <p class="text-base leading-relaxed mb-4" style="color: var(--t-text-secondary);">Alumni Forwarding for universities, Tenant Migration for M365 and Workspace cutovers, Email Forwarding, Backup MX, and Message Replay for per-message recovery.</p> <ul class="flex flex-wrap gap-1.5 mb-4"> <li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Alumni Forwarding</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Tenant Migration</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Email Forwarding</li><li class="text-[11px] uppercase tracking-wider px-2 py-1 rounded" style="font-family: var(--font-mono); background: var(--t-bg-subtle); color: var(--t-text-muted); border: 1px solid var(--t-border-subtle);">Backup MX</li> </ul> <span class="text-sm font-semibold inline-flex items-center gap-1 transition-transform group-hover:gap-2" style="color: #0e7490;">
+See Route products &rarr;
+</span> </a> </div> </div> </section>  <section class="relative overflow-hidden py-24" style="background: linear-gradient(to bottom, var(--t-bg-hero), var(--t-bg)); border-top: 1px solid var(--t-border);"> <div class="absolute inset-0" style="opacity: var(--t-hero-grid-opacity); background-image: linear-gradient(var(--t-hero-grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--t-hero-grid-color) 1px, transparent 1px); background-size: 60px 60px;"></div> <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="max-w-3xl mb-14"> <span class="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4" style="font-family: var(--font-mono); color: var(--t-bg-accent);">Why it&#39;s one company, not four tools</span> <h2 class="text-3xl sm:text-4xl font-extrabold mb-4" style="font-family: var(--font-heading); color: var(--t-text);">
+Most vendors own one link. We own the chain.
+</h2> <p class="text-lg leading-relaxed" style="color: var(--t-text-secondary);">
+An email problem is rarely just one problem. A spoofed domain is an authentication gap, a delivery gap, and a routing gap at the same time. Point tools hand you a report and send you off to find someone who can act on it. We diagnose it, fix the records, send the mail, and route what comes back. One company, one SLA, one expert who stays on it until it's solved.
+</p> </div> <!-- Four-link chain --> <div class="flex flex-col lg:flex-row items-stretch gap-4 lg:gap-0">  <div class="flex-1 rounded-2xl p-6" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid var(--color-brand-purple);"> <div class="text-xs font-bold tracking-widest mb-3" style="font-family: var(--font-mono); color: #5751cd;">01</div> <div class="text-xl font-extrabold mb-1.5" style="font-family: var(--font-heading); color: var(--t-text);">Authenticate</div> <p class="text-sm leading-relaxed" style="color: var(--t-text-secondary);">Prove the mail is really yours.</p> </div> <div class="flex items-center justify-center shrink-0 lg:px-2" aria-hidden="true"> <span class="text-2xl font-bold rotate-90 lg:rotate-0 inline-block" style="color: var(--t-text-muted);">&rarr;</span> </div> <div class="flex-1 rounded-2xl p-6" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid var(--color-brand-purple-light);"> <div class="text-xs font-bold tracking-widest mb-3" style="font-family: var(--font-mono); color: #5751cd;">02</div> <div class="text-xl font-extrabold mb-1.5" style="font-family: var(--font-heading); color: var(--t-text);">Protect</div> <p class="text-sm leading-relaxed" style="color: var(--t-text-secondary);">Stop what should never reach the inbox.</p> </div> <div class="flex items-center justify-center shrink-0 lg:px-2" aria-hidden="true"> <span class="text-2xl font-bold rotate-90 lg:rotate-0 inline-block" style="color: var(--t-text-muted);">&rarr;</span> </div> <div class="flex-1 rounded-2xl p-6" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid var(--color-brand-cyan);"> <div class="text-xs font-bold tracking-widest mb-3" style="font-family: var(--font-mono); color: #0e7490;">03</div> <div class="text-xl font-extrabold mb-1.5" style="font-family: var(--font-heading); color: var(--t-text);">Deliver</div> <p class="text-sm leading-relaxed" style="color: var(--t-text-secondary);">Get the good mail actually delivered.</p> </div> <div class="flex items-center justify-center shrink-0 lg:px-2" aria-hidden="true"> <span class="text-2xl font-bold rotate-90 lg:rotate-0 inline-block" style="color: var(--t-text-muted);">&rarr;</span> </div> <div class="flex-1 rounded-2xl p-6" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); border-top: 3px solid #4ec1cd;"> <div class="text-xs font-bold tracking-widest mb-3" style="font-family: var(--font-mono); color: #0e7490;">04</div> <div class="text-xl font-extrabold mb-1.5" style="font-family: var(--font-heading); color: var(--t-text);">Route</div> <p class="text-sm leading-relaxed" style="color: var(--t-text-secondary);">Send what is left where it belongs.</p> </div>  </div> <p class="mt-10 text-lg leading-relaxed max-w-3xl" style="color: var(--t-text-secondary);">
+No other email vendor owns all four links. That isn't a slogan. It's why the problems nobody else could untangle tend to end up here, and why fixing one of them almost always surfaces the next.
+</p> </div> </section>  <section class="py-24" style="background: var(--t-bg-subtle); border-top: 1px solid var(--t-border); border-bottom: 1px solid var(--t-border);"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="max-w-3xl mb-12"> <span class="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4" style="font-family: var(--font-mono); color: var(--t-bg-accent);">The math</span> <h2 class="text-3xl sm:text-4xl font-extrabold mb-4" style="font-family: var(--font-heading); color: var(--t-text);">
+About 90% of the capability. About half the price.
+</h2> <p class="text-lg leading-relaxed" style="color: var(--t-text-secondary);">
+The pattern holds across every category we compete in: enterprise security, DMARC reporting, transactional sending, cold outreach. We give you the capability that actually moves your email program. When you genuinely need the other 10%, we will tell you, and we will point you somewhere better.
+</p> </div> <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"> <a href="/resources/proofpoint-alternatives/" class="block rounded-xl p-5 transition-all duration-200" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); text-decoration: none;"> <div class="text-xs uppercase tracking-widest font-semibold mb-2" style="color: var(--t-text-muted); font-family: var(--font-mono);">vs. Proofpoint</div> <div class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Phishing Protection</div> <p class="text-sm leading-relaxed mb-3" style="color: var(--t-text-secondary);">Click-time URL inspection, BEC defense, impersonation. Half the price, no procurement gauntlet.</p> <span class="text-sm font-semibold" style="color: var(--t-bg-accent);">Compare &rarr;</span> </a><a href="/resources/easydmarc-alternatives/" class="block rounded-xl p-5 transition-all duration-200" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); text-decoration: none;"> <div class="text-xs uppercase tracking-widest font-semibold mb-2" style="color: var(--t-text-muted); font-family: var(--font-mono);">vs. EasyDMARC</div> <div class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">DMARC Report</div> <p class="text-sm leading-relaxed mb-3" style="color: var(--t-text-secondary);">Multi-region G2 Category Leader. Free tier for one domain. Volume-based pricing.</p> <span class="text-sm font-semibold" style="color: var(--t-bg-accent);">Compare &rarr;</span> </a><a href="/resources/sendgrid-alternatives/" class="block rounded-xl p-5 transition-all duration-200" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); text-decoration: none;"> <div class="text-xs uppercase tracking-widest font-semibold mb-2" style="color: var(--t-text-muted); font-family: var(--font-mono);">vs. SendGrid</div> <div class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Outbound SMTP</div> <p class="text-sm leading-relaxed mb-3" style="color: var(--t-text-secondary);">Operating since 2014. Free up to 1,000 emails per month, no credit card.</p> <span class="text-sm font-semibold" style="color: var(--t-bg-accent);">Compare &rarr;</span> </a><a href="/resources/smartlead-alternatives/" class="block rounded-xl p-5 transition-all duration-200" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border); text-decoration: none;"> <div class="text-xs uppercase tracking-widest font-semibold mb-2" style="color: var(--t-text-muted); font-family: var(--font-mono);">vs. Smartlead</div> <div class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">NuReply</div> <p class="text-sm leading-relaxed mb-3" style="color: var(--t-text-secondary);">Bring your own mailbox cold outreach. Built-in deliverability hygiene.</p> <span class="text-sm font-semibold" style="color: var(--t-bg-accent);">Compare &rarr;</span> </a> </div> <p class="mt-8 text-sm text-center" style="color: var(--t-text-muted);">
+See the full set on <a href="/compare/" style="color: var(--t-bg-accent); font-weight: 600;">our comparisons page</a>.
+</p> </div> </section>  <section class="py-20" style="background: var(--t-bg-subtle); border-top: 1px solid var(--t-border); border-bottom: 1px solid var(--t-border);"> <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> <span class="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4" style="font-family: var(--font-mono); color: var(--t-bg-accent);">How customers find us</span> <h2 class="text-2xl sm:text-3xl font-extrabold mb-6" style="font-family: var(--font-heading); color: var(--t-text);">
+One product brings them in. The rest of the portfolio keeps them.
+</h2> <div class="space-y-4 text-lg leading-relaxed" style="color: var(--t-text-secondary);"> <p>
+A team comes to AutoSPF to fix an SPF record that's blowing the 10-DNS-lookup limit. The immediate problem gets fixed. A few weeks later they realize the bigger issue isn't SPF flattening, it's that their domain has no DMARC enforcement and they don't actually know who's sending mail as them. So they add DMARC Report alongside AutoSPF, and finally see the full picture.
+</p> <p>
+A business signs up for Outbound SMTP's free tier because their office copiers stopped authenticating to Office 365 and can no longer send scan-to-email. The copiers come back online. A few weeks in, the IT team notices that the mail our relay is putting out actually shows up properly SPF and DKIM aligned. They ask what else we can help with. Turns out they've had a long-running email-deliverability problem nobody else has been able to fix. We work that one next.
+</p> <p>
+A Phishing Protection customer keeps catching the same impersonation pattern at the gateway and asks why the bad mail keeps coming. The answer is upstream: their DMARC posture is at <code>p=none</code> (anyone can spoof their domain at will) and their SPF is at <code>~all</code> (softfail, so even authenticated mail isn't strictly enforced). They add DMARC Report to push toward enforcement, the impersonation rate drops, and the expert running the rollout is the same one who's been answering their support tickets for years.
+</p> <p>
+The portfolio looks deliberate now because it is, just not top-down deliberate. Every product is a yes to a customer who couldn't get one elsewhere. The shape only becomes visible looking back.
+</p> <p> <a href="/about-us/" style="color: var(--t-bg-accent); font-weight: 600;">Read the full story &rarr;</a> </p> </div> </div> </section>  <section class="py-20" style="background: var(--t-bg);"> <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="rounded-2xl p-10" style="background: linear-gradient(135deg, var(--t-card-bg), var(--t-bg-subtle)); border: 1px solid var(--t-card-border);"> <span class="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4" style="font-family: var(--font-mono); color: var(--t-bg-accent);">In the customer&#39;s words</span> <blockquote class="mt-6 text-2xl sm:text-3xl font-bold leading-snug" style="font-family: var(--font-heading); color: var(--t-text);">
+&ldquo;DuoCircle is easy to work with and willing to make it happen. Their solution is solid.&rdquo;
+</blockquote> <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"> <div> <div class="font-semibold" style="color: var(--t-text);">Dennis Schroder</div> <div class="text-sm" style="color: var(--t-text-secondary);">President and CEO, Arak&yuml;ta</div> </div> <a href="/case-study/arakyta-case-study/" class="inline-flex items-center font-semibold text-sm" style="color: var(--t-bg-accent);">
+Read the Arak&yuml;ta case study &rarr;
+</a> </div> </div> <p class="mt-6 text-center text-sm" style="color: var(--t-text-muted);">
+Most enterprise customers prohibit logo use to keep SaaS vendors from leveraging their brand. Customers who have explicitly authorized attribution include Arak&yuml;ta and <a href="/case-study/exp-realty-case-study/" style="color: var(--t-bg-accent); font-weight: 600;">eXp Realty</a> (NASDAQ-traded).
+</p> </div> </section>  <section class="py-24" style="background: var(--t-bg);"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="max-w-2xl mb-16"> <span class="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4" style="font-family: var(--font-mono); color: var(--t-bg-accent);">Why DuoCircle</span> <h2 class="text-3xl sm:text-4xl font-extrabold mb-4" style="font-family: var(--font-heading); color: var(--t-text);">
+The proof, plainly
+</h2> <p class="text-lg leading-relaxed" style="color: var(--t-text-secondary);">
+Third-party-verifiable trust signals plus the operating principles that have run the company since 2014.
+</p> </div> <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"> <div class="group relative rounded-2xl p-7 transition-all duration-300" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-hover');this.style.boxShadow='0 8px 30px '+getComputedStyle(document.documentElement).getPropertyValue('--t-card-shadow');" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-border');this.style.boxShadow='none';"><div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-300" style="--tw-gradient-via-position: 50%;"></div><div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--t-bg-accent) 7%, transparent);"><svg class="w-5 h-5" aria-hidden="true" style="color: var(--t-bg-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"></path></svg></div><h3 class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">SOC 2 Type 2 since 2022</h3><p class="text-[0.95rem] leading-relaxed" style="color: var(--t-text-secondary);">Audited annually under the AICPA Trust Services Criteria (Security, Availability, Confidentiality, Processing Integrity). Hancock Askew &amp; Co performs the audit. The Bonterms Mutual NDA is published publicly so prospects review it before requesting the report.</p></div><div class="group relative rounded-2xl p-7 transition-all duration-300" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-hover');this.style.boxShadow='0 8px 30px '+getComputedStyle(document.documentElement).getPropertyValue('--t-card-shadow');" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-border');this.style.boxShadow='none';"><div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-300" style="--tw-gradient-via-position: 50%;"></div><div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--t-bg-accent) 7%, transparent);"><svg class="w-5 h-5" aria-hidden="true" style="color: var(--t-bg-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"></path></svg></div><h3 class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Email experts, not sales reps</h3><p class="text-[0.95rem] leading-relaxed" style="color: var(--t-text-secondary);">When you call DuoCircle, the person on the call is the person who will solve the problem. No SDR funnel, no multi-tier escalation queue. We tell you yes or no quickly. If yes, we get to work.</p></div><div class="group relative rounded-2xl p-7 transition-all duration-300" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-hover');this.style.boxShadow='0 8px 30px '+getComputedStyle(document.documentElement).getPropertyValue('--t-card-shadow');" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-border');this.style.boxShadow='none';"><div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-300" style="--tw-gradient-via-position: 50%;"></div><div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--t-bg-accent) 7%, transparent);"><svg class="w-5 h-5" aria-hidden="true" style="color: var(--t-bg-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"></path></svg></div><h3 class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Customer accolades, earned not bought</h3><p class="text-[0.95rem] leading-relaxed" style="color: var(--t-text-secondary);">Hundreds of verified reviews across the portfolio at a 4.8-star aggregate. Multi-region category-leadership recognition. CSA STAR Registry listings for six services. The accolades have been arriving for years; you can read the full picture in our reviews.</p></div><div class="group relative rounded-2xl p-7 transition-all duration-300" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-hover');this.style.boxShadow='0 8px 30px '+getComputedStyle(document.documentElement).getPropertyValue('--t-card-shadow');" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-border');this.style.boxShadow='none';"><div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-300" style="--tw-gradient-via-position: 50%;"></div><div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--t-bg-accent) 7%, transparent);"><svg class="w-5 h-5" aria-hidden="true" style="color: var(--t-bg-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path></svg></div><h3 class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Use the free tier as long as it works</h3><p class="text-[0.95rem] leading-relaxed" style="color: var(--t-text-secondary);">Outbound SMTP, free up to 1,000 emails a month, no card required. DMARC Report covers your first domain. Mail Flow Monitoring has been fully free since 2018. Upgrade when your needs exceed the generous free tier.</p></div><div class="group relative rounded-2xl p-7 transition-all duration-300" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-hover');this.style.boxShadow='0 8px 30px '+getComputedStyle(document.documentElement).getPropertyValue('--t-card-shadow');" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-border');this.style.boxShadow='none';"><div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-300" style="--tw-gradient-via-position: 50%;"></div><div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--t-bg-accent) 7%, transparent);"><svg class="w-5 h-5" aria-hidden="true" style="color: var(--t-bg-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"></path></svg></div><h3 class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Friction-free trust posture</h3><p class="text-[0.95rem] leading-relaxed" style="color: var(--t-text-secondary);">Pricing on the product sites. SOC 2 reports under a publicly-published Bonterms Mutual NDA. Free tiers wherever they fit. No NDA gauntlet, no procurement runaround.</p></div><div class="group relative rounded-2xl p-7 transition-all duration-300" style="background: var(--t-card-bg); border: 1px solid var(--t-card-border);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-hover');this.style.boxShadow='0 8px 30px '+getComputedStyle(document.documentElement).getPropertyValue('--t-card-shadow');" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--t-card-border');this.style.boxShadow='none';"><div class="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-300" style="--tw-gradient-via-position: 50%;"></div><div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: color-mix(in srgb, var(--t-bg-accent) 7%, transparent);"><svg class="w-5 h-5" aria-hidden="true" style="color: var(--t-bg-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"></path></svg></div><h3 class="text-lg font-bold mb-2" style="font-family: var(--font-heading); color: var(--t-text);">Reference calls beat logos</h3><p class="text-[0.95rem] leading-relaxed" style="color: var(--t-text-secondary);">Most of our enterprise customers prohibit logo use to keep SaaS vendors from leveraging their brands. Those same customers will take a phone call from a serious prospect to vouch for DuoCircle directly.</p></div> </div> </div> </section>  <section class="py-20" style="background: linear-gradient(to right, var(--t-ribbon-bg), var(--t-ribbon-bg-end));"> <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"> <h2 class="text-3xl font-extrabold mb-4" style="font-family: var(--font-heading); color: var(--t-ribbon-text);">
+Talk to one of our customers
+</h2> <p class="text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color: var(--t-ribbon-muted);">
+Most of our enterprise customers prohibit logo use to keep SaaS vendors from leveraging their brand. They will, however, take a phone call from a serious prospect to vouch for what we actually do in production. Tell us you're serious and we'll set one up.
+</p> <a href="/contact/" class="group inline-block px-8 py-4 text-lg rounded-lg font-bold transition-all" style="background: var(--t-btn-primary-bg); color: var(--t-btn-primary-text); box-shadow: 0 4px 14px var(--t-btn-primary-shadow);"> Request a reference call <span class="inline-block ml-2 transition-transform group-hover:translate-x-1">&rarr;</span> </a> </div> </section>  <section class="py-20" style="background: var(--t-bg-subtle); border-top: 1px solid var(--t-border);"> <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"> <span class="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4" style="font-family: var(--font-mono); color: var(--t-bg-accent);">The standard we hold ourselves to</span> <h2 class="text-2xl sm:text-3xl font-extrabold mb-6" style="font-family: var(--font-heading); color: var(--t-text);">
+Did right by you
+</h2> <div class="space-y-4 text-base leading-relaxed" style="color: var(--t-text-secondary);"> <p>
+When prospects come to us for an evaluation, we give them a fair technical answer. Sometimes that answer is "you don't actually need what we sell." Sometimes it's "the right answer is somebody else, here's why." Sometimes it's "yes, this is a fit, here's how it would work." All three happen, in roughly equal measure.
+</p> <p>
+The standard we hold ourselves to is simple. If, sometime in the future, a neutral third-party technical expert looks at our recommendation in retrospect, they should be able to say <em style="color: var(--t-text);">"DuoCircle did right by you."</em> That principle outweighs any individual sales conversation.
+</p> <p>
+The honest "look elsewhere" stance shows up on every product page. We'd rather walk away from a bad fit than sell into one. The customer base we have today, more than 50,000 organizations across twelve years, is built on that operating principle, not in spite of it.
+</p> </div> </div> </section>  <section class="py-24" style="background: linear-gradient(to right, var(--t-ribbon-bg), var(--t-ribbon-bg-end));"><div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><h2 class="text-3xl sm:text-4xl font-extrabold mb-4" style="font-family: var(--font-heading); color: var(--t-ribbon-text);">Talk to an expert about your email infrastructure</h2><p class="text-lg mb-8 max-w-xl mx-auto" style="color: var(--t-ribbon-muted);">Same-day response. Real expert on the call. We tell you yes or no quickly, and we&#39;ll point you somewhere better when we can.</p><div class="flex flex-col sm:flex-row gap-4 justify-center"><a href="/contact/" class="inline-block px-10 py-4 rounded-lg font-bold text-lg transition-all shadow-lg" style="background: var(--t-bg); color: var(--t-bg-accent);">Talk to an Expert<span class="ml-2">&rarr;</span></a></div></div></section>   </main> <footer class="bg-[#111827] text-gray-300" data-astro-cid-g6nis24w> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-astro-cid-g6nis24w> <div class="dc-footer-grid grid grid-cols-2 gap-8" style="--dc-footer-cols: 7;" data-astro-cid-g6nis24w> <!-- Brand column --> <div class="col-span-2 md:col-span-1" data-astro-cid-g6nis24w> <a href="/" class="inline-flex items-center gap-2 mb-4" aria-label="DuoCircle home" data-astro-cid-g6nis24w> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" aria-hidden="true" class="h-8 w-8"><rect x="0" y="0" width="40" height="40" rx="8" fill="#5751cd"/><path d="M11 16 L20 12 L29 16 V24 C29 28 25.418 31 20 31 C14.582 31 11 28 11 24 V16 Z" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" fill="none"/><path d="M16 21 L19 24 L25 18" stroke="#4ec1cd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span class="text-xl font-extrabold tracking-tight" style="font-family: var(--font-heading);" data-astro-cid-g6nis24w> <span style="color: color-mix(in srgb, var(--brand-accent) 60%, white);" data-astro-cid-g6nis24w>Duo</span><span style="color: #fff;" data-astro-cid-g6nis24w>Circle</span> </span>  </a> <p class="text-sm mb-4" data-astro-cid-g6nis24w> Email experts, not sales reps. Since 2014. by <a href="https://www.duocircle.com/" class="hover:text-white transition-colors" data-astro-cid-g6nis24w>DuoCircle LLC</a>.
+</p> <div class="flex gap-3 mt-3" data-astro-cid-g6nis24w> <a href="https://x.com/duocirclellc" target="_blank" rel="noopener" class="hover:text-white transition-colors" aria-label="X/Twitter" data-astro-cid-g6nis24w> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" data-astro-cid-g6nis24w><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" data-astro-cid-g6nis24w></path></svg> </a> <a href="https://www.linkedin.com/company/duocircle" target="_blank" rel="noopener" class="hover:text-white transition-colors" aria-label="LinkedIn" data-astro-cid-g6nis24w> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" data-astro-cid-g6nis24w><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" data-astro-cid-g6nis24w></path></svg> </a> <a href="https://www.facebook.com/duocirclellc" target="_blank" rel="noopener" class="hover:text-white transition-colors" aria-label="Facebook" data-astro-cid-g6nis24w> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" data-astro-cid-g6nis24w><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" data-astro-cid-g6nis24w></path></svg> </a>  </div> </div> <!-- Footer columns from brand config --> <div class="min-w-0" data-astro-cid-g6nis24w> <h3 class="text-white font-semibold mb-3" data-astro-cid-g6nis24w>Authenticate</h3> <ul class="space-y-2 text-sm" data-astro-cid-g6nis24w> <li data-astro-cid-g6nis24w> <a href="/email/spf-management/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> SPF Management </a> </li><li data-astro-cid-g6nis24w> <a href="/email/dmarc/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> DMARC Reporting </a> </li><li data-astro-cid-g6nis24w> <a href="/email/mail-flow-monitoring/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Mail Flow Monitoring </a> </li> </ul> </div><div class="min-w-0" data-astro-cid-g6nis24w> <h3 class="text-white font-semibold mb-3" data-astro-cid-g6nis24w>Protect</h3> <ul class="space-y-2 text-sm" data-astro-cid-g6nis24w> <li data-astro-cid-g6nis24w> <a href="/email/phishing-protection/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Phishing Protection </a> </li><li data-astro-cid-g6nis24w> <a href="/email/spam-filtering/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Spam Filtering </a> </li><li data-astro-cid-g6nis24w> <a href="/email/lotus-notes-email-security/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Lotus Notes Email Security </a> </li> </ul> </div><div class="min-w-0" data-astro-cid-g6nis24w> <h3 class="text-white font-semibold mb-3" data-astro-cid-g6nis24w>Deliver</h3> <ul class="space-y-2 text-sm" data-astro-cid-g6nis24w> <li data-astro-cid-g6nis24w> <a href="/email/outbound-smtp/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Outbound SMTP </a> </li><li data-astro-cid-g6nis24w> <a href="/email/developer-email-api/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Developer Email API </a> </li><li data-astro-cid-g6nis24w> <a href="/email/inbox-placement-testing/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Inbox Placement Testing </a> </li><li data-astro-cid-g6nis24w> <a href="/email/cold-email-outreach/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Cold Email Outreach </a> </li> </ul> </div><div class="min-w-0" data-astro-cid-g6nis24w> <h3 class="text-white font-semibold mb-3" data-astro-cid-g6nis24w>Route</h3> <ul class="space-y-2 text-sm" data-astro-cid-g6nis24w> <li data-astro-cid-g6nis24w> <a href="/email/alumni-forwarding/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Alumni Forwarding </a> </li><li data-astro-cid-g6nis24w> <a href="/email/tenant-migration/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Tenant Migration </a> </li><li data-astro-cid-g6nis24w> <a href="/email/email-forwarding/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Email Forwarding </a> </li><li data-astro-cid-g6nis24w> <a href="/email/email-backup-mx/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Backup MX </a> </li> </ul> </div><div class="min-w-0" data-astro-cid-g6nis24w> <h3 class="text-white font-semibold mb-3" data-astro-cid-g6nis24w>Learn</h3> <ul class="space-y-2 text-sm" data-astro-cid-g6nis24w> <li data-astro-cid-g6nis24w> <a href="/blog/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Blog </a> </li><li data-astro-cid-g6nis24w> <a href="/resources/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Resources </a> </li><li data-astro-cid-g6nis24w> <a href="/compare/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Compare </a> </li> </ul> </div><div class="min-w-0" data-astro-cid-g6nis24w> <h3 class="text-white font-semibold mb-3" data-astro-cid-g6nis24w>Company</h3> <ul class="space-y-2 text-sm" data-astro-cid-g6nis24w> <li data-astro-cid-g6nis24w> <a href="/about-us/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> About </a> </li><li data-astro-cid-g6nis24w> <a href="/case-study/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Customers </a> </li><li data-astro-cid-g6nis24w> <a href="/partners/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Partners </a> </li><li data-astro-cid-g6nis24w> <a href="/contact/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Contact </a> </li><li data-astro-cid-g6nis24w> <a href="/legal/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Legal </a> </li><li data-astro-cid-g6nis24w> <a href="/transparent-pricing/" class="hover:text-white transition-colors break-words" data-astro-cid-g6nis24w> Transparent Pricing </a> </li><li data-astro-cid-g6nis24w> <a href="https://trust.duocircle.com/" class="hover:text-white transition-colors break-words" target="_blank" rel="noopener" data-astro-cid-g6nis24w> Trust Center </a> </li><li data-astro-cid-g6nis24w> <a href="https://status.duocircle.com" class="hover:text-white transition-colors break-words" target="_blank" rel="noopener" data-astro-cid-g6nis24w> Status </a> </li> </ul> </div> </div> <div class="mt-8 pt-8 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center text-sm" data-astro-cid-g6nis24w> <p data-astro-cid-g6nis24w>
+&copy; 2026 <a href="https://www.duocircle.com/" class="hover:text-white transition-colors" data-astro-cid-g6nis24w>DuoCircle LLC</a>. All rights reserved.
+<span class="ml-2 text-gray-400" data-duocircle-version="footer" data-build-version="5036d23852d2" data-commit-sha="5036d23852d2" aria-label="Build version 5036d23852d2" data-astro-cid-g6nis24w>
+v5036d23852d2 </span> </p> <div class="flex gap-4 mt-4 sm:mt-0" data-astro-cid-g6nis24w> <a href="/legal/privacy/" class="hover:text-white transition-colors" data-astro-cid-g6nis24w>Privacy</a><a href="/legal/cloud-terms/" class="hover:text-white transition-colors" data-astro-cid-g6nis24w>Terms</a> </div> </div> </div> </footer>  <!-- Google Consent Mode v2 defaults (must be in <head> — use ConsentDefaults for that) --><!-- Cookie Consent UI + GTM Loader (goes before </body>) --><script>(function(){const gtmId = "GTM-KK69L7";
+const domain = "duocircle.com";
+
+  // This runs as a module — import the library
+})();</script> <script type="module" src="/_astro/CookieConsent.astro_astro_type_script_index_0_lang.C5rsfflF.js?dpl=dpl_4eaCjD3QAfNARemg6NHLc1aTZL3w"></script> <!-- Data attributes for the module script to read --><span data-gtm-id="GTM-KK69L7" data-cookie-domain="duocircle.com" data-privacy-href="/legal/privacy/" style="display:none"></span> <!-- GTM (deferred to after page load) --> <script>(function(){const gtmId = "GTM-KK69L7";
+
+  window.dataLayer = window.dataLayer || [];
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',gtmId);
+    }, 100);
+  });
+})();</script>   <style>
+      #dc-chat-fab {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 60px;
+        height: 60px;
+        border: none;
+        border-radius: 50%;
+        background: var(--dc-chat-fab-bg, #16223a);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        z-index: 2147483000;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      #dc-chat-fab:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
+      #dc-chat-fab:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+      #dc-chat-fab[aria-busy="true"] { cursor: progress; opacity: 0.7; }
+      #dc-chat-fab svg { width: 28px; height: 28px; display: block; }
+      @media (prefers-reduced-motion: reduce) { #dc-chat-fab { transition: none; } }
+    </style> <button id="dc-chat-fab" type="button" aria-label="Open chat"> <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"> <path d="M12 3C6.9 3 3 6.6 3 11c0 2.3 1.1 4.4 2.9 5.8L5 21l4.5-1.7c.8.2 1.6.3 2.5.3 5.1 0 9-3.6 9-8s-3.9-8.6-9-8.6Z" fill="currentColor"></path> </svg> </button> <script>
+      (function () {
+        var fab = document.getElementById("dc-chat-fab");
+        if (!fab) return;
+        var loading = false;
+        function removeFab() {
+          if (fab && fab.parentNode) fab.parentNode.removeChild(fab);
+          fab = null;
+        }
+        // If Freshchat is loaded by any other means (e.g. a Freshchat tag in
+        // the GTM container), retire our facade so the two launchers can't both
+        // show. Once that GTM tag is removed, this facade becomes the sole,
+        // click-to-open (cookie-free-until-click) loader.
+        var __fcWatch = setInterval(function () {
+          if (!fab) { clearInterval(__fcWatch); return; }
+          if (window.fcWidget || document.getElementById("fc_frame") || document.getElementById("fc_widget")) {
+            clearInterval(__fcWatch);
+            removeFab();
+          }
+        }, 500);
+        setTimeout(function () { clearInterval(__fcWatch); }, 20000);
+        function loadFreshchat() {
+          if (loading) return;
+          loading = true;
+          fab.setAttribute("aria-busy", "true");
+          function initFreshChat() {
+            window.fcWidget.init({
+              token: "a93fa588-3ab5-45a8-add3-9762439a5867",
+              host: "https://duo.freshchat.com"
+            });
+            // Open the panel (the user asked for it) and retire our facade
+            // once the real widget is ready.
+            function reveal() {
+              try { window.fcWidget.open(); } catch (e) {}
+              if (fab && fab.parentNode) fab.parentNode.removeChild(fab);
+            }
+            if (window.fcWidget && typeof window.fcWidget.on === "function") {
+              window.fcWidget.on("widget:loaded", reveal);
+            }
+            // Fallback in case the loaded event doesn't fire.
+            setTimeout(reveal, 1500);
+          }
+          var existing = document.getElementById("Freshchat-js-sdk");
+[0m
+[0m$ [0mcurl -s -I https://unsent.dev | head -30 && echo "---" && curl -s -I https://api.unsent.dev 2>&1 | head -30
+HTTP/2 200 
+date: Fri, 21 Aug 2026 18:16:11 GMT
+content-type: text/html; charset=utf-8
+content-length: 336242
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+x-nextjs-cache: HIT
+x-nextjs-prerender: 1
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-powered-by: Next.js
+cache-control: s-maxage=31536000
+etag: "j11renfog77fo"
+
+---
+HTTP/2 404 
+date: Fri, 21 Aug 2026 18:16:11 GMT
+content-type: text/plain; charset=UTF-8
+[0m
+[0m$ [0mcurl -s -I https://trust.duocircle.com | head -30 && echo "---" && curl -s -I https://status.duocircle.com | head -30
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 188864
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com https://us-assets.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com https://us.i.posthog.com https://us-assets.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:16:36 GMT
+etag: "5a024077cc3b072d71e759deedac0d96"
+last-modified: Wed, 19 Aug 2026 13:48:51 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+x-vercel-id: iad1::zqnls-1787336196203-73afaa6b97cb
+content-length: 63936
+
+---
+HTTP/1.1 400 
+Server: ZGS
+Date: Fri, 21 Aug 2026 18:16:36 GMT
+Content-Type: text/html;charset=ISO-8859-1
+Content-Length: 1352
+Connection: keep-alive
+Set-Cookie: zalb_28fc6058a7=94f330ed7cfe20fbb0cb495f2f5539a7; Path=/; Secure; HttpOnly
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Content-Language: en-US
+Strict-Transport-Security: max-age=64072000; includeSubDomains; preload
+[0m
+[0m$ [0mcurl -s https://api.dmarcreport.com | head -100 && echo "---" && curl -s -I https://api.autospf.com 2>&1 | head -30
+{"status":"up"}---
+HTTP/2 302 
+cache-control: no-cache, private
+content-security-policy: base-uri 'self';connect-src 'self' autospf.com *.autospf.com api.autospf.com www.gstatic.com visithunter.io plugin.klenty.com www.kt-web2.com www.kl-wt1.com new-collect.albacross.com api.salespanel.io tracking-api.g2.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com;default-src 'self';media-src 'self';object-src 'none';form-action 'self' autospf.com *.autospf.com sptest.iamshowcase.com accounts.zohoportal.com subscriptions.zoho.com billing.zoho.com billing.autospf.com billing.zohosecure.com www.facebook.com;frame-ancestors *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com;frame-src *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com www.google.com *.googletagmanager.com *.googleadservices.com td.doubleclick.net www.facebook.com https://connect-js.stripe.com https://js.stripe.com;script-src 'self' 'unsafe-eval' 'strict-dynamic' *.autospf.com autospf.com www.gstatic.com s3-us-west-2.amazonaws.com/kl-website-tracking/klenty_track.js us3-cx.outplayhq.com insight.iljmp.com visithunter.io serve.albacross.com tracking.g2crowd.com cdnjs.cloudflare.com salespanel.io ddwl4m2hdecbv.cloudfront.net *.googletagmanager.com *.googleadservices.com 'nonce-J0Fyqdy9hAB6ds5HvHV1vsu8EcKLNHaq' *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com connect.facebook.net https://connect-js.stripe.com https://js.stripe.com;style-src 'self' 'unsafe-inline' *.autospf.com autospf.com fonts.googleapis.com fonts.bunny.net use.fontawesome.com;font-src 'self' data: *.autospf.com autospf.com fonts.googleapis.com fonts.gstatic.com fonts.bunny.net use.fontawesome.com;img-src 'self' data: *.googleusercontent.com *.autospf.com autospf.com www.globalcyberalliance.org new-collect.albacross.com www.gravatar.com workoscdn.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com https://*.stripe.com
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:16:59 GMT
+location: https://api.autospf.com/login
+set-cookie: XSRF-TOKEN=eyJpdiI6ImVjcituZjFyYytRMXdVUyt0SWdWdWc9PSIsInZhbHVlIjoiVms3VUdPMjFlTjRjYXVGRWFFM0hhMjFmbzIwRTM5VjNUalJmRDErbXpNVUcrS2x6bS81NERCRWpNY3RLWlZORVo2aSt1bkVUUHd4VjBlMFRPQjdOWTRlQW0vK0k2YU5LR0psRlI4c3hDTjZLczVJRjU4WjV5VHZsTlY4VnF0dWwiLCJtYWMiOiI0YzkwMGNhY2VhZTgzYzlmZTM5MTY1NDcyYjcyZmZiNjFkNTdjNmY4MDVhNmJmYjY3M2FiYmMxYjhhZWVlNTZjIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 20:17:00 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IlhvUU16OVN6aUdsRHlYaGljTHNkU0E9PSIsInZhbHVlIjoiMm5VU0oyRDZLVVM5cEF1R3huSi9CazNnQnpuOEttVllRMkZLS2JzR1kwR2xiVnloL1A0blVkUmxpVDRiM2ZKS0FyRXdEdS84TkVSKzVEYkIrZWMyMWRXMzRlU29ucDVSdDI1b1Y5YWNiVC84VVVWWk0za1d6SlRxMG1TUE5VSCsiLCJtYWMiOiI0M2MzMGNiMjQzMDVkZmU4OGNlYzBjNmVjMWJhZGJkMzA2OTJmMjJjYjU1Zjc5NjBlZjBhNzYwZTI5OTIxNDZiIiwidGFnIjoiIn0%3D; expires=Fri, 21 Aug 2026 20:17:00 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -s -I https://api.dmarcreport.com/v1 2>&1 | head -30 && echo "---" && curl -s -I https://autospf.com/dashboard 2>&1 | head -30
+HTTP/2 404 
+alt-svc: h3=":443"; ma=2592000
+cache-control: no-cache
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: text/html; charset=utf-8
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: _dmarc_reporter_session=5c6d1329bccc185145dea1f841c1b00c; path=/; expires=Sat, 22 Aug 2026 18:17:39 GMT; HttpOnly; SameSite=Lax; secure
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: b7ac0dba-b8ad-4571-b2ec-75cdc12e9250
+x-runtime: 0.018386
+x-xss-protection: 0
+content-length: 0
+date: Fri, 21 Aug 2026 18:17:39 GMT
+
+---
+HTTP/2 404 
+date: Fri, 21 Aug 2026 18:17:39 GMT
+content-type: text/html
+cf-cache-status: HIT
+cache-control: public, max-age=0, must-revalidate
+etag: "ae09e1292675fc20f65d4e9a29596fc9"
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://*.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://static.cloudflareinsights.com https://*.i.posthog.com https://*.g2crowd.com https://*.albacross.com https://*.clarity.ms https://salespanel.io https://insight.iljmp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; img-src 'self' data: https:; media-src 'self' https://media.mailhop.org; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://*.umami.is https://api-gateway.umami.dev https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.i.posthog.com https://*.g2crowd.com https://*.albacross.com https://*.clarity.ms https://*.salespanel.io https://insight.iljmp.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: DENY
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=zBv%2FwhRMB0RBIbrbLlbdJinVfWFBFVJ1sfFyx56h1Xh2RAd1JTp1aqECLgAR6xKzDYftVs857veZHuQvkZPaljn8nYs8G9tc%2B%2FpgZJtpDsBcFW2gRSshR1m4%2FErdmQ%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2eba2c69827c9a4-IAD
+alt-svc: h3=":443"; ma=86400
+[0m
+[0m$ [0mcat > inventory/duocircle.md << 'EOF'
+# DuoCircle Attack Surface Inventory
+
+## Primary Domains (In-Scope)
+- **duocircle.com** / **www.duocircle.com** - Main marketing site (Vercel/Astro)
+- **trust.duocircle.com** - Trust portal (Vercel/Astro)
+- **status.duocircle.com** - Status page (Zoho/ZGS)
+
+## Authentication & Account
+- **account.duocircle.com** - Auth via WorkOS (AuthKit)
+- **account.duocircle-sandbox.com** - Sandbox auth via WorkOS (AuthKit)
+
+## Product Domains (MEDIUM-HIGH)
+- **autospf.com** - SPF flattening/management (Cloudflare, Laravel)
+- **api.autospf.com** - AutoSPF API (Laravel, sets cross-site cookies)
+- **dmarcreport.com** - DMARC reporting (Vercel)
+- **api.dmarcreport.com** - DMARC Report API (Rails, session-based)
+- **phishprotection.com** - Phishing protection (Vercel)
+- **outboundsmtp.com** - Outbound SMTP relay (Cloudflare)
+- **tenantmigration.com** - M365/Workspace migration (Cloudflare)
+- **mailflowmonitoring.com** - Mail flow monitoring (Cloudflare)
+- **alumniforwarding.com** - Alumni email forwarding (Cloudflare)
+- **nureply.com** - Cold email outreach (Cloudflare)
+- **inboxissue.com** - Inbox placement testing (Vercel)
+- **unsent.dev** - Developer Email API (Next.js on Vercel)
+
+## Billing & Support
+- **billing.dmarcreport.com** - Billing (Zoho)
+- **support.dmarcreport.com** - Support portal (Freshdesk)
+
+## GitHub Organization
+- **github.com/duocircle** - 13 public repos including:
+  - dmarcreport-mcp (MCP server)
+  - youtrack-mcp (MCP server)
+  - urlshortener
+  - phishredirector
+  - terraform-aws-letsencrypt
+  - sba-certificate-renewal
+  - phishing-test-bypass-o365
+  - microsoft-365-dmarc-mailbox-export
+  - legal-policies
+  - dmarc
+  - Office365-Phishing-Rules
+  - Office365-Setup-DKIM-DMARC-SPF
+
+## Key Technical Findings
+- **api.dmarcreport.com** CSP references: `account.duocircle.com`, `account.duocircle-sandbox.com`, `billing.dmarcreport.com`, `*.widgets.dmarcinput.com`, `*.widgets.dev.dmarcinput.com`
+- **api.autospf.com** sets cookies with `SameSite=none; Secure` (cross-site)
+- **api.dmarcreport.com** sets session cookie `_dmarc_reporter_session` with `SameSite=Lax`
+- **billing.dmarcreport.com** uses JSESSIONID (Java/Zoho)
+- **status.duocircle.com** on Zoho (ZGS server)
+- **unsent.dev** is Next.js on Vercel
+
+## Last Updated: 2026-08-21
+EOF
+cat inventory/duocircle.md
+# DuoCircle Attack Surface Inventory
+
+## Primary Domains (In-Scope)
+- **duocircle.com** / **www.duocircle.com** - Main marketing site (Vercel/Astro)
+- **trust.duocircle.com** - Trust portal (Vercel/Astro)
+- **status.duocircle.com** - Status page (Zoho/ZGS)
+
+## Authentication & Account
+- **account.duocircle.com** - Auth via WorkOS (AuthKit)
+- **account.duocircle-sandbox.com** - Sandbox auth via WorkOS (AuthKit)
+
+## Product Domains (MEDIUM-HIGH)
+- **autospf.com** - SPF flattening/management (Cloudflare, Laravel)
+- **api.autospf.com** - AutoSPF API (Laravel, sets cross-site cookies)
+- **dmarcreport.com** - DMARC reporting (Vercel)
+- **api.dmarcreport.com** - DMARC Report API (Rails, session-based)
+- **phishprotection.com** - Phishing protection (Vercel)
+- **outboundsmtp.com** - Outbound SMTP relay (Cloudflare)
+- **tenantmigration.com** - M365/Workspace migration (Cloudflare)
+- **mailflowmonitoring.com** - Mail flow monitoring (Cloudflare)
+- **alumniforwarding.com** - Alumni email forwarding (Cloudflare)
+- **nureply.com** - Cold email outreach (Cloudflare)
+- **inboxissue.com** - Inbox placement testing (Vercel)
+- **unsent.dev** - Developer Email API (Next.js on Vercel)
+
+## Billing & Support
+- **billing.dmarcreport.com** - Billing (Zoho)
+- **support.dmarcreport.com** - Support portal (Freshdesk)
+
+## GitHub Organization
+- **github.com/duocircle** - 13 public repos including:
+  - dmarcreport-mcp (MCP server)
+  - youtrack-mcp (MCP server)
+  - urlshortener
+  - phishredirector
+  - terraform-aws-letsencrypt
+  - sba-certificate-renewal
+  - phishing-test-bypass-o365
+  - microsoft-365-dmarc-mailbox-export
+  - legal-policies
+  - dmarc
+  - Office365-Phishing-Rules
+  - Office365-Setup-DKIM-DMARC-SPF
+
+## Key Technical Findings
+- **api.dmarcreport.com** CSP references: `account.duocircle.com`, `account.duocircle-sandbox.com`, `billing.dmarcreport.com`, `*.widgets.dmarcinput.com`, `*.widgets.dev.dmarcinput.com`
+- **api.autospf.com** sets cookies with `SameSite=none; Secure` (cross-site)
+- **api.dmarcreport.com** sets session cookie `_dmarc_reporter_session` with `SameSite=Lax`
+- **billing.dmarcreport.com** uses JSESSIONID (Java/Zoho)
+- **status.duocircle.com** on Zoho (ZGS server)
+- **unsent.dev** is Next.js on Vercel
+
+## Last Updated: 2026-08-21
+[0m
+Now I have a comprehensive view of the attack surface. Let me execute the 8-step analysis.
+
+## STEP 1 — DELTA
+[0m$ [0mcat << 'EOF'
+[PRIO] api.dmarcreport.com, 8.6, attack=9 business=9 tech=8 gate=8 cloud=9 fresh=8
+[PRIO] api.autospf.com, 8.1, attack=8 business=8 tech=9 gate=7 cloud=8 fresh=8
+[PRIO] account.duocircle.com, 7.8, attack=8 business=9 tech=7 gate=6 cloud=8 fresh=8
+[PRIO] unsent.dev, 7.3, attack=8 business=7 tech=8 gate=7 cloud=9 fresh=7
+[PRIO] github.com/duocircle/dmarcreport-mcp, 7.1, attack=7 business=8 tech=7 gate=9 cloud=6 fresh=7
+[PRIO] billing.dmarcreport.com, 6.8, attack=7 business=8 tech=6 gate=5 cloud=8 fresh=7
+[PRIO] dmarcreport.com (frontend), 6.5, attack=7 business=8 tech=6 gate=8 cloud=7 fresh=6
+[PRIO] autospf.com (frontend), 6.5, attack=7 business=8 tech=6 gate=8 cloud=7 fresh=6
+[PRIO] phishprotection.com, 6.2, attack=6 business=7 tech=6 gate=8 cloud=7 fresh=6
+[PRIO] outboundsmtp.com, 6.2, attack=6 business=7 tech=6 gate=8 cloud=7 fresh=6
+EOF
+[PRIO] api.dmarcreport.com, 8.6, attack=9 business=9 tech=8 gate=8 cloud=9 fresh=8
+[PRIO] api.autospf.com, 8.1, attack=8 business=8 tech=9 gate=7 cloud=8 fresh=8
+[PRIO] account.duocircle.com, 7.8, attack=8 business=9 tech=7 gate=6 cloud=8 fresh=8
+[PRIO] unsent.dev, 7.3, attack=8 business=7 tech=8 gate=7 cloud=9 fresh=7
+[PRIO] github.com/duocircle/dmarcreport-mcp, 7.1, attack=7 business=8 tech=7 gate=9 cloud=6 fresh=7
+[PRIO] billing.dmarcreport.com, 6.8, attack=7 business=8 tech=6 gate=5 cloud=8 fresh=7
+[PRIO] dmarcreport.com (frontend), 6.5, attack=7 business=8 tech=6 gate=8 cloud=7 fresh=6
+[PRIO] autospf.com (frontend), 6.5, attack=7 business=8 tech=6 gate=8 cloud=7 fresh=6
+[PRIO] phishprotection.com, 6.2, attack=6 business=7 tech=6 gate=8 cloud=7 fresh=6
+[PRIO] outboundsmtp.com, 6.2, attack=6 business=7 tech=6 gate=8 cloud=7 fresh=6
+[0m
+**[DELTA]**
+[NEW] api.autospf.com - Laravel API with cross-site cookies (SameSite=none)
+[NEW] api.dmarcreport.com - Rails API with session auth, CSP reveals widget subdomains
+[NEW] account.duocircle.com / account.duocircle-sandbox.com - WorkOS AuthKit auth endpoints
+[NEW] billing.dmarcreport.com - Zoho billing (JSESSIONID)
+[NEW] unsent.dev - Developer Email API (Next.js/Vercel)
+[NEW] status.duocircle.com - Zoho status page
+[NEW] github.com/duocircle - 13 repos (dmarcreport-mcp, youtrack-mcp, urlshortener, phishredirector, etc.)
+
+## STEP 2 — PRIORITIZE
+## STEP 3 — HYPOTHESES
+[HYP] Cross-tenant DMARC report access via predictable API endpoints
+class: IDOR
+asset: api.dmarcreport.com
+confidence: 75
+reasoning: API uses session-based auth (_dmarc_reporter_session cookie); CSP allows framing from dmarcreport.com; multi-tenant SaaS with report lookup by domain/selector
+evidence_needed: Valid session cookie + ability to access reports for domains not owned by account
+verify_steps: GET /api/v1/reports?domain=victim.com with authenticated session; test cross-domain report access; check for authorization checks on /api/v1/domains/:id endpoints
+impact: Full DMARC aggregate/forensic reports for arbitrary domains - email infrastructure visibility, spoofing analytics, HIGH severity
+testability: AUTH_HELPED
+
+[HYP] Cross-site request forgery on AutoSPF API via SameSite=none cookies
+class: AUTH
+asset: api.autospf.com
+confidence: 70
+reasoning: Laravel API sets XSRF-TOKEN and session cookies with SameSite=none; Secure; cross-site cookies enable CSRF if no CSRF token validation on state-changing endpoints
+evidence_needed: State-changing endpoint (POST/PUT/DELETE) that accepts cookie auth without CSRF token verification
+verify_steps: GET /login to obtain cookies; POST /api/flatten or /api/records with cookie-only auth (no X-XSRF-TOKEN header); check if action succeeds
+impact: Unauthorized SPF record modifications, domain delegation changes, flattening config tampering - HIGH severity
+testability: AUTH_HELPED
+
+[HYP] WorkOS AuthKit configuration allows account enumeration or auth bypass
+class: AUTH
+asset: account.duocircle.com
+confidence: 65
+reasoning: Auth redirect to WorkOS with client_id exposed in URL; sandbox subdomain exists with different client_id; potential for auth flow manipulation or user enumeration via error messages
+evidence_needed: Distinct error responses for valid vs invalid emails in sign-in flow; ability to complete auth flow without valid credentials
+verify_steps: GET /callback?code=invalid&state=test; POST to WorkOS authorize endpoint with various email formats; compare error messages/timing
+impact: Account takeover via auth bypass, user enumeration for phishing - MEDIUM-HIGH severity
+testability: PASSIVE (initial), AUTH_HELPED (full)
+
+## STEP 4 — SELF-CRITIQUE
+[PARKED] WorkOS AuthKit configuration allows account enumeration or auth bypass: confidence 65 < 70 threshold; third-party auth (WorkOS) limits direct exploitability; verify_steps partly rely on WorkOS behavior not DuoCircle code
+
+[FINAL] 1. Cross-tenant DMARC report access via predictable API endpoints (api.dmarcreport.com, IDOR, 75%)
+[FINAL] 2. Cross-site request forgery on AutoSPF API via SameSite=none cookies (api.autospf.com, AUTH, 70%)
+
+## STEP 5 — NEXT ACTION
+[NEXT] PROBE: GET https://api.dmarcreport.com/api/v1/domains with no auth (expect 401), then with valid session cookie to map API structure and identify report lookup endpoints
+
+## STEP 6 — LEARNING
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: Multi-tenant DMARC SaaS with session auth is high-value target for cross-tenant data access
+[LEARN] ACCEPTED AUTH @ api.autospf.com: Laravel API with SameSite=none cookies presents CSRF risk on state-changing endpoints
+[LEARN] REJECTED AUTH @ account.duocircle.com: WorkOS AuthKit is third-party; auth flaws would be WorkOS responsibility, not DuoCircle direct code
+
+## STEP 7 — RISK SCORE
+[RISK] duocircle.com: 72/100 - Main marketing site on Vercel (low), but auth/account subdomains on WorkOS, trust portal, status on Zoho; attack surface moderate
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 - Multiple APIs (Rails, Laravel, Next.js) with session/token auth, cross-site cookies, multi-tenant data; high business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 55/100 - 13 public repos but mostly docs/config; dmarcreport-mcp exposes API defaults; no secrets found; source surface limited to MCP servers and utilities

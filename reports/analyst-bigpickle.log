@@ -1,0 +1,244 @@
+===== ANALYST bigpickle 2026-08-21 18:20:51 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mcurl -s --max-time 20 "https://api.github.com/orgs/duocircle/repos?per_page=100" | grep -E '"(full_name|pushed_at|language|archived)"'
+"full_name": "duocircle/phishredirector",
+    "pushed_at": "2021-06-04T18:03:57Z",
+    "language": "PHP",
+    "archived": false,
+    "full_name": "duocircle/Office365-Setup-DKIM-DMARC-SPF",
+    "pushed_at": "2026-05-07T00:13:12Z",
+    "language": null,
+    "archived": false,
+    "full_name": "duocircle/legal-policies",
+    "pushed_at": "2019-09-24T04:39:36Z",
+    "language": null,
+    "archived": false,
+    "full_name": "duocircle/Office365-Phishing-Rules",
+    "pushed_at": "2026-05-05T13:56:29Z",
+    "language": null,
+    "archived": false,
+    "full_name": "duocircle/urlshortener",
+    "pushed_at": "2020-06-01T21:18:03Z",
+    "language": null,
+    "archived": false,
+    "full_name": "duocircle/dmarc",
+    "pushed_at": "2020-06-04T22:22:08Z",
+    "language": null,
+    "archived": false,
+    "full_name": "duocircle/phishing-test-bypass-o365",
+    "pushed_at": "2020-07-24T19:03:06Z",
+    "language": null,
+    "archived": false,
+    "full_name": "duocircle/terraform-aws-asg-dns-handler",
+    "pushed_at": "2024-02-02T14:59:39Z",
+    "language": "HCL",
+    "archived": true,
+    "full_name": "duocircle/terraform-aws-letsencrypt",
+    "pushed_at": "2023-06-10T16:35:38Z",
+    "language": "HCL",
+    "archived": false,
+    "full_name": "duocircle/sba-certificate-renewal",
+    "pushed_at": "2023-06-10T16:35:22Z",
+    "language": "Shell",
+    "archived": false,
+    "full_name": "duocircle/youtrack-mcp",
+    "pushed_at": "2026-01-15T17:36:45Z",
+    "language": "TypeScript",
+    "archived": false,
+    "full_name": "duocircle/microsoft-365-dmarc-mailbox-export",
+    "pushed_at": "2026-05-05T15:48:14Z",
+    "language": "PowerShell",
+    "archived": false,
+    "full_name": "duocircle/dmarcreport-mcp",
+    "pushed_at": "2026-08-19T13:32:35Z",
+    "language": "TypeScript",
+    "archived": false,
+[0m
+[0m$ [0mcurl -sI --max-time 15 https://www.duocircle.com; echo "---"; sleep 2; curl -sI --max-time 15 https://duocircle.com
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 24226
+cache-control: public, max-age=0, must-revalidate, s-maxage=60
+content-disposition: inline
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+content-type: text/html; charset=utf-8
+date: Fri, 21 Aug 2026 18:09:25 GMT
+etag: "12732f1cd3adddc471bd39c38ad07378"
+last-modified: Fri, 21 Aug 2026 11:25:38 GMT
+link: </index.md>; rel="alternate"; type="text/markdown", </.well-known/agent-skills/markdown-negotiation/SKILL.md>; rel="service-doc", </llms.txt>; rel="describedby"
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: accept
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+x-vercel-id: sfo1::q5jn9-1787335765037-a85775f9bb06
+content-length: 91219
+
+---
+HTTP/2 301 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Fri, 21 Aug 2026 18:09:27 GMT
+location: https://www.duocircle.com/
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: sfo1::dxd5n-1787335767221-f05eb24ee447
+[0m
+[0m$ [0msleep 3; curl -sI --max-time 15 https://trust.duocircle.com/responsible-disclosure/ | grep -iE '^(HTTP|server|location|x-|content-security)' ; echo "---"; sleep 2; curl -sI --max-time 15 https://autospf.com | grep -iE '^(HTTP|server|location)'
+HTTP/2 200 
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://*.freshchat.com https://cloud.umami.is https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://connect.facebook.net https://*.site24x7rum.eu https://salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com https://*.zohocdn.com https://static.cloudflareinsights.com https://us-assets.i.posthog.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.freshchat.com https://*.zohocdn.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://*.freshchat.com wss://*.freshchat.com https://dns.google https://cloud.umami.is https://api-gateway.umami.dev https://gateway.umami.is https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.clarity.ms https://insight.iljmp.com https://pagead2.googlesyndication.com https://www.facebook.com https://*.site24x7rum.eu https://*.salespanel.io https://*.g2.com https://*.g2crowd.com https://*.albacross.com https://*.zohopublic.com wss://*.zohopublic.com https://us.i.posthog.com https://us-assets.i.posthog.com; frame-src https://www.googletagmanager.com https://*.freshchat.com https://challenges.cloudflare.com https://*.elfsight.com https://elfsightcdn.com https://*.elfsightcdn.com https://*.zohopublic.com; worker-src 'self' blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+server: Vercel
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-vercel-cache: HIT
+x-vercel-id: sfo1::ffmj4-1787335775857-278c77dbd671
+---
+HTTP/2 200 
+server: cloudflare
+[0m
+[0m$ [0mfor d in trust.duocircle.com app.duocircle.com autospf.com dmarcreport.com phishprotection.com outboundsmtp.com tenantmigration.com mailflowmonitoring.com alumniforwarding.com nureply.com inboxissue.com; do echo "== $d"; dig +short CNAME "$d" | sed 's/.$//'; sleep 1.2; done
+== trust.duocircle.com
+10a739ef30de8834.vercel-dns-016.com
+== app.duocircle.com
+== autospf.com
+== dmarcreport.com
+== phishprotection.com
+== outboundsmtp.com
+== tenantmigration.com
+== mailflowmonitoring.com
+== alumniforwarding.com
+== nureply.com
+== inboxissue.com
+[0m
+[0m$ [0mdig +noall +comments +answer app.duocircle.com | grep -E 'status|IN' ; echo "---"; sleep 1.5; curl -s --max-time 15 https://raw.githubusercontent.com/duocircle/dmarcreport-mcp/main/README.md | head -60
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 57534
+---
+# DMARCReport MCP Server
+
+[![npm version](https://img.shields.io/npm/v/@duocircle/dmarcreport-mcp.svg)](https://www.npmjs.com/package/@duocircle/dmarcreport-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+An MCP (Model Context Protocol) server that enables AI assistants to interact with the [DMARCReport](https://dmarcreport.com) API. Goes beyond data passthrough by providing DMARC-aware reasoning and actionable recommendations.
+
+> **What is MCP?** [Model Context Protocol](https://modelcontextprotocol.io) is an open standard that allows AI assistants to connect to external tools and data sources.
+
+## Features
+
+- **Full API Coverage** - Access all DMARCReport data (domains, aggregate reports, forensic reports, MTA-STS)
+- **DMARC Reasoning** - Get intelligent analysis with grades, blockers, and recommendations
+- **Policy Progression** - Check if domains are ready to advance from none → quarantine → reject
+- **Configurable Profiles** - Novice, expert, and partner profiles for different user needs
+
+## Quick Start
+
+```bash
+DMARCREPORT_API_KEY=your-key npx @duocircle/dmarcreport-mcp
+```
+
+> **Need an API key?** See the [API Token Setup Guide](https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens) to generate one from your DMARCReport account.
+
+## Installation
+
+This MCP server works with any AI assistant that supports the Model Context Protocol.
+
+### Claude Desktop
+
+Add to your Claude Desktop configuration:
+
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "dmarcreport": {
+      "command": "npx",
+      "args": ["@duocircle/dmarcreport-mcp"],
+      "env": {
+        "DMARCREPORT_API_KEY": "your-api-key",
+        "DMARCREPORT_PROFILE": "novice"
+      }
+    }
+  }
+}
+```
+
+### Claude Code (CLI)
+
+Add to `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "dmarcreport": {
+      "command": "npx",
+      "args": ["@duocircle/dmarcreport-mcp"],
+[0m
+STEP 1 — DELTA
+[NEW] www.duocircle.com: markdown content-negotiation surface live (`/index.md`, `/llms.txt`, `/.well-known/agent-skills/markdown-negotiation/SKILL.md` advertised in link headers)
+[NEW] support.dmarcreport.com: public support desk discovered via dmarcreport-mcp README (KB article 5000873350 - API tokens)
+[NEW] dmarcreport.com: documented token-authed REST API ("full API coverage": domains, aggregate reports, forensic reports, MTA-STS) consumed by dmarcreport-mcp
+[NEW] youtrack-mcp repo (TypeScript, pushed 2026-01) implies an internal YouTrack instance exists behind DuoCircle ops
+[NEW] app.duocircle.com: NXDOMAIN — no app panel at that name; assumed surface reduced
+[CHANGED] github.com/duocircle/dmarcreport-mcp actively developed (pushed 2026-08-19)
+[CHANGED] trust.duocircle.com confirmed Vercel-hosted (CNAME 10a739ef30de8834.vercel-dns-016.com, HTTP 200) with PostHog added to CSP — takeover surface closed, analytics surface added
+
+STEP 2 — PRIORITIZE
+[PRIO] dmarcreport.com API | score 6.90 | attack_surface 8 business_value 8 tech_exposure 6 (token-auth REST + MCP client) gate_ease 4 (needs account/API key) cloud_surface 5 freshness 9
+[PRIO] support.dmarcreport.com | score 5.70 | attack_surface 6 business_value 5 tech_exposure 5 (SaaS helpdesk, likely sequential IDs) gate_ease 8 (public) cloud_surface 3 freshness 7
+[PRIO] www.duocircle.com markdown/agent-skills surface | score 5.40 | attack_surface 5 business_value 5 tech_exposure 3 gate_ease 9 (no auth) cloud_surface 2 (Vercel-managed) freshness 9 (newly deployed)
+[PRIO] github.com/duocircle/phishredirector | score 5.25 | attack_surface 6 business_value 5 tech_exposure 5 (stale PHP, 2021, unarchived) gate_ease 9 (public clone) cloud_surface 2 freshness 2
+
+STEP 3 — HYPOTHESES
+[HYP] DMARCReport API cross-tenant report access (IDOR)
+class: IDOR
+asset: dmarcreport.com API (endpoints enumerated by duocircle/dmarcreport-mcp)
+confidence: 55
+reasoning: Multi-tenant DMARC SaaS exposes token-authed REST covering per-customer domains, aggregate and forensic reports; MCP client documents full passthrough coverage. Per-token tenant scoping is unverified; report/domain object IDs are the classic weak point.
+evidence_needed: HTTP 200 response from token A returning tenant B's domain/report object (or proof every lookup re-validates ownership).
+verify_steps: PASSIVE: read dmarcreport-mcp source for exact endpoint paths and query params; then AUTH_HELPED: register two trial accounts, use token A to request own objects vs. tenant B's domain/report identifiers (GET only, ≤1 rps), diff responses.
+impact: Cross-tenant read of customer DMARC/forensic data (sending infrastructure, internal hosts) — High.
+testability: AUTH_HELPED
+[HYP] Support-desk ticket/article/attachment access-control gap
+class: IDOR
+asset: support.dmarcreport.com
+confidence: 45
+reasoning: Public helpdesk serving sequential KB IDs (…/solutions/articles/5000873350); such desks commonly expose adjacent ticket/attachment resources if ACL defaults are permissive. Vendor unidentified — fingerprinting needed first.
+evidence_needed: One resource (ticket body/attachment) retrievable without an owning session, or vendor banner enabling targeted known-CVE checks.
+verify_steps: PASSIVE: GET https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens; fingerprint vendor from HTML generators/meta; probe public search/list endpoints and HEAD adjacent article IDs for ACL uniformity (≤1 rps).
+impact: Exposure of other customers' tickets (domains, mail configs, token snippets) — Medium.
+testability: PASSIVE
+[HYP] New markdown/agent-skills routes leak non-public artifacts
+class: MISCONFIG
+asset: www.duocircle.com (/llms.txt, /index.md, /.well-known/agent-skills/*)
+confidence: 50
+reasoning: Link headers advertise machine-readable mirrors of pages on a fresh Vercel deploy (last-modified today); new static pipelines sometimes publish drafts, internal-route docs, or sourcemaps alongside intended marketing markdown.
+evidence_needed: Any served file not intended for publication (draft/internal page markdown, .map, admin-route doc), or confirmation the published file set is marketing-only.
+verify_steps: PASSIVE: GET https://www.duocircle.com/llms.txt; GET https://www.duocircle.com/.well-known/agent-skills/markdown-negotiation/SKILL.md; enumerate files they reference; HEAD each for unintended content/sourcemaps (GET/HEAD, ≤1 rps).
+impact: Information disclosure of internal routes/content — Low/Medium.
+testability: PASSIVE
+
+STEP 4 — SELF-CRITIQUE
+No knowledge-base REJECTED list exists yet (seed empty); all three hypotheses have confidence ≥40 and concrete verify_steps. None dropped.
+[FINAL] DMARCReport API cross-tenant report access (IDOR) @ dmarcreport.com API — confidence 55, AUTH_HELPED
+[FINAL] New markdown/agent-skills routes leak non-public artifacts (MISCONFIG) @ www.duocircle.com — confidence 50, PASSIVE
+[FINAL] Support-desk ticket/article/attachment access-control gap (IDOR) @ support.dmarcreport.com — confidence 45, PASSIVE
+
+STEP 5 — NEXT ACTION
+[NEXT] PROBE: GET https://www.duocircle.com/llms.txt followed by GET https://www.duocircle.com/.well-known/agent-skills/markdown-negotiation/SKILL.md — parse both for a manifest of mirrored pages/files, then HEAD each referenced path (≤1 rps) to bound the new public file surface on the current RECON target "www".
+
+STEP 6 — LEARNING
+REJECTED SUBDOMAIN-TAKEOVER @ trust.duocircle.com: CNAME points to valid Vercel target (10a739ef30de8834.vercel-dns-016.com) serving 200 — dangling-host takeover not possible here.
+ACCEPTED MISCONFIG @ www.duocircle.com: fresh markdown/agent-skills surface live and unenumerated — hypothesis survives to passive verification.
+ACCEPTED IDOR @ dmarcreport.com API: token-scoping unverified on multi-tenant report API — promoted to FINAL pending AUTH_HELPED validation.
+
+STEP 7 — RISK SCORE
+[RISK] duocircle.com: 35 — hardened corporate edge (strict CSP, HSTS preload, XFO DENY, Vercel-managed static); residual risk concentrated in the brand-new md/agent-skills routes and wide third-party script allowlist (elfsight/freshchat/zoho/clarity).
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 60 — multi-tenant mail-security SaaS APIs with token auth, mixed stacks (autospf fronted by Cloudflare), a public support desk, and tenant-isolation class still untested across nine product properties.
+[RISK] github.com/duocircle repos: 45 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp pushed this week; youtrack-mcp hinting at an internal YouTrack deployment), and Terraform/AWS tooling — moderate secret-leak and infrastructure-recon value.
