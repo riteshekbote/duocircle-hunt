@@ -1,83 +1,36 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js[90m [offset=1, limit=25][0m
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js[90m [offset=1, limit=25][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=15][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts[90m [offset=1, limit=40][0m
-Let me examine the files with hits to properly classify them.
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [limit=15, offset=393][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
-## Classification Results
+**Classification Table**
 
-All 17 hits classified:
-
-### TEST_OR_EXAMPLE (4 hits) — Not Reportable
-
-| File | Line | Value | Rationale |
-|---|---|---|---|
-| `youtrack-mcp/scripts/test-field-values.js` | 17 | `baseURL: 'https://test.youtrack.cloud'` | Mock config in demo script |
-| `youtrack-mcp/scripts/test-field-values.js` | 18 | `token: 'test-token'` | Hardcoded literal placeholder |
-| `youtrack-mcp/scripts/test-error-handling.js` | 15 | `baseURL: 'https://test.youtrack.cloud'` | Mock config in demo script |
-| `youtrack-mcp/scripts/test-error-handling.js` | 16 | `token: 'test-token'` | Hardcoded literal placeholder |
-
-Both scripts extend `IssuesAPIClient` with mock subclasses — purely illustrative test fixtures.
-
-### PUBLIC_ENDPOINT / DOCUMENTATION (5 hits) — Not Reportable
-
-| File | Line | Value | Rationale |
-|---|---|---|---|
-| `dmarcreport-mcp/docker-compose.yml` | 7 | `DMARCREPORT_API_URL` default `https://api.dmarcreport.com` | Public API base URL, already known |
-| `dmarcreport-mcp/src/index.ts` | 14 | `DMARCREPORT_API_URL` docstring | Documents the same public URL |
-| `dmarcreport-mcp/src/index.ts` | 33 | `process.env.DMARCREPORT_API_URL \|\| 'https://api.dmarcreport.com'` | Runtime default — env var override pattern, no secret |
-| `dmarcreport-mcp/src/tools/help.ts` | 355 | `support.dmarcreport.com/.../5000873350-api-tokens` | Public KB article link |
-| `dmarcreport-mcp/src/guidance/patterns.ts` | 398–407 | `autospf.email` / `autospf.com` regexes + `autospf.com/dashboard` | Product's own service patterns — guidance for users |
-
-### PACKAGE_NAMING (6 hits) — Not Reportable
-
-| File | Line | Value | Rationale |
-|---|---|---|---|
-| `dmarcreport-mcp/package.json` | 2 | `"name": "@duocircle/dmarcreport-mcp"` | Scoped to `@duocircle` — legitimate org package |
-| `dmarcreport-mcp/package.json` | 8 | `"dmarcreport-mcp": "dist/index.js"` | Standard `bin` entry |
-| `dmarcreport-mcp/package.json` | 22 | `"dmarcreport"` (keyword) | Company's own product name in keywords |
-| `dmarcreport-mcp/docker-compose.yml` | 2 | `dmarcreport-mcp:` | Service key |
-| `dmarcreport-mcp/docker-compose.yml` | 4 | `image: duocircle/dmarcreport-mcp:latest` | Docker Hub image under own org |
-| `dmarcreport-mcp/src/index.ts` | 10 | `DMARCREPORT_API_KEY=your-key npx ...` | Usage example placeholder |
-
-### REAL_SECRET — 0 hits
-
-### ENDPOINT_LEAK — 0 hits (all URLs are public/known)
-
-### INTERESTING — 0 hits
+| Category | File | Line(s) | Finding | Classification |
+|----------|------|---------|---------|----------------|
+| TEST_OR_EXAMPLE | youtrack-mcp/scripts/test-field-values.js | 17-18 | `baseURL: 'https://test.youtrack.cloud'` / `token: 'test-token'` | TEST_OR_EXAMPLE |
+| TEST_OR_EXAMPLE | youtrack-mcp/scripts/test-error-handling.js | 15-16 | `baseURL: 'https://test.youtrack.cloud'` / `token: 'test-token'` | TEST_OR_EXAMPLE |
+| TEST_OR_EXAMPLE | dmarcreport-mcp/package.json | 2,8,22 | Package name `@duocircle/dmarcreport-mcp` | TEST_OR_EXAMPLE |
+| TEST_OR_EXAMPLE | dmarcreport-mcp/docker-compose.yml | 2,4,7 | Docker image/service name, default API URL | TEST_OR_EXAMPLE |
+| TEST_OR_EXAMPLE | dmarcreport-mcp/src/index.ts | 10,14,33 | Default API URL `https://api.dmarcreport.com` (public) | TEST_OR_EXAMPLE |
+| TEST_OR_EXAMPLE | dmarcreport-mcp/src/tools/help.ts | 355 | Support KB link (already inventoried) | TEST_OR_EXAMPLE |
+| TEST_OR_EXAMPLE | dmarcreport-mcp/src/guidance/patterns.ts | 398-404 | Pattern rules for autospf domains (public) | TEST_OR_EXAMPLE |
 
 ---
 
-## npm Package-Registry Squat Check
+**Verdict**
 
-The scan references `@duocircle/dmarcreport-mcp` — a scoped package under the official `@duocircle` scope. **No squat candidates found** in the repo scan against `autospf`, `dmarcreport`, or other in-scope product names on npm.
+| Category | Count | REPORT_CANDIDATE |
+|----------|-------|------------------|
+| REAL_SECRET | 0 | No |
+| TEST_OR_EXAMPLE | 7 | No |
+| ENDPOINT_LEAK | 0 | No |
+| INTERESTING | 0 | No |
 
 ---
 
-## Verdict
+**Summary**
 
-| Candidate | REPORT_CANDIDATE |
-|---|---|
-| `test.youtrack.cloud` in you
-Your classification is correct. Here's the final verdict:
+All 17 hits are benign:
+- **Test files** use placeholder `test-token` and `test.youtrack.cloud` — no real credentials
+- **Package/config files** reference public API URLs (`api.dmarcreport.com`) and support docs already in inventory
+- **Pattern files** contain domain-matching rules for the MCP tool's guidance system — public domain references
 
-## Final Verdict
-
-| Category | Count | Reportable |
-|---|---|---|
-| TEST_OR_EXAMPLE | 4 | No |
-| PUBLIC_ENDPOINT | 5 | No |
-| PACKAGE_NAMING | 6 | No |
-| REAL_SECRET | 0 | N/A |
-| ENDPOINT_LEAK | 0 | N/A |
-| INTERESTING | 0 | N/A |
-
-**REPORT_CANDIDATE: no** across all 17 hits.
-
-**Summary:** This scan is clean. The `youtrack-mcp` test scripts use obviously fake fixtures (`test-token`, `test.youtrack.cloud`), the `dmarcreport-mcp` repo references only its own public API/docs/service URLs, and package naming is properly scoped under `@duocircle`. No npm squat candidates found for in-scope product names.
-
-No action items from this scan.
+**No REPORT_CANDIDATEs.** Nothing to disclose.
