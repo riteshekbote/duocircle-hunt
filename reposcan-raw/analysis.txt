@@ -1,67 +1,37 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m• [0mAnalyze scan hits for classification[90m General Agent[0m
-[0m✓ [0mAnalyze scan hits for classification[90m General Agent[0m
 ## Classification Table
 
-### REAL_SECRET
-
-| # | File | Line | Verdict |
-|---|------|------|---------|
-| — | — | — | **None found** |
-
-No hardcoded credentials, API keys, or tokens were discovered. All `token` values are literal placeholders (`'test-token'`, `your-api-key`).
-
----
-
 ### TEST_OR_EXAMPLE
-
-| # | File | Line | Material | Why |
-|---|------|------|----------|-----|
-| 1 | `youtrack-mcp/scripts/test-field-values.js` | 17 | `'https://test.youtrack.cloud'` | Mock config in test script; `test.youtrack.cloud` is a YouTrack Cloud test instance |
-| 2 | `youtrack-mcp/scripts/test-field-values.js` | 18 | `'test-token'` | Literal placeholder string |
-| 3 | `youtrack-mcp/scripts/test-error-handling.js` | 15 | `'https://test.youtrack.cloud'` | Same as #1 |
-| 4 | `youtrack-mcp/scripts/test-error-handling.js` | 16 | `'test-token'` | Same as #2 |
-| 5 | `dmarcreport-mcp/docker-compose.yml` | 6 | `${DMARCREPORT_API_KEY}` | Env var reference, no actual value |
-| 6 | `dmarcreport-mcp/src/index.ts` | 32 | `process.env.DMARCREPORT_API_KEY` | Env var read, no value |
-| 7 | `dmarcreport-mcp/src/index.ts` | 39 | `your-api-key` | Help text placeholder |
-| 8 | `dmarcreport-mcp/src/index.ts` | 47 | `your-api-key` | Help text placeholder |
-
----
+| File | Line | Detail |
+|---|---|---|
+| youtrack-mcp/scripts/test-field-values.js | 17-18 | `test.youtrack.cloud` + `test-token` — obvious test fixture |
+| youtrack-mcp/scripts/test-error-handling.js | 15-16 | Same: `test.youtrack.cloud` + `test-token` |
 
 ### ENDPOINT_LEAK
-
-| # | File | Line | Material | Risk |
-|---|------|------|----------|------|
-| 1 | `dmarcreport-mcp/docker-compose.yml` | 7 | `https://api.dmarcreport.com` | Production API base URL hardcoded as default; already public but confirms endpoint for enumeration |
-| 2 | `dmarcreport-mcp/src/index.ts` | 33 | `https://api.dmarcreport.com` | Same URL, same risk — redundant confirmation in source |
-
-Both are the same production endpoint already known from prior scans. No new internal/staging/dev endpoints exposed.
-
----
+| File | Line | Detail |
+|---|---|---|
+| dmarcreport-mcp/docker-compose.yml | 7 | Default API URL `https://api.dmarcreport.com` — expected, already inventoried |
+| dmarcreport-mcp/src/index.ts | 33 | Same default API URL — public by design |
+| dmarcreport-mcp/src/guidance/patterns.ts | 398-404 | `*.autospf.email` / `*.autospf.com` include patterns — guidance, not secrets |
+| dmarcreport-mcp/src/tools/help.ts | 355 | `support.dmarcreport.com` KB link — public support article reference |
 
 ### INTERESTING
+| File | Line | Detail |
+|---|---|---|
+| dmarcreport-mcp/package.json | 2,8,22 | Scoped npm name `@duocircle/dmarcreport-mcp` — legitimate org scope, not a squat |
 
-| # | File | Line | Material | Why |
-|---|------|------|----------|-----|
-| 1 | `dmarcreport-mcp/package.json` | 2 | `@duocircle/dmarcreport-mcp` | Confirms public npm scope; `publishConfig.access: "public"` means anyone can inspect published package |
-| 2 | `dmarcreport-mcp/src/tools/help.ts` | 355 | `support.dmarcreport.com/.../5000873350` | Exposes specific KB article ID; social-engineering/phishing vector for customers |
-| 3 | `dmarcreport-mcp/src/guidance/patterns.ts` | 398-400 | `autospf.com/dashboard` | Dashboard URL for AutoSPF hosted SPF — reveals management interface |
-| 4 | `dmarcreport-mcp/src/guidance/patterns.ts` | 404-406 | `autospf.com/dashboard` | Duplicate entry, same as #3 |
-| 5 | `dmarcreport-mcp/src/guidance/patterns.ts` | 410-412 | `easyspf.com` | Third-party SPF service integration exposed |
-| 6 | `dmarcreport-mcp/src/guidance/patterns.ts` | 416-418 | `dmarcreport.com/autospf` | DuoCircle's own hosted SPF endpoint |
-| 7 | `dmarcreport-mcp/src/guidance/patterns.ts` | 428-430 | `mailhardener.com` | Third-party SPF service integration exposed |
+### NO REAL_SECRET hits
 
----
+All hits are either test fixtures, documentation references to already-inventoried public endpoints, or legitimate packaging. No hardcoded credentials, tokens, or API keys found.
 
-## Verdict
+## Verdict List
 
-| Category | REPORT_CANDIDATE | Notes |
-|----------|-----------------|-------|
-| **REAL_SECRET** | **No** | No hardcoded secrets found |
-| **TEST_OR_EXAMPLE** | **No** | All placeholders; not reportable |
-| **ENDPOINT_LEAK** | **No** | `api.dmarcreport.com` is already public and previously inventoried; no new internal endpoints |
-| **INTERESTING** | **No** | Dashboard/KB URLs are public-facing; no actionable vulnerability |
+| Candidate | REPORT_CANDIDATE | Rationale |
+|---|---|---|
+| youtrack-mcp test files | no | Test fixtures with `test-token` placeholder |
+| dmarcreport-mcp endpoints | no | Public API URLs already in inventory |
+| @duocircle/dmarcreport-mcp | no | Legitimate scoped package, not a squat |
 
-**Summary:** Zero reportable candidates. All 17 hits are either test fixtures, public API endpoints already known, or informational disclosures that don't constitute vulnerabilities. The most notable item is the `support.dmarcreport.com` KB article ID (hit #2 under INTERESTING), but that's public documentation — not a disclosure issue.
+**Overall: No reportable candidates in this scan.**
