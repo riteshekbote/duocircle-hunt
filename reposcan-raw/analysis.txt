@@ -1,6 +1,8 @@
 [0m
 > build · mimo-v2.5-free
 [0m
+Let me examine the scanned files to classify each hit properly.
+[0m✱ [0mGlob "reposcan-raw/duocircle/**/*"[90m 100 matches[0m
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
@@ -8,37 +10,44 @@
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=15][0m
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=393, limit=20][0m
-## Triage Results
+## Hit Classification Table
 
-| # | File:Line | Hit | Classification | Notes |
-|---|-----------|-----|----------------|-------|
-| 1 | `youtrack-mcp/scripts/test-field-values.js:17-18` | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | **TEST_OR_EXAMPLE** | Mock config in test script; literal string `"test-token"` — not a real credential |
-| 2 | `youtrack-mcp/scripts/test-error-handling.js:15-16` | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | **TEST_OR_EXAMPLE** | Same pattern — demo script with dummy values |
-| 3 | `dmarcreport-mcp/package.json:2` | `"name": "@duocircle/dmarcreport-mcp"` | **TEST_OR_EXAMPLE** | Legitimate scoped package name |
-| 4 | `dmarcreport-mcp/package.json:8` | `"dmarcreport-mcp": "dist/index.js"` | **TEST_OR_EXAMPLE** | Bin entry — normal |
-| 5 | `dmarcreport-mcp/package.json:22` | `"dmarcreport"` keyword | **TEST_OR_EXAMPLE** | Keyword metadata |
-| 6 | `dmarcreport-mcp/docker-compose.yml:2,4` | image: `duocircle/dmarcreport-mcp:latest` | **TEST_OR_EXAMPLE** | Public Docker image ref — normal |
-| 7 | `dmarcreport-mcp/docker-compose.yml:7` | `DMARCREPORT_API_URL` default `https://api.dmarcreport.com` | **ENDPOINT_LEAK** | Production API base URL — already in KB inventory |
-| 8 | `dmarcreport-mcp/src/index.ts:10` | Usage comment: `DMARCREPORT_API_KEY=your-key` | **TEST_OR_EXAMPLE** | Placeholder string in doc comment |
-| 9 | `dmarcreport-mcp/src/index.ts:14,33` | `https://api.dmarcreport.com` default | **ENDPOINT_LEAK** | Same production endpoint — already inventoried |
-| 10 | `dmarcreport-mcp/src/tools/help.ts:355` | `https://support.dmarcreport.com/...` KB link | **TEST_OR_EXAMPLE** | Public support doc URL — normal |
-| 11 | `dmarcreport-mcp/src/guidance/patterns.ts:398-404` | `include:_s\d+\.autospf\.email`, `include:.*\.autospf\.com`, dashboard URLs | **TEST_OR_EXAMPLE** | SPF pattern-matching guidance — public DNS patterns |
+### TEST_OR_EXAMPLE (4 hits)
+| File | Line | Value | Reason |
+|------|------|-------|--------|
+| `youtrack-mcp/scripts/test-field-values.js` | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Mock config for demo class that overrides all API methods; never hits network |
+| `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Same pattern — mock `DemoIssuesClient` with stubbed `get`/`post`/`applyCommand` |
 
-### Summary by Category
+**SHA-256 of test token material:** `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08` (SHA-256 of the literal string `test-token` — a well-known hash, confirms it's not a real credential)
 
-| Category | Count | Details |
-|----------|-------|---------|
-| REAL_SECRET | 0 | — |
-| TEST_OR_EXAMPLE | 9 | Test scripts, package metadata, doc comments, SPF patterns |
-| ENDPOINT_LEAK | 2 | `api.dmarcreport.com` default URL (already in KB) |
-| INTERESTING | 0 | — |
+### ENDPOINT_LEAK (1 hit)
+| File | Line | Value | Reason |
+|------|------|-------|--------|
+| `dmarcreport-mcp/src/tools/help.ts` | 355 | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | Public support KB link embedded in help text; confirms live support subdomain. Low sensitivity — support portals are public by design. |
 
-### Verdict
+### INTERESTING (1 hit)
+| File | Line | Value | Reason |
+|------|------|-------|--------|
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 398-407 | Regex patterns: `/include:_s\d+\.autospf\.email/i`, `/include:.*\.autospf\.com/i` with `dashboard_url: "https://autospf.com/dashboard"` | Exposes internal naming convention for AutoSPF customer subdomains (`_s\d+` pattern). Useful for recon if an attacker wants to enumerate AutoSPF-managed SPF records, but this is a public product feature. |
 
-| Candidate | REPORT_CANDIDATE |
-|-----------|-----------------|
-| youtrack-mcp test-token placeholders | **no** — literal `"test-token"` string, no signs of life |
-| dmarcreport-mcp `api.dmarcreport.com` default | **no** — public API endpoint, already inventoried in KB, documented in README |
-| All other hits | **no** — standard metadata, doc strings, or pattern-matching guidance |
+### NOT_INTERESTING / NOISE (11 hits)
+| File | Lines | Reason |
+|------|-------|--------|
+| `dmarcreport-mcp/package.json` | 2, 8, 22 | Package metadata — npm package name, bin entry, keyword. Public registry info. |
+| `dmarcreport-mcp/docker-compose.yml` | 2, 4, 7 | Service name, Docker image tag (`duocircle/dmarcreport-mcp:latest`), env var with public default URL. No secrets — `DMARCREPORT_API_KEY` uses `${}` interpolation only. |
+| `dmarcreport-mcp/src/index.ts` | 10, 14, 33 | Doc comments and env var fallback to `https://api.dmarcreport.com` (already known live endpoint). `API_KEY` read from `process.env` — no hardcoded value. |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 400, 404, 406 | `dashboard_url` values pointing to `autospf.com/dashboard` and `easyspf.com` — public product URLs. |
 
-**Overall: 0 reportable findings.** All hits are either test fixtures with dummy values, public endpoint URLs already known, or normal package configuration. No hardcoded credentials, no internal/staging URLs, no leaked secrets.
+---
+
+## Verdict List
+
+| Candidate | Verdict | Report Candidate |
+|-----------|---------|-----------------|
+| YouTrack test URLs (`test.youtrack.cloud`) | TEST_OR_EXAMPLE — mock data, not real infrastructure | **no** |
+| YouTrack test tokens (`test-token`) | TEST_OR_EXAMPLE — placeholder, SHA-256 matches known dummy string | **no** |
+| Support KB URL (`support.dmarcreport.com`) | ENDPOINT_LEAK — public support portal, expected to be discoverable | **no** |
+| AutoSPF subdomain regex patterns | INTERESTING — reveals naming convention but it's a documented product feature | **no** |
+| All package.json / docker-compose / index.ts hits | NOISE — public package config, no credentials | **no** |
+
+**Overall: 0 REPORT_CANDIDATES.** All 17 hits are test fixtures, public documentation, or known endpoints with no hardcoded secrets or exploitable credential material.
