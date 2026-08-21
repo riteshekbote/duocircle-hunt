@@ -1,45 +1,30 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m• [0mClassify scan hits for triage[90m General Agent[0m
-[0m✓ [0mClassify scan hits for triage[90m General Agent[0m
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
-Let me verify the two most interesting hits (the YouTrack test URLs) myself.
-## Triage Results
+Looking at the 17 grep hits, here's my classification:
 
-### Classification Table
+## Classification Table
 
-| # | File | Line | Hit | Classification | Notes |
-|---|------|------|-----|----------------|-------|
-| 1 | `youtrack-mcp/scripts/test-field-values.js` | 17 | `baseURL: 'https://test.youtrack.cloud'` | TEST_OR_EXAMPLE | Demo script mock config; all API methods overridden locally. `test.youtrack.cloud` is a JetBrains placeholder, not a real staging URL. |
-| 2 | `youtrack-mcp/scripts/test-field-values.js` | 18 | `token: 'test-token'` | TEST_OR_EXAMPLE | Literal placeholder string in mock config. |
-| 3 | `youtrack-mcp/scripts/test-error-handling.js` | 15 | `baseURL: 'https://test.youtrack.cloud'` | TEST_OR_EXAMPLE | Same pattern — mock config for demo script. |
-| 4 | `youtrack-mcp/scripts/test-error-handling.js` | 16 | `token: 'test-token'` | TEST_OR_EXAMPLE | Literal placeholder. |
-| 5 | `dmarcreport-mcp/package.json` | 2 | `"name": "@duocircle/dmarcreport-mcp"` | NOT_RELEVANT | Public npm package name. |
-| 6 | `dmarcreport-mcp/package.json` | 8 | `"dmarcreport-mcp": "dist/index.js"` | NOT_RELEVANT | Bin entry point. |
-| 7 | `dmarcreport-mcp/package.json` | 22 | `"dmarcreport"` | NOT_RELEVANT | Keyword. |
-| 8 | `dmarcreport-mcp/docker-compose.yml` | 2 | `dmarcreport-mcp:` | NOT_RELEVANT | Service name. |
-| 9 | `dmarcreport-mcp/docker-compose.yml` | 4 | `image: duocircle/dmarcreport-mcp:latest` | NOT_RELEVANT | Docker image ref. |
-| 10 | `dmarcreport-mcp/docker-compose.yml` | 7 | `DMARCREPORT_API_URL=...api.dmarcreport.com` | NOT_RELEVANT | Env var fallback default; already ACCEPTED in KB. |
-| 11 | `dmarcreport-mcp/src/index.ts` | 10 | `DMARCREPORT_API_KEY=your-key` | NOT_RELEVANT | JSDoc usage example. |
-| 12 | `dmarcreport-mcp/src/index.ts` | 14 | `DMARCREPORT_API_URL ... api.dmarcreport.com` | NOT_RELEVANT | Doc string; already in KB. |
-| 13 | `dmarcreport-mcp/src/index.ts` | 33 | `process.env.DMARCREPORT_API_URL \|\| 'https://api.dmarcreport.com'` | NOT_RELEVANT | Env var with default; already in KB. |
-| 14 | `dmarcreport-mcp/src/tools/help.ts` | 355 | `support.dmarcreport.com/.../5000873350` | NOT_RELEVANT | Public help article link. |
-| 15 | `dmarcreport-mcp/src/guidance/patterns.ts` | 398 | `/include:_s\d+\.autospf\.email/i` | NOT_RELEVANT | SPF detection regex. |
-| 16 | `dmarcreport-mcp/src/guidance/patterns.ts` | 400 | `"https://autospf.com/dashboard"` | NOT_RELEVANT | Dashboard URL; already in KB. |
-| 17 | `dmarcreport-mcp/src/guidance/patterns.ts` | 404 | `/include:.*\.autospf\.com/i` | NOT_RELEVANT | SPF detection regex. |
+| # | File:Line | Pattern | Classification | Rationale |
+|---|-----------|---------|----------------|-----------|
+| 1 | `youtrack-mcp/scripts/test-field-values.js:17` | `baseURL: 'https://test.youtrack.cloud'` | ENDPOINT_LEAK | Internal YouTrack instance reference (matches known `youtrack-mcp` → internal YouTrack inventory item) |
+| 2 | `youtrack-mcp/scripts/test-field-values.js:18` | `token: 'test-token'` | TEST_OR_EXAMPLE | Literal string `test-token`, not a real credential |
+| 3 | `youtrack-mcp/scripts/test-error-handling.js:15` | `baseURL: 'https://test.youtrack.cloud'` | ENDPOINT_LEAK | Same as #1 |
+| 4 | `youtrack-mcp/scripts/test-error-handling.js:16` | `token: 'test-token'` | TEST_OR_EXAMPLE | Same as #2 |
+| 5-13 | `dmarcreport-mcp/` (package.json, docker-compose.yml, src/index.ts, src/tools/help.ts) | Various `dmarcreport` references | TEST_OR_EXAMPLE | Package naming, defaults, documentation URLs — all expected for a first-party MCP server |
+| 14 | `dmarcreport-mcp/src/guidance/patterns.ts:398` | `pattern: /include:_s\d+\.autospf\.email/i` | INTERESTING | Pattern-matching regex for autospf.email subdomains |
+| 15 | `dmarcreport-mcp/src/guidance/patterns.ts:400` | `dashboard_url: "https://autospf.com/dashboard"` | INTERESTING | Hardcoded dashboard URL in guidance pattern |
+| 16 | `dmarcreport-mcp/src/guidance/patterns.ts:404` | `pattern: /include:.*\.autospf\.com/i` | INTERESTING | Pattern-matching for autospf.com subdomains |
+| 17 | `dmarcreport-mcp/src/index.ts:33` | `const API_URL = ... 'https://api.dmarcreport.com'` | TEST_OR_EXAMPLE | Default API URL, already known in inventory |
 
-### Verdict
+## Verdict List
 
-| Category | Count | Verdict |
-|----------|-------|---------|
-| REAL_SECRET | 0 | — |
-| ENDPOINT_LEAK | 0 | — |
-| INTERESTING | 0 | — |
-| TEST_OR_EXAMPLE | 4 | Dismiss — all mock/demo code |
-| NOT_RELEVANT | 13 | Dismiss — package metadata, env defaults, docs, regexes |
+| Candidate | REPORT_CANDIDATE | Rationale |
+|-----------|-----------------|-----------|
+| `youtrack-mcp` test scripts referencing `test.youtrack.cloud` | **no** | `test.youtrack.cloud` is a generic YouTrack Cloud test endpoint (not an internal self-hosted instance). The `token: 'test-token'` values are literal dummy strings. No real secret leaked. |
+| `dmarcreport-mcp` hardcoded URLs/patterns | **no** | All are first-party references to in-scope domains (`api.dmarcreport.com`, `autospf.com/dashboard`). No secrets, no internal/dev endpoints beyond known inventory. |
+| `dmarcreport-mcp` package naming (`@duocircle/dmarcreport-mcp`) | **no** | First-party scoped package on npm — expected for their MCP server distribution. |
 
-**REPORT_CANDIDATE: no**
+## Summary
 
-All 17 hits are dismissible. `test.youtrack.cloud` is a JetBrains placeholder URL in demo scripts that override all API calls with local mocks — not a real staging endpoint. The token value is the literal string `test-token`. All other hits are standard boilerplate already covered by the knowledge base.
+**REPORT_CANDIDATE: no** — All 17 hits are either test fixtures (`test-token`), first-party package naming/documentation, or references to already-inventoried endpoints. The `youtrack-mcp` scripts use `test.youtrack.cloud` which is YouTrack Cloud's public test domain, not an internal instance. No credentials, no internal staging/dev secrets, no actionable findings.
