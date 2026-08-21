@@ -1,6 +1,3 @@
-
-===== REPOSCAN 2026-08-21 18:05:45 UTC =====
-## Grep hits:
 SCAN SUMMARY: 104 code/config files scanned, 17 hits
 reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:17: baseURL: 'https://test.youtrack.cloud',
 reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:18: token: 'test-token'
@@ -19,41 +16,3 @@ reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts:355: sections.push('- [
 reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:398: pattern: /include:_s\d+\.autospf\.email/i,
 reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:400: dashboard_url: "https://autospf.com/dashboard",
 reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:404: pattern: /include:.*\.autospf\.com/i,
-
-## Model analysis:
-[0m
-> build · nemotron-3-ultra-free
-[0m
-## Classification Tables
-
-### TEST_OR_EXAMPLE
-| File | Line | Content | Reason |
-|------|------|---------|--------|
-| youtrack-mcp/scripts/test-field-values.js | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token:
-| youtrack-mcp/scripts/test-error-handling.js | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Test fixture data in test scripts |
-| dmarcreport-mcp/src/index.ts | 10 | `DMARCREPORT_API_KEY=your-key` | Example placeholder in usage docs |
-
-### ENDPOINT_LEAK
-| File | Line | Content | Reason |
-|------|------|---------|--------|
-| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | Production API endpoint as default in committed compose file |
-| dmarcreport-mcp/src/index.ts | 33 | `const API_URL = process.env.DMARCREPORT_API_URL || 'https://api.dmarcreport.com';` | Hardcoded production default in source |
-
-### INTERESTING
-| File | Line | Content | Reason |
-|------|------|---------|--------|
-| dmarcreport-mcp/src/guidance/patterns.ts | 398, 400, 404 | Regex patterns & URLs for `autospf.com`, `autospf.email` | References to in-scope sibling domains (expected) |
-
-### REAL_SECRET
-*None found*
-
----
-
-## Verdict List
-
-| Candidate | File | Line | REPORT_CANDIDATE |
-|-----------|------|------|------------------|
-| Default prod API in docker-compose | docker-compose.yml | 7 | **no** (config default, not a secret) |
-| Hardcoded prod API default in source | src/index.ts | 33 | **no** (fallback default, env-overridable) |
-
-**Summary:** No reportable secrets. Two endpoint defaults leaked in committed config/source—low risk, but consider moving defaults to `.env.example` only.
