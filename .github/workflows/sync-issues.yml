@@ -1,0 +1,47 @@
+name: Sync Leads to GitHub Issues
+
+on:
+  workflow_run:
+    workflows: ["Senior Hunter - Analyst Pipeline (duocircle)"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: sync-issues
+  cancel-in-progress: true
+
+env:
+  PROBE_ALLOW: "duocircle|autospf|dmarcreport|phishprotection|outboundsmtp|tenantmigration|mailflowmonitoring|alumniforwarding|nureply|inboxissue"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install PyGithub
+        run: pip install PyGithub
+
+      - name: Sync leads to issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          LEAD_GLOB: "leads/lead-*.md"
+          TARGET_NAME: duocircle
+        run: python scripts/sync-issues.py
+
+      - name: Summary
+        run: |
+          echo "### Issue Sync" >> $GITHUB_STEP_SUMMARY
+          echo "- Repo: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY

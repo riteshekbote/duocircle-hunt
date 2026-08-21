@@ -1,0 +1,263 @@
+name: Triager - Validate Leads
+
+on:
+  schedule:
+    - cron: "23,53 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PROBE_ALLOW: "duocircle|autospf|dmarcreport|phishprotection|outboundsmtp|tenantmigration|mailflowmonitoring|alumniforwarding|nureply|inboxissue"
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    concurrency:
+      group: triage
+      cancel-in-progress: true
+    env:
+      MODEL_ID: opencode/longcat-2.0-free
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install OpenCode
+        run: |
+          export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$PATH"
+          if command -v opencode >/dev/null 2>&1; then
+            opencode --version
+            exit 0
+          fi
+          npm install -g opencode-ai 2>/dev/null || npm install -g --prefix "$HOME/.npm-global" opencode-ai 2>/dev/null || true
+          if ! command -v opencode >/dev/null 2>&1; then
+            for i in 1 2 3; do
+              curl -fsSL https://opencode.ai/install | bash && break
+              echo "opencode.ai installer attempt $i failed, retrying in 15s..."
+              sleep 15
+            done
+          fi
+          export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$PATH"
+          opencode --version
+
+
+      - name: Collect UNVALIDATED leads
+        id: leads
+        run: |
+          mkdir -p triage reports knowledge
+          grep -h "\[UNVALIDATED\]" leads/lead-*.md leads/reposcan-*.md 2>/dev/null | sort -u | head -25 > new-leads.txt || true
+          wc -l new-leads.txt
+          n=$(wc -l < new-leads.txt | tr -d ' ')
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          if [ "$n" -gt 0 ]; then
+            echo "has_leads=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_leads=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Passive live probe of endpoint leads
+        if: steps.leads.outputs.has_leads == 'true'
+        run: |
+          : > probe-results.txt
+          grep -oE 'https?://[a-zA-Z0-9._/-]+' new-leads.txt | sort -u | head -20 | while read -r url; do
+            host=$(echo "$url" | sed -E 's|https?://([^/]+).*|\1|')
+            case "$host" in
+              *.duocircle.com|duocircle.com|*.autospf.com|autospf.com|\
+              *.dmarcreport.com|dmarcreport.com|*.phishprotection.com|phishprotection.com|\
+              *.outboundsmtp.com|outboundsmtp.com|*.tenantmigration.com|tenantmigration.com|\
+              *.mailflowmonitoring.com|mailflowmonitoring.com|*.alumniforwarding.com|alumniforwarding.com|\
+              *.nureply.com|nureply.com|*.inboxissue.com|inboxissue.com)
+                code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
+                  -A 'Mozilla/5.0 (passive research probe)' -H 'Range: bytes=0-1' "$url" 2>/dev/null \
+                  || echo TIMEOUT)
+                echo "$code $url" >> probe-results.txt
+                sleep 1
+                ;;
+            esac
+          done
+          cat probe-results.txt
+
+      - name: Evidence gate (only leads with a live probe response survive)
+        id: gate
+        if: steps.leads.outputs.has_leads == 'true'
+        run: |
+          python3 << 'PY'
+          import re, os
+          # A lead survives ONLY if its URL got an actual HTTP status code back.
+          # TIMEOUT / ERR / missing = no evidence -> dropped before the model runs.
+          try:
+              probe = open('probe-results.txt', errors='ignore').read()
+          except FileNotFoundError:
+              probe = ''
+          live_urls = set()
+          for line in probe.split('\n'):
+              m = re.match(r'^(\d{3})\s+(https?://\S+)', line.strip())
+              if m:
+                  live_urls.add(m.group(2))
+          try:
+              leads = open('new-leads.txt', errors='ignore').read().split('\n')
+          except FileNotFoundError:
+              leads = []
+          kept = [l for l in leads if l.strip()
+                  and any(u in l for u in live_urls)]
+          with open('evidence-leads.txt', 'w') as f:
+              for l in kept:
+                  f.write(l + '\n')
+          print(f'evidence gate: {len(kept)}/{len([x for x in leads if x.strip()])} leads have live probe responses')
+          out = os.environ.get('GITHUB_OUTPUT', '/dev/null')
+          with open(out, 'a') as g:
+              g.write(f'has_evidence={"true" if kept else "false"}\n')
+              g.write(f'kept={len(kept)}\n')
+          PY
+
+      - name: Validate with second model (7-Question Gate)
+        if: steps.leads.outputs.has_leads == 'true' && steps.gate.outputs.has_evidence == 'true'
+        run: |
+          export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$PATH"
+          cat > triage-prompt.txt << 'PROMPT_START'
+          You are a strict triager for the DuoCircle responsible-disclosure
+          program (email-only: security@duocircle.com; program page
+          trust.duocircle.com/responsible-disclosure/). In scope: duocircle.com
+          and any subdomain, autospf.com, dmarcreport.com, phishprotection.com,
+          outboundsmtp.com, tenantmigration.com, mailflowmonitoring.com,
+          alumniforwarding.com, nureply.com, inboxissue.com, plus public repos
+          under github.com/duocircle. OUT OF SCOPE: third-party services,
+          social engineering, DoS/DDoS, volume mail tests. Automated-scanner
+          output without manual validation is REJECTED. A hunt bot produced
+          the leads below. Your job: validate each against the 7-Question Gate.
+          Answer all 7 for each lead:
+          Q1 Is it in the program scope (asset from scope.yml)?
+          Q2 Can an attacker reach it (public, unauthenticated or low-priv)?
+          Q3 Is there real security impact (not just weirdness)?
+          Q4 Can you prove it without invasive testing (GET/HEAD only)?
+          Q5 Is it genuinely novel/unreported (no duplicates)?
+          Q6 Is it not on the always-rejected list (info disclosure of public data,
+              best practice, rate limit absence alone, self-XSS, etc.)?
+          Q7 Would a reasonable triager accept it as a real vulnerability?
+
+          Verdict per lead: VALID / INVALID / HOLD (with one-line reason).
+          For VALID: state the minimal read-only proof steps, impact, CVSS 3.1,
+          and the correct reporting channel (security@duocircle.com).
+
+          HARD ANTI-HALLUCINATION RULES (violations make your verdict void):
+          1. Only the leads in EVIDENCE LEADS below exist. There are no other leads.
+          2. Every VALID verdict line MUST quote verbatim the exact URL from
+             PROBE RESULTS that backs the finding (copy the URL character-for-character).
+          3. If a lead's URL shows TIMEOUT or has no probe response, the verdict
+             MUST be HOLD or INVALID - never VALID.
+          4. NEVER invent endpoint paths, hostnames, or response contents that do
+             not appear in the provided material.
+          5. If unsure between two severities, pick the lower one.
+
+          PROBE RESULTS (passive GET/HEAD, http_code per url):
+          PROMPT_START
+          cat probe-results.txt >> triage-prompt.txt
+          echo "" >> triage-prompt.txt
+          echo "EVIDENCE LEADS (these and ONLY these):" >> triage-prompt.txt
+          cat evidence-leads.txt >> triage-prompt.txt
+          echo "" >> triage-prompt.txt
+          timeout -k 15 15m opencode run --model "$MODEL_ID" < triage-prompt.txt > triage-output.txt 2>&1 || true
+          echo "=== triage preview ==="; head -40 triage-output.txt
+
+      - name: Update valid-bugs counter (strict evidence-backed only)
+        if: always()
+        run: |
+          mkdir -p triage reports knowledge
+          stamp=$(date -u +'%Y-%m-%d-%H-%M')
+          {
+            echo ""
+            echo "===== TRIAGE $(date -u +'%Y-%m-%d %H:%M:%S UTC') ====="
+            echo "leads collected: $(wc -l < new-leads.txt 2>/dev/null || echo 0)"
+            echo "evidence-backed: $(wc -l < evidence-leads.txt 2>/dev/null || echo 0)"
+            echo "--- probe results ---"
+            cat probe-results.txt 2>/dev/null || echo "(no probes ran)"
+            echo ""
+            cat triage-output.txt 2>/dev/null || echo "(model skipped: no evidence-backed leads)"
+          } >> triage/run-$stamp.md
+          python3 << 'PY'
+          import re
+          try:
+              txt = open('triage-output.txt', errors='ignore').read()
+          except Exception:
+              txt = ''
+          try:
+              probe = open('probe-results.txt', errors='ignore').read()
+          except Exception:
+              probe = ''
+          live_urls = set(re.findall(r'https?://\S+', probe))
+          # Candidate verdict lines: say VALID, don't say INVALID anywhere in them.
+          cand = [l.strip() for l in txt.split('\n')
+                  if re.search(r'(?<!IN)\bVALID\b', l, re.I)
+                  and not re.search(r'\bINVALID\b', l, re.I)]
+          # STRICT filter: the verdict line itself must quote an exact live URL.
+          # No fall-through: empty strict list means zero VALIDs this cycle.
+          strict = [l for l in cand
+                    if any(u in l for u in live_urls)]
+          verdict_lines = strict
+          if verdict_lines:
+              with open('reports/valid-bugs.md', 'a') as f:
+                  stamp = __import__('datetime').datetime.now(__import__('datetime').timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
+                  f.write(f"\n- {len(verdict_lines)} lead(s) marked VALID at {stamp} (evidence-backed)\n")
+                  for vl in verdict_lines[:20]:
+                      f.write(f"  - {vl[:200]}\n")
+              total = open('reports/valid-bugs.md').read().count('lead(s) marked VALID')
+              print(f"RUNNING VALID COUNT: {total}")
+          else:
+              print('no evidence-backed VALID verdicts this cycle '
+                    f'({len(cand)} candidate lines, {len(strict)} survived strict URL match)')
+          PY
+
+      - name: Append learnings to knowledge base (must cite evidence)
+        if: always()
+        run: |
+          python3 << 'PY'
+          import re, os, datetime
+          stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
+          kpath = 'knowledge/index.md'
+          os.makedirs('knowledge', exist_ok=True)
+          if not os.path.exists(kpath):
+              open(kpath, 'w').write('# Knowledge Base (seed)\n')
+          ktext = open(kpath).read()
+          try:
+              txt = open('triage-output.txt', errors='ignore').read()
+          except Exception:
+              txt = ''
+          try:
+              probe = open('probe-results.txt', errors='ignore').read()
+          except Exception:
+              probe = ''
+          live_urls = set(re.findall(r'https?://\S+', probe))
+          learnings = []
+          for m in re.finditer(r'(?im)^.*(INVALID|HOLD)\b.*$', txt):
+              line = m.group(0).strip()
+              why_m = re.search(r'(?:INVALID|HOLD)\b.*?[-:]\s*(.{10,220})', line)
+              why = why_m.group(1).strip() if why_m else line[:200]
+              # Gate: the learning must cite an actual probed URL.
+              cited = next((u for u in live_urls if u in line), None)
+              if cited:
+                  entry = f"- {stamp[:10]} REJECTED @ {cited}: {why}"
+                  if entry not in ktext:
+                      learnings.append(entry)
+          with open(kpath, 'a') as k:
+              for line in learnings:
+                  k.write(line + '\n')
+          print(f'appended {len(learnings)} evidence-cited learnings to knowledge/index.md')
+          PY
+
+      - name: Commit
+        if: always()
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add triage reports leads knowledge || true
+          if ! git diff --cached --quiet; then
+            git commit -m "triage $(date -u +'%Y-%m-%d-%H-%M')"
+          fi
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin main && break
+            echo "triage push attempt $i failed, retrying in 15s..."
+            sleep 15
+          done

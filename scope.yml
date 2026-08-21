@@ -1,0 +1,63 @@
+programs:
+  duocircle:
+    name: DuoCircle Responsible Disclosure
+    disclosure_policy: >
+      Email-only responsible disclosure via security@duocircle.com
+      (program page: https://trust.duocircle.com/responsible-disclosure/).
+      Verified 2026-08-19: not on H1/Bugcrowd/Intigriti/YesWeHack/Hackenproof/
+      OpenBugBounty scope dumps.
+    disclosure_email: security@duocircle.com
+    program_url: https://trust.duocircle.com/responsible-disclosure/
+    assets:
+      - name: duocircle.com and any subdomain
+        priority: High
+      - name: autospf.com
+        priority: Medium
+      - name: dmarcreport.com
+        priority: Medium
+      - name: phishprotection.com
+        priority: Medium
+      - name: outboundsmtp.com
+        priority: Medium
+      - name: tenantmigration.com
+        priority: Medium
+      - name: mailflowmonitoring.com
+        priority: Medium
+      - name: alumniforwarding.com
+        priority: Medium
+      - name: nureply.com
+        priority: Medium
+      - name: inboxissue.com
+        priority: Medium
+    github_orgs:
+      - duocircle
+    out_of_scope:
+      - "Third-party services not owned by DuoCircle"
+      - "Social engineering or phishing attacks on staff"
+      - "Physical security"
+      - "Denial of Service (DoS/DDoS)"
+      - "Spam or volume mail tests against SMTP relays"
+      - "Vulnerabilities requiring physical access"
+      - "Reports from automated scanners without manual validation"
+    known_surface:
+      - "https://trust.duocircle.com/responsible-disclosure/"
+      - "github.com/duocircle org (13 public repos incl. dmarcreport-mcp)"
+
+rules:
+  # Operator-defined program scope. Passive-first, human-validated only.
+  passive_first: true          # GET/HEAD reads first; no invasive testing without program approval
+  max_requests_per_second: 1   # never hammer; no volume mail tests ever
+  no_doom: true                # no DoS/DDoS, no resource-exhaustion tests
+  no_account_creation: true    # no mass signups without operator approval
+  no_data_modification: true   # no writes, deletes, state changes on live infra
+  no_pre_disclosure: true      # never disclose before vendor response
+  manual_validation_required: true  # scanner output alone is REJECTED; every finding must be manually validated
+  redact_secrets_in_commits: true   # commit sha256 of secrets, never raw values
+
+# Multi-model ensemble: every hunt run picks a rotation of the 5 models.
+models:
+  - { id: opencode/big-pickle, name: bigpickle }
+  - { id: opencode/nemotron-3-ultra-free, name: nemotron3 }
+  - { id: opencode/longcat-2.0-free, name: longcat }
+  - { id: opencode/ling-3.0-flash-free, name: ling3 }
+  - { id: opencode/laguna-s-2.1-free, name: laguna }
