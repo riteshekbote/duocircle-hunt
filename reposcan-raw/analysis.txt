@@ -1,36 +1,74 @@
 [0m
 > build · nemotron-3-ultra-free
 [0m
-## Classification Tables
+[0m$ [0mls -la reposcan-raw/duocircle/
+total 56
+drwxr-xr-x 14 runner runner 4096 Aug 21 18:21 .
+drwxr-xr-x  4 runner runner 4096 Aug 21 18:21 ..
+drwxr-xr-x  9 runner runner 4096 Aug 21 18:21 Office365-Phishing-Rules
+drwxr-xr-x  4 runner runner 4096 Aug 21 18:21 Office365-Setup-DKIM-DMARC-SPF
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 dmarc
+drwxr-xr-x  5 runner runner 4096 Aug 21 18:21 dmarcreport-mcp
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 legal-policies
+drwxr-xr-x  6 runner runner 4096 Aug 21 18:21 microsoft-365-dmarc-mailbox-export
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 phishing-test-bypass-o365
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 phishredirector
+drwxr-xr-x  4 runner runner 4096 Aug 21 18:21 sba-certificate-renewal
+drwxr-xr-x  5 runner runner 4096 Aug 21 18:21 terraform-aws-letsencrypt
+drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 urlshortener
+drwxr-xr-x  7 runner runner 4096 Aug 21 18:21 youtrack-mcp
+[0m
+[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
+[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [limit=20, offset=350][0m
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [limit=30, offset=390][0m
+### Classification Tables
 
-### TEST_OR_EXAMPLE
-| File | Line | Content | Reason |
-|------|------|---------|--------|
-| youtrack-mcp/scripts/test-field-values.js | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token:
-| youtrack-mcp/scripts/test-error-handling.js | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Test fixture data in test scripts |
-| dmarcreport-mcp/src/index.ts | 10 | `DMARCREPORT_API_KEY=your-key` | Example placeholder in usage docs |
+#### REAL_SECRET
+| File | Line | SHA256 | Context |
+|------|------|--------|---------|
+| *(none)* | | | No hardcoded live credentials found |
 
-### ENDPOINT_LEAK
-| File | Line | Content | Reason |
-|------|------|---------|--------|
-| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | Production API endpoint as default in committed compose file |
-| dmarcreport-mcp/src/index.ts | 33 | `const API_URL = process.env.DMARCREPORT_API_URL || 'https://api.dmarcreport.com';` | Hardcoded production default in source |
+#### TEST_OR_EXAMPLE
+| File | Line | Type | Notes |
+|------|------|------|-------|
+| `youtrack-mcp/scripts/test-field-values.js` | 17 | test config | `baseURL: 'https://test.youtrack.cloud'` in mock test client |
+| `youtrack-mcp/scripts/test-field-values.js` | 18 | test config | `token: 'test-token'` — literal placeholder |
+| `youtrack-mcp/scripts/test-error-handling.js` | 15 | test config | `baseURL: 'https://test.youtrack.cloud'` in mock test client |
+| `youtrack-mcp/scripts/test-error-handling.js` | 16 | test config | `token: 'test-token'` — literal placeholder |
+| `dmarcreport-mcp/src/index.ts` | 10 | example | `DMARCREPORT_API_KEY=your-key` — usage doc placeholder |
+| `dmarcreport-mcp/package.json` | 2,8,22 | metadata | Package name, bin entry, keyword — not secrets |
 
-### INTERESTING
-| File | Line | Content | Reason |
-|------|------|---------|--------|
-| dmarcreport-mcp/src/guidance/patterns.ts | 398, 400, 404 | Regex patterns & URLs for `autospf.com`, `autospf.email` | References to in-scope sibling domains (expected) |
+#### ENDPOINT_LEAK
+| File | Line | Endpoint | Risk |
+|------|------|----------|------|
+| `dmarcreport-mcp/docker-compose.yml` | 7 | `https://api.dmarcreport.com` | Default prod API URL (public, documented) |
+| `dmarcreport-mcp/src/index.ts` | 14 | `https://api.dmarcreport.com` | Documented default in help text |
+| `dmarcreport-mcp/src/index.ts` | 33 | `https://api.dmarcreport.com` | Fallback default in code |
+| `dmarcreport-mcp/docker-compose.yml` | 4 | `duocircle/dmarcreport-mcp:latest` | Public Docker Hub image ref |
 
-### REAL_SECRET
-*None found*
+#### INTERESTING
+| File | Line | Finding | Notes |
+|------|------|---------|-------|
+| `dmarcreport-mcp/src/tools/help.ts` | 355 | KB article ref | `support.dmarcreport.com/.../5000873350-api-tokens` — public docs |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 398 | Regex | AutoSPF `include:_s\d+\.autospf\.email` detection pattern |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 400 | Dashboard URL | `https://autospf.com/dashboard` — public customer portal |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 404 | Regex | AutoSPF `include:.*\.autospf\.com` detection pattern |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 416 | Regex | DMARCReport hosted SPF `spf\.autospf\.dmarcreport\.com` pattern |
 
 ---
 
-## Verdict List
+### Verdicts
 
-| Candidate | File | Line | REPORT_CANDIDATE |
-|-----------|------|------|------------------|
-| Default prod API in docker-compose | docker-compose.yml | 7 | **no** (config default, not a secret) |
-| Hardcoded prod API default in source | src/index.ts | 33 | **no** (fallback default, env-overridable) |
+| Candidate | REPORT_CANDIDATE | Reason |
+|-----------|------------------|--------|
+| `test.youtrack.cloud` / `test-token` | **no** | Test fixtures in demo scripts |
+| `DMARCREPORT_API_KEY=your-key` | **no** | Documentation placeholder |
+| `api.dmarcreport.com` (multiple) | **no** | Public production endpoint, documented default |
+| `duocircle/dmarcreport-mcp:latest` | **no** | Public Docker image reference |
+| KB article 5000873350 | **no** | Public support article |
+| AutoSPF regex patterns & dashboard URLs | **no** | Product feature detection code referencing public domains |
 
-**Summary:** No reportable secrets. Two endpoint defaults leaked in committed config/source—low risk, but consider moving defaults to `.env.example` only.
+**Summary:** No reportable findings. All hits are test fixtures, public endpoints, documentation references, or product feature code.
