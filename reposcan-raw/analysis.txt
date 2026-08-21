@@ -1,74 +1,196 @@
 [0m
-> build · nemotron-3-ultra-free
-[0m
-[0m$ [0mls -la reposcan-raw/duocircle/
-total 56
-drwxr-xr-x 14 runner runner 4096 Aug 21 18:21 .
-drwxr-xr-x  4 runner runner 4096 Aug 21 18:21 ..
-drwxr-xr-x  9 runner runner 4096 Aug 21 18:21 Office365-Phishing-Rules
-drwxr-xr-x  4 runner runner 4096 Aug 21 18:21 Office365-Setup-DKIM-DMARC-SPF
-drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 dmarc
-drwxr-xr-x  5 runner runner 4096 Aug 21 18:21 dmarcreport-mcp
-drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 legal-policies
-drwxr-xr-x  6 runner runner 4096 Aug 21 18:21 microsoft-365-dmarc-mailbox-export
-drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 phishing-test-bypass-o365
-drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 phishredirector
-drwxr-xr-x  4 runner runner 4096 Aug 21 18:21 sba-certificate-renewal
-drwxr-xr-x  5 runner runner 4096 Aug 21 18:21 terraform-aws-letsencrypt
-drwxr-xr-x  3 runner runner 4096 Aug 21 18:21 urlshortener
-drwxr-xr-x  7 runner runner 4096 Aug 21 18:21 youtrack-mcp
+> build · mimo-v2.5-free
 [0m
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [limit=20, offset=350][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [limit=30, offset=390][0m
-### Classification Tables
-
-#### REAL_SECRET
-| File | Line | SHA256 | Context |
-|------|------|--------|---------|
-| *(none)* | | | No hardcoded live credentials found |
-
-#### TEST_OR_EXAMPLE
-| File | Line | Type | Notes |
-|------|------|------|-------|
-| `youtrack-mcp/scripts/test-field-values.js` | 17 | test config | `baseURL: 'https://test.youtrack.cloud'` in mock test client |
-| `youtrack-mcp/scripts/test-field-values.js` | 18 | test config | `token: 'test-token'` — literal placeholder |
-| `youtrack-mcp/scripts/test-error-handling.js` | 15 | test config | `baseURL: 'https://test.youtrack.cloud'` in mock test client |
-| `youtrack-mcp/scripts/test-error-handling.js` | 16 | test config | `token: 'test-token'` — literal placeholder |
-| `dmarcreport-mcp/src/index.ts` | 10 | example | `DMARCREPORT_API_KEY=your-key` — usage doc placeholder |
-| `dmarcreport-mcp/package.json` | 2,8,22 | metadata | Package name, bin entry, keyword — not secrets |
-
-#### ENDPOINT_LEAK
-| File | Line | Endpoint | Risk |
-|------|------|----------|------|
-| `dmarcreport-mcp/docker-compose.yml` | 7 | `https://api.dmarcreport.com` | Default prod API URL (public, documented) |
-| `dmarcreport-mcp/src/index.ts` | 14 | `https://api.dmarcreport.com` | Documented default in help text |
-| `dmarcreport-mcp/src/index.ts` | 33 | `https://api.dmarcreport.com` | Fallback default in code |
-| `dmarcreport-mcp/docker-compose.yml` | 4 | `duocircle/dmarcreport-mcp:latest` | Public Docker Hub image ref |
-
-#### INTERESTING
-| File | Line | Finding | Notes |
-|------|------|---------|-------|
-| `dmarcreport-mcp/src/tools/help.ts` | 355 | KB article ref | `support.dmarcreport.com/.../5000873350-api-tokens` — public docs |
-| `dmarcreport-mcp/src/guidance/patterns.ts` | 398 | Regex | AutoSPF `include:_s\d+\.autospf\.email` detection pattern |
-| `dmarcreport-mcp/src/guidance/patterns.ts` | 400 | Dashboard URL | `https://autospf.com/dashboard` — public customer portal |
-| `dmarcreport-mcp/src/guidance/patterns.ts` | 404 | Regex | AutoSPF `include:.*\.autospf\.com` detection pattern |
-| `dmarcreport-mcp/src/guidance/patterns.ts` | 416 | Regex | DMARCReport hosted SPF `spf\.autospf\.dmarcreport\.com` pattern |
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=15][0m
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=390, limit=20][0m
+I'll review the scan files for additional context to ensure accuracy.
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/autospf" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print('EXISTS -', d.get('description','no desc'), '| latest:', d.get('dist-tags',{}).get('latest','?'))" 2>/dev/null || echo "NOT_FOUND or error"
+EXISTS - no desc | latest: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/dmarcreport" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print('EXISTS -', d.get('description','no desc'), '| latest:', d.get('dist-tags',{}).get('latest','?'))" 2>/dev/null || echo "NOT_FOUND or error"
+EXISTS - no desc | latest: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/phishprotection" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print('EXISTS -', d.get('description','no desc'), '| latest:', d.get('dist-tags',{}).get('latest','?'))" 2>/dev/null || echo "NOT_FOUND or error"
+EXISTS - no desc | latest: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/outboundsmtp" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print('EXISTS -', d.get('description','no desc'), '| latest:', d.get('dist-tags',{}).get('latest','?'))" 2>/dev/null || echo "NOT_FOUND or error"
+EXISTS - no desc | latest: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/duocircle" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print('EXISTS -', d.get('description','no desc'), '| latest:', d.get('dist-tags',{}).get('latest','?'))" 2>/dev/null || echo "NOT_FOUND or error"
+EXISTS - no desc | latest: ?
+[0m
+Now let me check for package-name squats on npm for the in-scope names.
+[0m$ [0mcurl -s "https://registry.npmjs.org/phishredirector" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print('EXISTS -', d.get('description','no desc'), '| latest:', d.get('dist-tags',{}).get('latest','?'))" 2>/dev/null || echo "NOT_FOUND or error"
+EXISTS - no desc | latest: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/autospf" 2>/dev/null | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+print('name:', d.get('name','?'))
+print('description:', d.get('description','?'))
+print('maintainers:', d.get('maintainers','?'))
+print('versions:', list(d.get('versions',{}).keys())[:5])
+print('time:', d.get('time',{}) if isinstance(d.get('time'), dict) else '?')
+" 2>/dev/null || echo "PARSE_ERROR"
+name: ?
+description: ?
+maintainers: ?
+versions: []
+time: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/dmarcreport" 2>/dev/null | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+print('name:', d.get('name','?'))
+print('description:', d.get('description','?'))
+print('maintainers:', d.get('maintainers','?'))
+print('versions:', list(d.get('versions',{}).keys())[:5])
+print('time:', d.get('time',{}) if isinstance(d.get('time'), dict) else '?')
+" 2>/dev/null || echo "PARSE_ERROR"
+name: ?
+description: ?
+maintainers: ?
+versions: []
+time: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/phishprotection" 2>/dev/null | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+print('name:', d.get('name','?'))
+print('description:', d.get('description','?'))
+print('maintainers:', d.get('maintainers','?'))
+print('versions:', list(d.get('versions',{}).keys())[:5])
+print('time:', d.get('time',{}) if isinstance(d.get('time'), dict) else '?')
+" 2>/dev/null || echo "PARSE_ERROR"
+name: ?
+description: ?
+maintainers: ?
+versions: []
+time: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/outboundsmtp" 2>/dev/null | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+print('name:', d.get('name','?'))
+print('description:', d.get('description','?'))
+print('maintainers:', d.get('maintainers','?'))
+print('versions:', list(d.get('versions',{}).keys())[:5])
+print('time:', d.get('time',{}) if isinstance(d.get('time'), dict) else '?')
+" 2>/dev/null || echo "PARSE_ERROR"
+name: ?
+description: ?
+maintainers: ?
+versions: []
+time: ?
+[0m
+[0m$ [0mcurl -s "https://registry.npmjs.org/duocircle" 2>/dev/null | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+print('name:', d.get('name','?'))
+print('description:', d.get('description','?'))
+print('maintainers:', d.get('maintainers','?'))
+print('versions:', list(d.get('versions',{}).keys())[:5])
+print('time:', d.get('time',{}) if isinstance(d.get('time'), dict) else '?')
+" 2>/dev/null || echo "PARSE_ERROR"
+name: ?
+description: ?
+maintainers: ?
+versions: []
+time: ?
+[0m
+The npm responses look suspicious — all returning no description and no latest version. Let me get more detail on each.
+[0m$ [0mcurl -s "https://registry.npmjs.org/phishredirector" 2>/dev/null | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+print('name:', d.get('name','?'))
+print('description:', d.get('description','?'))
+print('maintainers:', d.get('maintainers','?'))
+print('versions:', list(d.get('versions',{}).keys())[:5])
+print('time:', d.get('time',{}) if isinstance(d.get('time'), dict) else '?')
+" 2>/dev/null || echo "PARSE_ERROR"
+name: ?
+description: ?
+maintainers: ?
+versions: []
+time: ?
+[0m
+[0m$ [0mcurl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/autospf" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/dmarcreport" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/phishprotection" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/outboundsmtp" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/duocircle" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/phishredirector" && echo ""
+404
+404
+404
+404
+404
+404
+[0m
+[0m$ [0mcurl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/@duocircle/dmarcreport-mcp" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/@duocircle/autospf" && echo "" && curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/@duocircle/urlshortener" && echo ""
+200
+404
+404
+[0m
+All npm checks returned 404 — no squats found. Here are the results:
 
 ---
 
-### Verdicts
+## Classification Tables
 
-| Candidate | REPORT_CANDIDATE | Reason |
-|-----------|------------------|--------|
-| `test.youtrack.cloud` / `test-token` | **no** | Test fixtures in demo scripts |
-| `DMARCREPORT_API_KEY=your-key` | **no** | Documentation placeholder |
-| `api.dmarcreport.com` (multiple) | **no** | Public production endpoint, documented default |
-| `duocircle/dmarcreport-mcp:latest` | **no** | Public Docker image reference |
-| KB article 5000873350 | **no** | Public support article |
-| AutoSPF regex patterns & dashboard URLs | **no** | Product feature detection code referencing public domains |
+### TEST_OR_EXAMPLE (4 hits)
 
-**Summary:** No reportable findings. All hits are test fixtures, public endpoints, documentation references, or product feature code.
+| File | Line | Material | SHA256 | Notes |
+|---|---|---|---|---|
+| youtrack-mcp/scripts/test-field-values.js | 17 | `baseURL: 'https://test.youtrack.cloud'` | — | Mock config in demo script; uses `test.youtrack.cloud`, not real instance |
+| youtrack-mcp/scripts/test-field-values.js | 18 | `token: 'test-token'` | — | Obvious placeholder; file is entirely mocked (overrides `get`/`post`) |
+| youtrack-mcp/scripts/test-error-handling.js | 15 | `baseURL: 'https://test.youtrack.cloud'` | — | Same pattern; demo test script |
+| youtrack-mcp/scripts/test-error-handling.js | 16 | `token: 'test-token'` | — | Obvious placeholder in mock class |
+
+### NOT_A_SECRET — Config / Documentation / Product Patterns (13 hits)
+
+| File | Line | Material | Notes |
+|---|---|---|---|
+| dmarcreport-mcp/package.json | 2 | `"name": "@duocircle/dmarcreport-mcp"` | Published scoped package — official, expected |
+| dmarcreport-mcp/package.json | 8 | `"dmarcreport-mcp": "dist/index.js"` | Binary entry point |
+| dmarcreport-mcp/package.json | 22 | `"dmarcreport"` | Keyword |
+| dmarcreport-mcp/docker-compose.yml | 2-4 | service name + `image: duocircle/dmarcreport-mcp:latest` | Service definition, no secrets |
+| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${...:-https://api.dmarcreport.com}` | Env var with public default URL |
+| dmarcreport-mcp/src/index.ts | 10 | `DMARCREPORT_API_KEY=your-key` | Usage comment / placeholder |
+| dmarcreport-mcp/src/index.ts | 14 | API URL docs | Documentation line |
+| dmarcreport-mcp/src/index.ts | 33 | `process.env.DMARCREPORT_API_URL \|\| 'https://api.dmarcreport.com'` | Public fallback URL, not a secret |
+| dmarcreport-mcp/src/tools/help.ts | 355 | KB article link (`support.dmarcreport.com/.../5000873350-api-tokens`) | Public documentation reference |
+| dmarcreport-mcp/src/guidance/patterns.ts | 398-400 | Regex + `autospf.com/dashboard` URL | Product detection pattern for AutoSPF SPF records |
+| dmarcreport-mcp/src/guidance/patterns.ts | 404 | Regex `include:.*\.autospf\.com` | Product detection pattern |
+
+### npm Package Registry — Squat Check
+
+| Package | HTTP Status | Squat? |
+|---|---|---|
+| `autospf` | 404 | No |
+| `dmarcreport` | 404 | No |
+| `phishprotection` | 404 | No |
+| `outboundsmtp` | 404 | No |
+| `duocircle` | 404 | No |
+| `phishredirector` | 404 | No |
+| `@duocircle/dmarcreport-mcp` | 200 | Official (expected) |
+| `@duocircle/autospf` | 404 | N/A |
+| `@duocircle/urlshortener` | 404 | N/A |
+
+---
+
+## Verdict List
+
+| Hit | REPORT_CANDIDATE | Reason |
+|---|---|---|
+| youtrack-mcp `test-token` (×2) | **No** | Mock/test placeholder in demo scripts; no signs of life |
+| youtrack-mcp `test.youtrack.cloud` (×2) | **No** | Test environment URL, not a real instance leak |
+| dmarcreport-mcp package.json entries (×3) | **No** | Official published package metadata |
+| dmarcreport-mcp docker-compose (×2) | **No** | Public image name + env var with public default |
+| dmarcreport-mcp index.ts (×3) | **No** | Usage docs + public default URL, not a key |
+| dmarcreport-mcp help.ts KB link | **No** | Public support article reference |
+| dmarcreport-mcp patterns.ts (×2) | **No** | SPF record detection regexes for product guidance |
+| npm squats (6 names) | **No** | All 404 — names unregistered; no typosquatting found |
+
+**Overall: 0 report candidates.** All 17 code hits are test fixtures, documentation, config, or product-pattern-matching logic. No real secrets, no internal endpoints, no npm squats.
