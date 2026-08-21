@@ -97,3 +97,71 @@ testability: AUTH_HELPED
 [RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2); attack surface moderate with diverse integrations
 [RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; Freshdesk support desk; HIGH business value; diverse tech stack increases exposure
 [RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
+## 2026-08-21 20:03:46 UTC [www] (model mimo)
+[NEW] docs.dmarcreport.com — full API v2 documentation live; reveals token auth (`Authorization: Token token=<token>`), predictable integer IDs (accounts/:id, domains/:id, agg_reports/:id), and endpoints including `/v2/all_domains.json`, `/v2/postmaster_account_records.json`
+[CHANGED] api.dmarcreport.com — v1 endpoints (`/api/v1/*`) return 404; actual API is `/v2/*` with token auth (not session); GET `/v2/all_domains.json` returns 401 (auth enforced)
+[NEW] app.dmarcreport.com/signup — live signup page with SOC-2 badge, free plan (1 domain, 10K reports)
+[NEW] billing.autospf.com — Zoho billing portal (JSESSIONID, 302→`/SetupOrganization.do`), not empty; HSTS with includeSubDomains
+[CHANGED] api.autospf.com — confirmed Laravel login page (Welcome back, Sign in with Google/Microsoft/SSO)
+[CHANGED] api.dmarcreport.com — `/v2/accounts` example shows sequential IDs (1462, 1473, 1487, 1488); `/v2/all_domains.json` example shows domain IDs (2503, 2593, 2596); API supports both numeric ID and slug in URL params
+[PRIO] api.dmarcreport.com, 8.8, attack=9 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 8.3, attack=8 business=8 tech=9 gate=7 cloud=8 fresh=8
+[PRIO] billing.autospf.com, 7.5, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+[PRIO] docs.dmarcreport.com, 7.0, attack=6 business=7 tech=8 gate=9 cloud=5 fresh=9
+[PRIO] app.dmarcreport.com/signup, 6.5, attack=6 business=7 tech=6 gate=8 cloud=6 fresh=8
+[PRIO] support.dmarcreport.com, 5.8, attack=5 business=5 tech=5 gate=8 cloud=4 fresh=6
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 80
+reasoning: API uses sequential integer IDs for accounts (1462, 1473, 1487, 1488), domains
+[NEW] docs.dmarcreport.com — full API v2 documentation live; reveals token auth (`Authorization: Token token=<token>`), predictable integer IDs (accounts/:id, domains/:id, agg_reports/:id), and endpoints including `/v2/all_domains.json`, `/v2/postmaster_account_records.json`
+[CHANGED] api.dmarcreport.com — v1 endpoints (`/api/v1/*`) return 404; actual API is `/v2/*` with token auth (not session); GET `/v2/all_domains.json` returns 401 (auth enforced)
+[NEW] app.dmarcreport.com/signup — live signup page with SOC-2 badge, free plan (1 domain, 10K reports)
+[NEW] billing.autospf.com — Zoho billing portal (JSESSIONID, 302→`/SetupOrganization.do`); HSTS with includeSubDomains; NOT empty as previously assumed
+[CHANGED] api.autospf.com — confirmed Laravel login page (Welcome back, Sign in with Google/Microsoft/SSO)
+[CHANGED] api.dmarcreport.com — `/v2/accounts` example shows sequential IDs (1462, 1473, 1487, 1488); `/v2/all_domains.json` example shows domain IDs (2503, 2593, 2596); API supports both numeric ID and slug in URL params
+[PRIO] api.dmarcreport.com, 8.8, attack=9 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 8.3, attack=8 business=8 tech=9 gate=7 cloud=8 fresh=8
+[PRIO] billing.autospf.com, 7.5, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+[PRIO] docs.dmarcreport.com, 7.0, attack=6 business=7 tech=8 gate=9 cloud=5 fresh=9
+[PRIO] app.dmarcreport.com/signup, 6.5, attack=6 business=7 tech=6 gate=8 cloud=6 fresh=8
+[PRIO] support.dmarcreport.com, 5.8, attack=5 business=5 tech=5 gate=8 cloud=4 fresh=6
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 80
+reasoning: API uses sequential integer IDs for accounts (1462, 1473, 1487, 1488), domains (2503, 2593, 2596). Token auth is per-account but docs show `/v2/all_domains.json` returns "all domains across all accounts for the authenticated user" — unclear if cross-account ID access is blocked. Predictable IDs enable enumeration. Auth enforced (401 without token) but no evidence of per-resource ownership validation.
+evidence_needed: HTTP 200 from token_A requesting `/v2/accounts/<account_B_id>/domains.json`; or 403/401 proving per-resource validation.
+verify_steps: AUTH_HELPED: register two free trial accounts (token_A, token_B); GET `/v2/accounts` with token_A → extract account_A_id; GET `/v2/accounts` with token_B → extract account_B_id; GET `/v2/accounts/<account_B_id>/domains.json` with token_A; GET `/v2/accounts/<account_B_id>/domains/1/agg_reports.json` with token_A. Diff responses.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: AUTH_HELPED
+[HYP] CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies
+class: AUTH
+asset: api.autospf.com
+confidence: 70
+reasoning: Laravel API sets XSRF-TOKEN and session cookies with SameSite=none. CSP references billing.autospf.com in form-action. Billing subdomain is active Zoho portal (JSESSIONID, 302). Billing endpoints may have different CSRF protections than core API.
+evidence_needed: State-changing endpoint on api.autospf.com accepting cookie auth without X-XSRF-TOKEN header; or billing.autospf.com payment flow without CSRF token.
+verify_steps: AUTH_HELPED: GET /login on api.autospf.com to obtain cookies; POST /api/flatten or /api/records with cookie-only auth (no X-XSRF-TOKEN header); check if action succeeds. HEAD billing.autospf.com to determine status.
+impact: Unauthorized SPF record modifications, domain delegation changes, billing tampering — HIGH severity.
+testability: AUTH_HELPED
+[HYP] Billing portal session fixation on billing.autospf.com
+class: AUTH
+asset: billing.autospf.com
+confidence: 55
+reasoning: billing.autospf.com serves Zoho billing portal with JSESSIONID cookie; 302 redirect to /SetupOrganization.do on first visit. If JSESSIONID is issued before authentication or accepts pre-auth session ID, session fixation is possible. Zoho billing integration may have weaker auth than main API.
+evidence_needed: JSESSIONID cookie value changing after authentication; or same JSESSIONID accepted pre/post login.
+verify_steps: PASSIVE: GET billing.autospf.com, capture JSESSIONID; POST login with credentials; compare JSESSIONID pre/post auth. If same value persists, session fixation confirmed.
+impact: Account takeover via session fixation — HIGH severity.
+testability: PASSIVE
+[FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 80%)
+[FINAL] 2. CSRF on AutoSPF API state-changing endpoints via SameSite=none cookies (api.autospf.com, AUTH, 70%)
+[PARKED] Billing portal session fixation: confidence 55 < 60 threshold; Zoho billing is third-party vendor product (limits direct exploitability of DuoCircle code); verify_steps depend on Zoho session behavior not DuoCircle configuration.
+[NEXT] PROBE: AUTH_HELPED — Register two free trial accounts at app.dmarcreport.com/signup; extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A — test cross-tenant IDOR.
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target
+[LEARN] ACCEPTED AUTH @ api.autospf.com: Laravel login page confirmed, SameSite=none cookies, Stripe billing integration — CSRF risk confirmed
+[LEARN] ACCEPTED AUTH @ billing.autospf.com: Zoho billing portal active (JSESSIONID, 302→SetupOrganization.do) — billing subdomain confirmed live
+[LEARN] REJECTED AUTH @ account.duocircle.com: WorkOS AuthKit is third-party; auth flaws would be WorkOS responsibility, not DuoCircle direct code
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2); attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; Freshdesk support desk; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
