@@ -382,3 +382,48 @@ testability: PASSIVE
 [RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds (Freshchat, Elfsight, Zoho, Clarity, SalesPanel, G2); attack surface moderate with diverse integrations
 [RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
 [RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
+## 2026-08-21 22:36:13 UTC [www] (model mimo)
+[PRIO] api.dmarcreport.com/v2, 8.7, attack=9 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 7.5, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
+[PRIO] billing.autospf.com, 7.3, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 82
+reasoning: API uses sequential integer IDs (accounts: 1462, 1473, 1487, 1488; domains: 2503, 2593, 2596). Token auth per-account but /v2/all_domains.json returns "all domains across all accounts for the authenticated user" — unclear if cross-account ID access blocked. Predictable IDs enable enumeration. Free trial signup available.
+evidence_needed: HTTP 200 from token_A requesting /v2/accounts/<account_B_id>/domains.json; or 403/401 proving per-resource validation.
+verify_steps: AUTH_HELPED: Register two free trial accounts at app.dmarcreport.com/signup; extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/1/agg_reports.json with token_A.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: AUTH_HELPED
+[HYP] CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain
+class: AUTH
+asset: api.autospf.com
+confidence: 68
+reasoning: api.autospf.com sets XSRF-TOKEN cookie with SameSite=none AND no HttpOnly flag. POST to /login without X-XSRF-TOKEN → 419 confirms CSRF protection enforced. However, compromised *.autospf.com subdomain can read XSRF-TOKEN via JS and include as X-XSRF-TOKEN header, bypassing CSRF. CSP allows many third-party domains (Klenty, SalesPanel, Elfsight, Facebook).
+evidence_needed: A live *.autospf.com subdomain that is unclaimed or has XSS; or confirmation that XSRF-TOKEN can be exfiltrated from subdomain context.
+verify_steps: PASSIVE: Enumerate autospf.com subdomains via crt.sh; check each for HTTP 200/404 (potential takeover). AUTH_HELPED: If takeover found, host JS on taken-over subdomain that reads XSRF-TOKEN cookie and POSTs to api.autospf.com/auth/logout with token in header.
+impact: Account takeover via session hijacking + CSRF bypass — HIGH severity.
+testability: PASSIVE → AUTH_HELPED
+[HYP] Session fixation on billing.autospf.com Zoho portal
+class: AUTH
+asset: billing.autospf.com
+confidence: 55
+reasoning: billing.autospf.com serves Zoho billing portal with JSESSIONID cookie; 302 redirect to /SetupOrganization.do on first visit. If JSESSIONID issued before authentication or accepts pre-auth session ID, session fixation possible.
+evidence_needed: JSESSIONID cookie value changing after authentication; or same JSESSIONID accepted pre/post login.
+verify_steps: PASSIVE: GET billing.autospf.com, capture JSESSIONID; POST login with credentials; compare JSESSIONID pre/post auth.
+impact: Account takeover via session fixation — HIGH severity.
+testability: PASSIVE
+[PARKED] Session fixation on billing.autospf.com: confidence 55 < 60 threshold; Zoho billing is third-party vendor product (limits direct exploitability of DuoCircle code); verify_steps depend on Zoho session behavior not DuoCircle configuration.
+[FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 82%)
+[FINAL] 2. CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain (api.autospf.com, AUTH, 68%)
+[NEXT] PROBE: AUTH_HELPED — Register two free trial accounts at app.dmarcreport.com/signup; extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A — test cross-tenant IDOR.
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target
+[LEARN] ACCEPTED AUTH @ api.autospf.com: Laravel login page confirmed, SameSite=none cookies, Stripe billing integration — CSRF risk confirmed
+[LEARN] ACCEPTED AUTH @ billing.autospf.com: Zoho billing portal active (JSESSIONID, 302→SetupOrganization.do) — billing subdomain confirmed live
+[LEARN] REJECTED AUTH @ account.duocircle.com: WorkOS AuthKit is third-party; auth flaws would be WorkOS responsibility, not DuoCircle direct code
+[LEARN] ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: app.dmarcreport.com/signup returns HTTP 200; WorkOS AuthKit signup accessible; free trial accounts available for IDOR testing
+[LEARN] CHANGED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds; attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
