@@ -1,9 +1,7 @@
-## 2026-08-21 22:58:51 UTC [www] (model mimo)
-[CHANGED] github.com/duocircle/dmarcreport-mcp actively developed (pushed 2026-08-19)
-[CHANGED] trust.duocircle.com confirmed Vercel-hosted (CNAME 10a739ef30de8834.vercel-dns-016.com, HTTP 200) with PostHog added to CSP
-[PRIO] api.dmarcreport.com/v2, 8.7, attack=9 business=9 tech=9 gate=7 cloud=9 fresh=9
-[PRIO] api.autospf.com, 7.5, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
-[PRIO] billing.autospf.com, 7.3, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
+## 2026-08-21 23:33:28 UTC [www] (model mimo)
+[PRIO] api.dmarcreport.com/v2, 8.45, attack=8 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 7.45, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
+[PRIO] billing.autospf.com, 7.30, attack=7 business=8 tech=8 gate=5 cloud=8 fresh=8
 [HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
 class: IDOR
 asset: api.dmarcreport.com/v2
@@ -22,16 +20,7 @@ evidence_needed: A live *.autospf.com subdomain that is unclaimed or has XSS; or
 verify_steps: PASSIVE: Enumerate autospf.com subdomains via crt.sh; check each for HTTP 200/404 (potential takeover). AUTH_HELPED: If takeover found, host JS on taken-over subdomain that reads XSRF-TOKEN cookie and POSTs to api.autospf.com/auth/logout with token in header.
 impact: Account takeover via session hijacking + CSRF bypass — HIGH severity.
 testability: PASSIVE → AUTH_HELPED
-[HYP] Session fixation on billing.autospf.com Zoho portal
-class: AUTH
-asset: billing.autospf.com
-confidence: 55
-reasoning: billing.autospf.com serves Zoho billing portal with JSESSIONID cookie; 302 redirect to /SetupOrganization.do on first visit. If JSESSIONID issued before authentication or accepts pre-auth session ID, session fixation possible.
-evidence_needed: JSESSIONID cookie value changing after authentication; or same JSESSIONID accepted pre/post login.
-verify_steps: PASSIVE: GET billing.autospf.com, capture JSESSIONID; POST login with credentials; compare JSESSIONID pre/post auth.
-impact: Account takeover via session fixation — HIGH severity.
-testability: PASSIVE
-[PARKED] Session fixation on billing.autospf.com: confidence 55 < 60 threshold; Zoho billing is third-party vendor product (limits direct exploitability of DuoCircle code); verify_steps depend on Zoho session behavior not DuoCircle configuration.
+[PARKED] Session fixation on billing.autospf.com Zoho portal: confidence 55 < 60 threshold; Zoho billing is third-party vendor product (limits direct exploitability of DuoCircle code); verify_steps depend on Zoho session behavior not DuoCircle configuration.
 [FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 82%)
 [FINAL] 2. CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain (api.autospf.com, AUTH, 68%)
 [NEXT] PROBE: AUTH_HELPED — Register two free trial accounts at app.dmarcreport.com/signup; extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A — test cross-tenant IDOR.
