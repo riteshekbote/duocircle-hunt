@@ -1,39 +1,59 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js[90m [offset=10, limit=20][0m
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js[90m [offset=10, limit=20][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts[90m [offset=1, limit=40][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=10][0m
-Let me read the key files to verify the nature of the hits.
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [limit=15, offset=393][0m
+[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
+[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
 [0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
-Here's the triage:
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts
+Let me read the key files to classify each hit properly.
+Here's the classification table:
 
-## Classification Table
+## Classification by Category
 
-| Category | File | Line(s) | Classification | Notes |
-|----------|------|---------|----------------|-------|
-| **TEST_OR_EXAMPLE** | `youtrack-mcp/scripts/test-field-values.js` | 17-18 | Mock config | Comment explicitly says `// Mock config`; `test-token` is literal placeholder |
-| **TEST_OR_EXAMPLE** | `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | Mock config | Comment says `// Mock config for demonstration`; same placeholder values |
-| **ENDPOINT_LEAK** | `dmarcreport-mcp/src/index.ts` | 33 | Public API URL | `https://api.dmarcreport.com` — already in inventory, public default, not sensitive |
-| **ENDPOINT_LEAK** | `dmarcreport-mcp/src/index.ts` | 14 | Public API URL | Same URL in docstring comment |
-| **ENDPOINT_LEAK** | `dmarcreport-mcp/docker-compose.yml` | 7 | Public API URL | Same URL with `${}` env var interpolation — standard compose pattern |
-| **NOT_A_SECRET** | `dmarcreport-mcp/src/index.ts` | 10 | Usage example | `DMARCREPORT_API_KEY=your-key` — placeholder in docstring |
-| **NOT_A_SECRET** | `dmarcreport-mcp/src/tools/help.ts` | 355 | Support URL | `support.dmarcreport.com/...` — public KB article link |
-| **NOT_A_SECRET** | `dmarcreport-mcp/src/guidance/patterns.ts` | 398-404 | Product URLs | `autospf.com/dashboard` — public product dashboard URL |
-| **NOT_A_SECRET** | `dmarcreport-mcp/package.json` | 2,8,22 | Package metadata | Package name, bin entry, keyword — standard npm packaging |
-| **NOT_A_SECRET** | `dmarcreport-mcp/docker-compose.yml` | 2,4 | Service metadata | Service name and image tag — standard compose config |
+### TEST_OR_EXAMPLE (6 hits)
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| youtrack-mcp/scripts/test-field-values.js | 17 | `baseURL: 'https://test.youtrack.cloud'` | Test/demo script with mock config, subclasses API client with hardcoded responses |
+| youtrack-mcp/scripts/test-field-values.js | 18 | `token: 'test-token'` | Literal string `test-token` — not a real credential |
+| youtrack-mcp/scripts/test-error-handling.js | 15 | `baseURL: 'https://test.youtrack.cloud'` | Same pattern — mock config for demonstration |
+| youtrack-mcp/scripts/test-error-handling.js | 16 | `token: 'test-token'` | Literal string `test-token` — not a real credential |
+| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | Default value in docker-compose; env-var driven, no hardcoded secret |
+
+### ENDPOINT_LEAK (2 hits)
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| dmarcreport-mcp/src/index.ts | 33 | `process.env.DMARCREPORT_API_URL \|\| 'https://api.dmarcreport.com'` | Confirms production API base URL — already known from inventory |
+| youtrack-mcp/scripts/test-field-values.js | 17 | `https://test.youtrack.cloud` | Reveals YouTrack cloud test instance URL (implies internal YouTrack infra) |
+
+### INTERESTING (1 hit)
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| youtrack-mcp | CLAUDE.md | `YouTrack instance URL` + `upstream → itsalfredakku/youtrack-mcp` | Repo is a fork of `itsalfredakku/youtrack-mcp`; CLAUDE.md documents `YOUTRACK_URL` and `YOUTRACK_TOKEN` env vars required at runtime — confirms DuoCircle operates an internal YouTrack instance (not public, but organizational infra leak) |
+
+### TEST_OR_EXAMPLE / benign config references (8 hits)
+| File | Line | Hit | Rationale |
+|------|------|-----|-----------|
+| dmarcreport-mcp/package.json | 2, 8, 22 | package name `@duocircle/dmarcreport-mcp`, bin entry, keyword | NPM package metadata — published under `@duocircle` scope, public by design |
+| dmarcreport-mcp/docker-compose.yml | 2, 4 | service name + `duocircle/dmarcreport-mcp:latest` image tag | Docker config referencing own image — benign |
+| dmarcreport-mcp/src/index.ts | 10, 14 | Usage comment showing env var pattern | Documentation comments — no real secrets |
+| dmarcreport-mcp/src/tools/help.ts | 355 | `support.dmarcreport.com` KB link | Public support article reference |
+| dmarcreport-mcp/src/guidance/patterns.ts | 398, 400, 404 | AutoSPF regex patterns + `autospf.com/dashboard` URL | Domain-detection logic for the product's own services |
+
+### REAL_SECRET
+**None.** No hardcoded API keys, tokens, or credentials found with signs of life. The `test-token` strings are literal placeholder text in demo scripts that subclass the API client and never make real HTTP requests.
+
+---
 
 ## Verdict List
 
-| Candidate | REPORT_CANDIDATE |
-|-----------|-----------------|
-| youtrack-mcp test configs | **no** — TEST_OR_EXAMPLE, both files use literal `test-token` placeholder with explicit mock comments |
-| dmarcreport-mcp API URL refs | **no** — ENDPOINT_LEAK but `api.dmarcreport.com` is already in inventory as public; not a secret or internal URL |
-| dmarcreport-mcp env var pattern | **no** — `your-key` is a docstring placeholder, not a real credential |
-| support.dmarcreport.com KB link | **no** — public support article reference |
-| autospf.com dashboard URLs | **no** — public product dashboard references |
+| Category | Count | REPORT_CANDIDATE |
+|----------|-------|-----------------|
+| REAL_SECRET | 0 | no |
+| TEST_OR_EXAMPLE | 13 | no |
+| ENDPOINT_LEAK | 2 | no (both URLs already in inventory) |
+| INTERESTING | 1 | no (internal YouTrack instance implied, but not a credential or misconfig — just architecture context) |
 
-**Summary: 0 report candidates.** All 17 hits are either test fixtures, public API URLs already inventoried, or standard package/config metadata. No hardcoded secrets, no internal URLs, no credentials leaked.
+**Overall: REPORT_CANDIDATE = no.** No actionable findings. The youtrack-mcp test scripts use `test-token` as a literal placeholder — no real secrets are committed. All URL references are either already known or are the product's own infrastructure endpoints. The only non-trivial intel is the implicit confirmation that DuoCircle runs an internal YouTrack instance (useful for attack-surface mapping but not a reportable finding).
