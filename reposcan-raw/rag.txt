@@ -1,0 +1,3 @@
+=== KNOWLEDGE BASE (RAG) ===
+# Knowledge Base (seed)
+=== INVENTORY duocircle ===

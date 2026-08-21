@@ -1,0 +1,25 @@
+DELTA: 17 new hit lines vs previous scan
+reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml:2: dmarcreport-mcp:
+reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml:4: image: duocircle/dmarcreport-mcp:latest
+reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml:7: - DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}
+reposcan-raw/duocircle/dmarcreport-mcp/package.json:22: "dmarcreport",
+reposcan-raw/duocircle/dmarcreport-mcp/package.json:2: "name": "@duocircle/dmarcreport-mcp",
+reposcan-raw/duocircle/dmarcreport-mcp/package.json:8: "dmarcreport-mcp": "dist/index.js"
+reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:398: pattern: /include:_s\d+\.autospf\.email/i,
+reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:400: dashboard_url: "https://autospf.com/dashboard",
+reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:404: pattern: /include:.*\.autospf\.com/i,
+reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts:10: *   DMARCREPORT_API_KEY=your-key npx @duocircle/dmarcreport-mcp
+reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts:14: *   DMARCREPORT_API_URL - Optional. API base URL (default: https://api.dmarcreport.com)
+reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts:33: const API_URL = process.env.DMARCREPORT_API_URL || 'https://api.dmarcreport.com';
+reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts:355: sections.push('- [API Token Setup Guide](https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens) - Learn how to generate and manage API tokens');
+reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js:15: baseURL: 'https://test.youtrack.cloud',
+reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js:16: token: 'test-token'
+reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:17: baseURL: 'https://test.youtrack.cloud',
+reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:18: token: 'test-token'
+HASHED MATERIAL:
+4abddc5d92fdaf3f  reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts:33: const API_URL = process.env.DMARCREPORT_API_URL || 'https://api.
+a7548c5e5014f27e  reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts:355: sections.push('- [API Token Setup Guide](https://support.d
+e1f6122e4bc6843f  reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js:15: baseURL: 'https://test.youtrack.cloud',
+e1f6122e4bc6843f  reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js:16: token: 'test-token'
+2f5c849ba3814052  reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:17: baseURL: 'https://test.youtrack.cloud',
+2f5c849ba3814052  reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:18: token: 'test-token'
