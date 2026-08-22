@@ -2041,3 +2041,66 @@ testability: PASSIVE → AUTH_HELPED
 [RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds; attack surface moderate with diverse integrations
 [RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; Turnstile captcha on dmarcreport signup; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
 [RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
+===== ANALYST mimo 2026-08-22 02:42:17 UTC =====
+[0m
+> build · mimo-v2.5-free
+[0m
+[STEP 1 — DELTA]
+[NEW] app.dmarcreport.com/signup: Cloudflare Turnstile captcha (sitekey `0x4AAAAAAAixJKhNMIDS4Stt`) gates automated account creation — blocks scripted IDOR testing
+[NEW] dmarcreport.com CSP references `*.widgets.dmarcinput.com` and `*.widgets.dev.dmarcinput.com` as form-action/frame-src — both have no DNS A records (dead); dmarcinput.com itself on AWS DNS but returns no HTTP response
+[CHANGED] app.dmarcreport.com/login: WorkOS AuthKit sets `authkit_redirect_attempts=1` tracking cookie on redirect to `/users/sign_in`
+
+[STEP 2 — PRIORITIZE]
+[PRIO] api.dmarcreport.com/v2, 8.45, attack=8 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] dmarcinput.com (widgets subdomains), 7.10, attack=8 business=6 tech=5 gate=9 cloud=5 fresh=7
+[PRIO] api.autospf.com, 7.45, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
+
+[STEP 3 — HYPOTHESES]
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 82
+reasoning: API uses sequential integer IDs (accounts: 1462, 1473, 1487, 1488; domains: 2503, 2593, 2596). Token auth per-account but /v2/all_domains.json returns "all domains across all accounts for the authenticated user" — unclear if cross-account ID access blocked. Predictable IDs enable enumeration. Free trial signup available but Turnstile captcha blocks automated creation.
+evidence_needed: HTTP 200 from token_A requesting /v2/accounts/<account_B_id>/domains.json; or 403/401 proving per-resource validation.
+verify_steps: AUTH_HELPED: Manually register two free trial accounts at app.dmarcreport.com/signup (Turnstile required); extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/<dom_id>/agg_reports.json with token_A.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: HUMAN_ONLY
+
+[HYP] Subdomain takeover of widgets.dmarcinput.com — CSP-integrated dead subdomain on unclaimed dmarcinput.com
+class: MISCONFIG
+asset: app.dmarcreport.com CSP / dmarcinput.com
+confidence: 42
+reasoning: dmarcinput.com uses AWS DNS but returns no HTTP response; widgets.dmarcinput.com and widgets.dev.dmarcinput.com have no A records. Both are whitelisted in app.dmarcreport.com CSP as form-action and frame-src (wildcard *.widgets.dmarcinput.com). If dmarcinput.com is unclaimed/expired, registering it and claiming the widgets subdomain enables CSP-sanctioned form submissions and frame embeds on dmarcreport.com.
+evidence_needed: Confirm dmarcinput.com is registrable (check registrar status); confirm widgets.dmarcinput.com can be claimed after registration.
+verify_steps: PASSIVE: Check dmarcinput.com WHOIS via web lookup (who.is, etc.); check domain availability via registrar API; check if dmarcinput.com is parked or truly abandoned.
+impact: CSP-sanctioned attacker-controlled content on dmarcreport.com (phishing, token exfil via form-action, frame-based UI redress) — MEDIUM-HIGH severity.
+testability: PASSIVE
+
+[HYP] CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain
+class: AUTH
+asset: api.autospf.com
+confidence: 68
+reasoning: api.autospf.com sets XSRF-TOKEN cookie with SameSite=none AND no HttpOnly flag. POST to /login without X-XSRF-TOKEN → 419 confirms CSRF protection enforced. Compromised *.autospf.com subdomain can read XSRF-TOKEN via JS and include as X-XSRF-TOKEN header, bypassing CSRF. CSP allows many third-party domains (Klenty, SalesPanel, Elfsight, Facebook, Albacross, Visithunter).
+evidence_needed: A live *.autospf.com subdomain that is unclaimed or has XSS; or confirmation that XSRF-TOKEN can be exfiltrated from subdomain context.
+verify_steps: PASSIVE: Enumerate autospf.com subdomains via crt.sh; check each for HTTP 200/404 (potential takeover). AUTH_HELPED: If takeover found, host JS on taken-over subdomain that reads XSRF-TOKEN cookie and POSTs to api.autospf.com/auth/logout with token in header.
+impact: Account takeover via session hijacking + CSRF bypass — HIGH severity.
+testability: PASSIVE → AUTH_HELPED
+
+[STEP 4 — SELF-CRITIQUE]
+[PARKED] Subdomain takeover of widgets.dmarcinput.com: confidence 42 < 60 threshold; dmarcinput.com ownership unconfirmed — may not be registrable; verify_steps require WHOIS lookup which is inconclusive without registrar API access; actionability blocked pending domain ownership confirmation.
+[FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 82%)
+[FINAL] 2. CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain (api.autospf.com, AUTH, 68%)
+
+[STEP 5 — NEXT ACTION]
+[NEXT] HUMAN: Manually register one free trial account at app.dmarcreport.com/signup (Turnstile captcha requires browser interaction); capture WorkOS session token from the authenticated API session; use token to enumerate /v2/accounts endpoint and identify own account_id. Then register second account and repeat — needed for IDOR cross-tenant test.
+
+[STEP 6 — LEARNING]
+[LEARN] ACCEPTED CAPTCHA_DEFENSE @ app.dmarcreport.com: Cloudflare Turnstile gates signup — blocks automated account creation scripts; manual browser interaction required for IDOR testing.
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target; requires HUMAN account creation.
+[LEARN] ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
+[LEARN] ACCEPTED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
+
+[STEP 7 — RISK SCORE]
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds; attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; Turnstile captcha on dmarcreport signup; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only

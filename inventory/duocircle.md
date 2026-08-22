@@ -251,3 +251,22 @@
 - NEW app.duocircle.com: NXDOMAIN — no app panel at that name; assumed surface reduced
 - CHANGED github.com/duocircle/dmarcreport-mcp actively developed (pushed 2026-08-19)
 - CHANGED trust.duocircle.com confirmed Vercel-hosted (CNAME 10a739ef30de8834.vercel-dns-016.com, HTTP 200) with PostHog added to CSP — takeover surface closed, analytics surface added
+
+## 2026-08-22 02:42:17 UTC
+- NEW app.dmarcreport.com/signup: Cloudflare Turnstile captcha (sitekey `0x4AAAAAAAixJKhNMIDS4Stt`) gates automated account creation — blocks scripted IDOR testing
+- NEW dmarcreport.com CSP references `*.widgets.dmarcinput.com` and `*.widgets.dev.dmarcinput.com` as form-action/frame-src — both have no DNS A records (dead); dmarcinput.com itself on AWS DNS but returns 
+- CHANGED app.dmarcreport.com/login: WorkOS AuthKit sets `authkit_redirect_attempts=1` tracking cookie on redirect to `/users/sign_in`
+- NEW api.autospf.com - Laravel API with cross-site cookies (SameSite=none)
+- NEW api.dmarcreport.com - Rails API with session auth, CSP reveals widget subdomains
+- NEW account.duocircle.com / account.duocircle-sandbox.com - WorkOS AuthKit auth endpoints
+- NEW billing.dmarcreport.com - Zoho billing (JSESSIONID)
+- NEW unsent.dev - Developer Email API (Next.js/Vercel)
+- NEW status.duocircle.com - Zoho status page
+- NEW github.com/duocircle - 13 repos (dmarcreport-mcp, youtrack-mcp, urlshortener, phishredirector, etc.)
+- NEW www.duocircle.com: markdown content-negotiation surface live (`/index.md`, `/llms.txt`, `/.well-known/agent-skills/markdown-negotiation/SKILL.md` advertised in link headers)
+- NEW support.dmarcreport.com: public support desk discovered via dmarcreport-mcp README (KB article 5000873350 - API tokens)
+- NEW dmarcreport.com: documented token-authed REST API ("full API coverage": domains, aggregate reports, forensic reports, MTA-STS) consumed by dmarcreport-mcp
+- NEW youtrack-mcp repo (TypeScript, pushed 2026-01) implies an internal YouTrack instance exists behind DuoCircle ops
+- NEW app.duocircle.com: NXDOMAIN — no app panel at that name; assumed surface reduced
+- CHANGED github.com/duocircle/dmarcreport-mcp actively developed (pushed 2026-08-19)
+- CHANGED trust.duocircle.com confirmed Vercel-hosted (CNAME 10a739ef30de8834.vercel-dns-016.com, HTTP 200) with PostHog added to CSP — takeover surface closed, analytics surface added
