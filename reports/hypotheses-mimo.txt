@@ -1,7 +1,4 @@
-## 2026-08-22 02:42:08 UTC [www] (model mimo)
-[NEW] app.dmarcreport.com/signup: Cloudflare Turnstile captcha (sitekey `0x4AAAAAAAixJKhNMIDS4Stt`) gates automated account creation — blocks scripted IDOR testing
-[NEW] dmarcreport.com CSP references `*.widgets.dmarcinput.com` and `*.widgets.dev.dmarcinput.com` as form-action/frame-src — both have no DNS A records (dead); dmarcinput.com itself on AWS DNS but returns no HTTP response
-[CHANGED] app.dmarcreport.com/login: WorkOS AuthKit sets `authkit_redirect_attempts=1` tracking cookie on redirect to `/users/sign_in`
+## 2026-08-22 03:27:58 UTC [www] (model mimo)
 [PRIO] api.dmarcreport.com/v2, 8.45, attack=8 business=9 tech=9 gate=7 cloud=9 fresh=9
 [PRIO] dmarcinput.com (widgets subdomains), 7.10, attack=8 business=6 tech=5 gate=9 cloud=5 fresh=7
 [PRIO] api.autospf.com, 7.45, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
