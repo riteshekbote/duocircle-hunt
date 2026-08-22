@@ -1,46 +1,42 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/package.json
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
-[0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=395, limit=15][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts[90m [offset=350, limit=15][0m
-Here's the triage table:
+[0m• [0mTriage scan hits for secrets[90m General Agent[0m
+[0m✓ [0mTriage scan hits for secrets[90m General Agent[0m
+## Classification Tables
 
-## TRIAGE TABLE
+### TEST_OR_EXAMPLE
+| File | Line | Content | Notes |
+|------|------|---------|-------|
+| youtrack-mcp/scripts/test-field-values.js | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Demo/mock — literal string `'test-token'`, test subdomain |
+| youtrack-mcp/scripts/test-error-handling.js | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Same mock pattern |
 
-| # | File:Line | Hit | Category | Verdict |
-|---|-----------|-----|----------|---------|
-| 1 | `youtrack-mcp/scripts/test-field-values.js:17` | `baseURL: 'https://test.youtrack.cloud'` | TEST_OR_EXAMPLE | Mock client, subclassed with `DemoIssuesClient`, `test.youtrack.cloud` is a YouTrack test tenant — no real creds |
-| 2 | `youtrack-mcp/scripts/test-field-values.js:18` | `token: 'test-token'` | TEST_OR_EXAMPLE | Literal placeholder `"test-token"` — not a real secret |
-| 3 | `youtrack-mcp/scripts/test-error-handling.js:15` | `baseURL: 'https://test.youtrack.cloud'` | TEST_OR_EXAMPLE | Same mock config, different test script |
-| 4 | `youtrack-mcp/scripts/test-error-handling.js:16` | `token: 'test-token'` | TEST_OR_EXAMPLE | Literal placeholder |
-| 5 | `dmarcreport-mcp/package.json:2` | `"name": "@duocircle/dmarcreport-mcp"` | INTERESTING | **npm scope squatting surface**: `@duocircle` is the official org scope; this package is published by them (`publishConfig.access: "public"`). Not a squat — but confirms no third-party squats exist yet |
-| 6 | `dmarcreport-mcp/package.json:8` | `"dmarcreport-mcp": "dist/index.js"` | TEST_OR_EXAMPLE | Binary entrypoint metadata — benign |
-| 7 | `dmarcreport-mcp/package.json:22` | `"dmarcreport"` (keyword) | TEST_OR_EXAMPLE | Package keyword — benign |
-| 8 | `dmarcreport-mcp/docker-compose.yml:2` | `dmarcreport-mcp:` | TEST_OR_EXAMPLE | Service name — benign |
-| 9 | `dmarcreport-mcp/docker-compose.yml:4` | `image: duocircle/dmarcreport-mcp:latest` | TEST_OR_EXAMPLE | Docker Hub image name — public, intentional |
-| 10 | `dmarcreport-mcp/docker-compose.yml:7` | `DMARCREPORT_API_URL=${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | ENDPOINT_LEAK | **Confirmed API endpoint**: `https://api.dmarcreport.com` as default — already in knowledge base |
-| 11 | `dmarcreport-mcp/src/index.ts:10` | `DMARCREPORT_API_KEY=your-key` | TEST_OR_EXAMPLE | Usage example with placeholder — benign |
-| 12 | `dmarcreport-mcp/src/index.ts:14` | `DMARCREPORT_API_URL - Optional. API base URL (default: https://api.dmarcreport.com)` | ENDPOINT_LEAK | **Same endpoint** in JSDoc — already known |
-| 13 | `dmarcreport-mcp/src/index.ts:33` | `process.env.DMARCREPORT_API_URL \|\| 'https://api.dmarcreport.com'` | ENDPOINT_LEAK | **Same endpoint** in runtime default — already known |
-| 14 | `dmarcreport-mcp/src/tools/help.ts:355` | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | ENDPOINT_LEAK | **Support desk URL** — already in knowledge base |
-| 15 | `dmarcreport-mcp/src/guidance/patterns.ts:398` | `pattern: /include:_s\d+\.autospf\.email/i` | INTERESTING | **Internal AutoSPF email subdomain pattern**: `_s\d+` suggests numbered tenant-specific SPF flattening subdomains — reveals multi-tenant architecture with sequential IDs |
-| 16 | `dmarcreport-mcp/src/guidance/patterns.ts:400` | `dashboard_url: "https://autospf.com/dashboard"` | ENDPOINT_LEAK | Already in scope — known endpoint |
-| 17 | `dmarcreport-mcp/src/guidance/patterns.ts:404` | `pattern: /include:.*\.autospf\.com/i` | INTERESTING | **Wildcard AutoSPF.com subdomain pattern**: `.*\.autospf\.com` means any subdomain can be an SPF include — broad tenant surface |
+### ENDPOINT_LEAK (public product docs/config — no real exposure)
+| File | Line | Content | Notes |
+|------|------|---------|-------|
+| dmarcreport-mcp/src/index.ts | 33 | `API_URL = \|\| 'https://api.dmarcreport.com'` | Public product API default |
+| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${...:-https://api.dmarcreport.com}` | Same public endpoint in compose |
+| dmarcreport-mcp/src/tools/help.ts | 355 | `https://support.dmarcreport.com/.../5000873350-api-tokens` | Public KB article link |
 
-## VERDICT LIST
+### NOT_INTERESTING (package metadata / public URLs)
+| File | Line | Content |
+|------|------|---------|
+| dmarcreport-mcp/package.json | 2 | `"name": "@duocircle/dmarcreport-mcp"` — package name |
+| dmarcreport-mcp/package.json | 8 | `"dmarcreport-mcp": "dist/index.js"` — script bin |
+| dmarcreport-mcp/package.json | 22 | `"dmarcreport"` — keyword |
+| dmarcreport-mcp/docker-compose.yml | 2, 4 | Service name, Docker Hub image ref |
+| dmarcreport-mcp/src/index.ts | 10, 14 | Usage docs (`DMARCREPORT_API_KEY=your-key`) |
+| dmarcreport-mcp/src/guidance/patterns.ts | 398, 400, 404 | SPF regex patterns referencing public autospf.com domains |
 
-| Candidate | File | Why | REPORT_CANDIDATE |
-|-----------|------|-----|------------------|
-| `autospf.email` pattern | `patterns.ts:398` | Reveals internal naming convention for multi-tenant SPF flattening subdomains (`_s\d+`) — useful for enumeration but not a direct vulnerability; informational at best | **no** |
-| `*.autospf.com` pattern | `patterns.ts:404` | Wildcard subdomain pattern in SPF includes — confirms broad tenant surface but is documented/intentional functionality | **no** |
-| `@duocircle` npm scope | `package.json` | Official scope belongs to DuoCircle; no third-party squats detected — this scan hit is a **non-finding** confirming the scope is clean | **no** |
-| YouTrack test configs | `test-*.js` | Hardcoded `"test-token"` and `test.youtrack.cloud` — pure mock data, no real secrets | **no** |
+### REAL_SECRET
+None.
 
-**Summary**: All 17 hits are either **test fixtures** (4), **already-known endpoints** (4), **benign metadata** (6), or **interesting-but-not-exploitable architecture reveals** (3). Zero hardcoded credentials. Zero reportable candidates.
+## Verdict
 
-The one mildly useful intel finding is the `_s\d+\.autospf\.email` pattern — it reveals sequential tenant IDs in AutoSPF's SPF flattening subdomains, which could aid enumeration. But this is documented product behavior, not a vulnerability, so **REPORT_CANDIDATE: no** across the board.
+| Candidate | Verdict |
+|-----------|---------|
+| YouTrack test scripts (`test-token`) | **REPORT_CANDIDATE: no** — dummy/mock values in demo scripts, no signs of life |
+| dmarcreport-mcp hardcoded endpoints | **REPORT_CANDIDATE: no** — all public product API domains (api.dmarcreport.com, autospf.com) in docs/config defaults |
+| All other hits | **REPORT_CANDIDATE: no** — package metadata or documentation |
+
+**Summary:** No reportable secrets found. The 17 scan hits are entirely mock test data, public product endpoint defaults in documentation/config, and package metadata. Nothing constitutes a hardcoded credential with signs of life.
