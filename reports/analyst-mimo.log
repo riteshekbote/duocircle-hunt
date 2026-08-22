@@ -1752,3 +1752,292 @@ All 7 steps completed. Summary:
 - **Next action**: Register two trial accounts and test cross-tenant IDOR
 - **Parked**: Session fixation on `billing.autospf.com` (55% < 60 threshold, third-party Zoho)
 - **Risk scores**: product-domains 85/100, duocircle.com 72/100, github repos 50/100
+===== ANALYST mimo 2026-08-22 01:52:27 UTC =====
+[0m
+> build · mimo-v2.5-free
+[0m
+[0m$ [0mdate -u +"%Y-%m-%d %H:%M:%S UTC"
+2026-08-22 01:43:06 UTC
+[0m
+[0m$ [0mcurl -s -I https://app.dmarcreport.com/signup | head -20
+HTTP/2 200 
+alt-svc: h3=":443"; ma=2592000
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: text/html; charset=utf-8
+etag: W/"133eaf9b40254d36dc8f8813559eda8e"
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: _dmarc_reporter_session=69e8dfc4afb9ffb4eedcf52e79c20730; path=/; expires=Sun, 23 Aug 2026 01:44:01 GMT; HttpOnly; SameSite=Lax; secure
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: c7e997af-2593-4fa7-bea7-155a36cfc2e9
+x-runtime: 0.014208
+x-xss-protection: 0
+content-length: 0
+date: Sat, 22 Aug 2026 01:44:01 GMT
+[0m
+[0m$ [0mcurl -s -I https://api.dmarcreport.com/v2/all_domains.json | head -20
+HTTP/2 401 
+alt-svc: h3=":443"; ma=2592000
+cache-control: no-cache
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: application/json; charset=utf-8
+referrer-policy: strict-origin-when-cross-origin
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: 5d1a2d44-3868-4a54-a785-3f54ddc09dde
+x-runtime: 0.004693
+x-xss-protection: 0
+content-length: 0
+date: Sat, 22 Aug 2026 01:44:10 GMT
+[0m
+[0m$ [0mcurl -s https://app.dmarcreport.com/signup 2>/dev/null | head -100
+...output truncated...
+
+Full output saved to: /home/runner/.local/share/opencode/tool-output/tool_027247f0c001VM9fhOM3oZFpm7
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="API driven DMARC deports for embedding into your own applications. Bulk DMARC reporting | dmarcreport.com">
+    <meta name="author" content="Amrood Labs">
+    <meta name="author:site" content="https://www.amrood.de">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="High volume DMARC reports. Embed DMARC reports into your applications.">
+    <meta property="og:site_name" content="DMARCreport">
+    <meta property="og:description" content="Email security with DMARC reporting, MTA-STS hosting and API access.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-57x57-7e305a2c60523e205ece0ffc2c4d5b87078b28ce3d2ceb7a2918282820223edf.png" sizes="57x57" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-60x60-748c295aff5b1ec099fed5ff273c6322d0cc255f64cc5a16c2d56f46e2558d53.png" sizes="60x60" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-72x72-dc790dc784af6177256128d1a5d48a7faf68f2f8d1555c5ce1eac35b8e3c6faf.png" sizes="72x72" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-76x76-2d1f6504af71cc6522954dcb8fcc8164054499115992b892d9033da03c94baea.png" sizes="76x76" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-114x114-57cafeb6f5a1ec7917ff647932be43fe76f446823019b1f43e9de4da1a319608.png" sizes="114x114" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-120x120-8ecb4ed0eb6f87a57b2907ea05591778fcc4457c1715248a7cfe18da9dc9d4f7.png" sizes="120x120" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-144x144-b287fc3c06fd3c13f28928979513781b742b5933ec8f966d353419127f5bb984.png" sizes="144x144" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-152x152-6b4031c035e48f37e3e34b3e12db463236767a38bbd2649e13f1216526da6dec.png" sizes="152x152" />
+      <link rel="apple-touch-icon" type="image/x-icon" href="/assets/favicons/apple-icon-180x180-0447d8fe3f7947c8ab47cee84e8d5e6d3ce66cd5a72db5a1f6aca09942e339f8.png" sizes="180x180" />
+      <link rel="icon" type="image/x-icon" href="/assets/favicons/android-icon-192x192-5d839b9038f35823b064cb39cef2ea29640f410753e2e3d54e66b90e308e6da5.png" sizes="192x192" />
+      <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon-32x32-c212e177cf77d7b9845c2e92b2f5ef90a2862561175c902599c1032863a777ab.png" sizes="32x32" />
+      <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon-96x96-66d280e2b7dbb4550e28fd8f669f7ec436a19bbacc489a9e74b1077f9eafea22.png" sizes="96x96" />
+      <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon-16x16-f73006b846a1369b34bf757c0e03d9cfe8c640431ffa50f96ba04aa158c22cf0.png" sizes="16x16" />
+
+    <link rel="manifest" href="/assets/favicons/manifest-8da1f82b4a02a1f73ea10e121422636925fac74d5ba99ee337fc7b793768df7e.json">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/assets/favicons/ms-icon-144x144-b287fc3c06fd3c13f28928979513781b742b5933ec8f966d353419127f5bb984.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="MTsMrrlOQczwAxQ2z5fGnkh76WpeYZgOMcTBveB68HmXBlJ_SxI0OYOWsm96W3OpLhL5r-Z1W0ZshutlukLMRA" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-c73da16f34fd45bb99d4511ae5cf37d82e618d189eb716e88d2b1776cf5a3435.css" data-turbolinks-track="reload" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
+    <script src="/packs/js/application-b276dae2bd472e03216b.js" crossorigin="anonymous" integrity="sha256-FQ15iHvK6ynxQTMaT1vu1OgvNGO9nIXdCrHtd98NIPI=" data-turbolinks-track="reload"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async="async" defer="defer"></script>
+  </head>
+  <body>
+    <style>
+  .signup-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  .signup-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+  }
+  .signup-form-section {
+    padding: 3rem 2.5rem;
+  }
+  .signup-form-content {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .signup-hero-content {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .signup-hero-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 3.5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .trial-badge {
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+    border-radius: 50px;
+    padding: 6px 16px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4);
+  }
+  .form-input {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 18px;
+[0m
+[0m$ [0mcurl -s -I https://www.duocircle.com/llms.txt | head -5
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 23300
+cache-control: public, max-age=0, must-revalidate
+[0m
+[0m$ [0mcurl -s -I https://api.autospf.com/login | head -15
+HTTP/2 200 
+cache-control: no-cache, private
+content-security-policy: base-uri 'self';connect-src 'self' autospf.com *.autospf.com api.autospf.com www.gstatic.com visithunter.io plugin.klenty.com www.kt-web2.com www.kl-wt1.com new-collect.albacross.com api.salespanel.io tracking-api.g2.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com;default-src 'self';media-src 'self';object-src 'none';form-action 'self' autospf.com *.autospf.com sptest.iamshowcase.com accounts.zohoportal.com subscriptions.zoho.com billing.zoho.com billing.autospf.com billing.zohosecure.com www.facebook.com;frame-ancestors *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com;frame-src *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com www.google.com *.googletagmanager.com *.googleadservices.com td.doubleclick.net www.facebook.com https://connect-js.stripe.com https://js.stripe.com;script-src 'self' 'unsafe-eval' 'strict-dynamic' *.autospf.com autospf.com www.gstatic.com s3-us-west-2.amazonaws.com/kl-website-tracking/klenty_track.js us3-cx.outplayhq.com insight.iljmp.com visithunter.io serve.albacross.com tracking.g2crowd.com cdnjs.cloudflare.com salespanel.io ddwl4m2hdecbv.cloudfront.net *.googletagmanager.com *.googleadservices.com 'nonce-inQMtQRujmj4pNHyGJEzXplWhuQGrd1H' *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com connect.facebook.net https://connect-js.stripe.com https://js.stripe.com;style-src 'self' 'unsafe-inline' *.autospf.com autospf.com fonts.googleapis.com fonts.bunny.net use.fontawesome.com;font-src 'self' data: *.autospf.com autospf.com fonts.googleapis.com fonts.gstatic.com fonts.bunny.net use.fontawesome.com;img-src 'self' data: *.googleusercontent.com *.autospf.com autospf.com www.globalcyberalliance.org new-collect.albacross.com www.gravatar.com workoscdn.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com https://*.stripe.com
+content-type: text/html; charset=utf-8
+date: Sat, 22 Aug 2026 01:45:05 GMT
+set-cookie: XSRF-TOKEN=eyJpdiI6IkRWMXJ4d2p3Uis1aHNycUU5S1BYTEE9PSIsInZhbHVlIjoiUi95MTg4czZsZURKY1JqMlFENEpMYjRXTDc3Um5UVjNUYStkNlc1WmIrVDg2YnJRdmNEWGVDVzJjSWNrdmJhdWhneXd6RzVZNkpPbHIvbmJBUWNkUDZQcURWRk1hUi92MndLL0VMaWF4cmszTG9ZUlhpdStjSGhjNTVxdkdWa0IiLCJtYWMiOiJlZTM2NzhhOTIyZTI0OGZlMmNkYTk0ODMzNTViN2RlMDk2MmVjNzdkODZhMmEzZGRhZjI5YWRlODczNTA2MDU5IiwidGFnIjoiIn0%3D; expires=Sat, 22 Aug 2026 03:45:05 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6IkM2SXdncmVNM0F1M2pGOGI5RlJ6cmc9PSIsInZhbHVlIjoiNzZua2NvbGZITFp0VHRWZVB2NXZYcGRCcTBzRHRYSjMxcksxTU15aDRMb3FTNXZKWGZ6MnFIZDkzVVZLYWt0a3dTazA1cnFQZ2E4Z0ZNQlpWWWM3TGVSdG5zaG4vazBCSG00SXNUdmJVZkhDQnEwdEZVT2dNeUZzdndOR2NKU0wiLCJtYWMiOiJiOTQyNzBhZjIzNTY1MzViMWQ2MTFiNjljNTczZmJkNDNjMGE5N2VkNDAyOGE4NTQ3OTE2YjNmZTMzMzZkMTUxIiwidGFnIjoiIn0%3D; expires=Sat, 22 Aug 2026 03:45:05 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -sI https://sptest.iamshowcase.com 2>/dev/null | head -10
+HTTP/2 200 
+date: Sat, 22 Aug 2026 01:46:01 GMT
+pragma: no-cache
+cache-control: no-cache
+expires: Thu, 01 Jan 1970 00:00:00 GMT
+content-type: text/html;charset=UTF-8
+set-cookie: JSESSIONID=4B985950DDA28481561A307E746B7B24; Path=/; HttpOnly; Secure
+[0m
+[0m$ [0mcurl -sI https://widgets.dmarcinput.com 2>/dev/null | head -10
+(no output)
+[0m
+Let me check a few more things before producing the analysis.
+[0m$ [0mcurl -sI https://widgets.dev.dmarcinput.com 2>/dev/null | head -10
+(no output)
+[0m
+[0m$ [0mcurl -sI --connect-timeout 5 https://widgets.dmarcinput.com 2>&1; echo "---"; curl -sI --connect-timeout 5 https://widgets.dev.dmarcinput.com 2>&1
+---
+[0m
+[0m$ [0mcurl -sI https://app.dmarcreport.com/login | head -15
+HTTP/2 302 
+alt-svc: h3=":443"; ma=2592000
+cache-control: no-cache
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: text/html; charset=utf-8
+location: https://app.dmarcreport.com/users/sign_in
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: authkit_redirect_attempts=1; path=/; expires=Sat, 22 Aug 2026 01:47:09 GMT; secure; HttpOnly; SameSite=Lax
+set-cookie: _dmarc_reporter_session=feb4bcae3318ce3681bcb2de23027900; path=/; expires=Sun, 23 Aug 2026 01:46:09 GMT; HttpOnly; SameSite=Lax; secure
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: f5307fe1-3810-4073-a312-7430edc7a1b8
+[0m
+[0m$ [0mcurl -sI --connect-timeout 5 https://dmarcinput.com 2>&1 | head -10
+(no output)
+[0m
+[0m$ [0mcurl -s https://app.dmarcreport.com/signup 2>/dev/null | grep -i "turnstile\|captcha\|cf-turnstile\|workos\|authkit" | head -10
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async="async" defer="defer"></script>
+                  <div class="cloudflare-turnstile"><div class="cf-turnstile" data-sitekey="0x4AAAAAAAixJKhNMIDS4Stt" data-size="regular" data-action="other" data-theme="auto"></div></div>
+[0m
+[0m$ [0mwhois dmarcinput.com 2>/dev/null | grep -i "org\|registrant\|admin\|tech" | head -10
+(no output)
+[0m
+[0m$ [0mwhois dmarcinput.com 2>/dev/null | head -30
+(no output)
+[0m
+[0m$ [0mdig dmarcinput.com NS +short 2>/dev/null; echo "---"; dig widgets.dmarcinput.com A +short 2>/dev/null; echo "---"; dig widgets.dev.dmarcinput.com A +short 2>/dev/null
+ns-312.awsdns-39.com.
+ns-849.awsdns-42.net.
+ns-1679.awsdns-17.co.uk.
+ns-1073.awsdns-06.org.
+---
+---
+[0m
+Now I have enough data to produce the 8-step analysis.
+
+---
+
+**STEP 1 — DELTA**
+
+[CHANGED] app.dmarcreport.com/signup: Cloudflare Turnstile captcha (sitekey `0x4AAAAAAAixJKhNMIDS4Stt`) gates automated account creation — blocks scripted IDOR testing
+[NEW] dmarcreport.com CSP references `*.widgets.dmarcinput.com` and `*.widgets.dev.dmarcinput.com` as form-action/frame-src — both have no DNS A records (dead); dmarcinput.com itself on AWS DNS but returns no HTTP response — potential subdomain takeover vector if domain unclaimed
+[CHANGED] app.dmarcreport.com/login: WorkOS AuthKit sets `authkit_redirect_attempts=1` tracking cookie on redirect to `/users/sign_in`
+
+**STEP 2 — PRIORITIZE**
+
+[PRIO] api.dmarcreport.com/v2, 8.45, attack=8 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] dmarcinput.com (widgets subdomains), 7.10, attack=8 business=6 tech=5 gate=9 cloud=5 fresh=7
+[PRIO] api.autospf.com, 7.45, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
+
+**STEP 3 — HYPOTHESES**
+
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 82
+reasoning: API uses sequential integer IDs (accounts: 1462, 1473, 1487, 1488; domains: 2503, 2593, 2596). Token auth per-account but /v2/all_domains.json returns "all domains across all accounts for the authenticated user" — unclear if cross-account ID access blocked. Predictable IDs enable enumeration. Free trial signup available but Turnstile captcha blocks automated creation.
+evidence_needed: HTTP 200 from token_A requesting /v2/accounts/<account_B_id>/domains.json; or 403/401 proving per-resource validation.
+verify_steps: AUTH_HELPED: Manually register two free trial accounts at app.dmarcreport.com/signup (Turnstile required); extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/<dom_id>/agg_reports.json with token_A.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: HUMAN_ONLY
+
+[HYP] Subdomain takeover of widgets.dmarcinput.com — CSP-integrated dead subdomain on unclaimed dmarcinput.com
+class: MISCONFIG
+asset: app.dmarcreport.com CSP / dmarcinput.com
+confidence: 42
+reasoning: dmarcinput.com uses AWS DNS but returns no HTTP response; widgets.dmarcinput.com and widgets.dev.dmarcinput.com have no A records. Both are whitelisted in app.dmarcreport.com CSP as form-action and frame-src (wildcard *.widgets.dmarcinput.com). If dmarcinput.com is unclaimed/expired, registering it and claiming the widgets subdomain enables CSP-sanctioned form submissions and frame embeds on dmarcreport.com.
+evidence_needed: Confirm dmarcinput.com is registrable (check registrar status); confirm widgets.dmarcinput.com can be claimed after registration.
+verify_steps: PASSIVE: Check dmarcinput.com WHOIS via web lookup (who.is, etc.); check domain availability via registrar API; check if dmarcinput.com is parked or truly abandoned.
+impact: CSP-sanctioned attacker-controlled content on dmarcreport.com (phishing, token exfil via form-action, frame-based UI redress) — MEDIUM-HIGH severity.
+testability: PASSIVE
+
+[HYP] CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain
+class: AUTH
+asset: api.autospf.com
+confidence: 68
+reasoning: api.autospf.com sets XSRF-TOKEN cookie with SameSite=none AND no HttpOnly flag. POST to /login without X-XSRF-TOKEN → 419 confirms CSRF protection enforced. Compromised *.autospf.com subdomain can read XSRF-TOKEN via JS and include as X-XSRF-TOKEN header, bypassing CSRF. CSP allows many third-party domains (Klenty, SalesPanel, Elfsight, Facebook, Albacross, Visithunter).
+evidence_needed: A live *.autospf.com subdomain that is unclaimed or has XSS; or confirmation that XSRF-TOKEN can be exfiltrated from subdomain context.
+verify_steps: PASSIVE: Enumerate autospf.com subdomains via crt.sh; check each for HTTP 200/404 (potential takeover). AUTH_HELPED: If takeover found, host JS on taken-over subdomain that reads XSRF-TOKEN cookie and POSTs to api.autospf.com/auth/logout with token in header.
+impact: Account takeover via session hijacking + CSRF bypass — HIGH severity.
+testability: PASSIVE → AUTH_HELPED
+
+**STEP 4 — SELF-CRITIQUE**
+
+[PARKED] Subdomain takeover of widgets.dmarcinput.com: confidence 42 < 60 threshold; dmarcinput.com ownership unconfirmed — may not be registrable; verify_steps require WHOIS lookup which is inconclusive without registrar API access; actionability blocked pending domain ownership confirmation.
+
+[FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 82%)
+[FINAL] 2. CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain (api.autospf.com, AUTH, 68%)
+
+**STEP 5 — NEXT ACTION**
+
+[NEXT] HUMAN: Manually register one free trial account at app.dmarcreport.com/signup (Turnstile captcha requires browser interaction); capture WorkOS session token from the authenticated API session; use token to enumerate /v2/accounts endpoint and identify own account_id. Then register second account and repeat — needed for IDOR cross-tenant test.
+
+**STEP 6 — LEARNING**
+
+[LEARN] ACCEPTED CAPTCHA_DEFENSE @ app.dmarcreport.com: Cloudflare Turnstile gates signup — blocks automated account creation scripts; manual browser interaction required for IDOR testing.
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target; requires HUMAN account creation.
+[LEARN] ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
+[LEARN] ACCEPTED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
+
+**STEP 7 — RISK SCORE**
+
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds; attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; Turnstile captcha on dmarcreport signup; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
