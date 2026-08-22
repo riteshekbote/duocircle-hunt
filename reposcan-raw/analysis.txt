@@ -1,42 +1,7 @@
-[0m
-> build · mimo-v2.5-free
-[0m
-[0m• [0mTriage scan hits for secrets[90m General Agent[0m
-[0m✓ [0mTriage scan hits for secrets[90m General Agent[0m
-## Classification Tables
-
-### TEST_OR_EXAMPLE
-| File | Line | Content | Notes |
-|------|------|---------|-------|
-| youtrack-mcp/scripts/test-field-values.js | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Demo/mock — literal string `'test-token'`, test subdomain |
-| youtrack-mcp/scripts/test-error-handling.js | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Same mock pattern |
-
-### ENDPOINT_LEAK (public product docs/config — no real exposure)
-| File | Line | Content | Notes |
-|------|------|---------|-------|
-| dmarcreport-mcp/src/index.ts | 33 | `API_URL = \|\| 'https://api.dmarcreport.com'` | Public product API default |
-| dmarcreport-mcp/docker-compose.yml | 7 | `DMARCREPORT_API_URL=${...:-https://api.dmarcreport.com}` | Same public endpoint in compose |
-| dmarcreport-mcp/src/tools/help.ts | 355 | `https://support.dmarcreport.com/.../5000873350-api-tokens` | Public KB article link |
-
-### NOT_INTERESTING (package metadata / public URLs)
-| File | Line | Content |
-|------|------|---------|
-| dmarcreport-mcp/package.json | 2 | `"name": "@duocircle/dmarcreport-mcp"` — package name |
-| dmarcreport-mcp/package.json | 8 | `"dmarcreport-mcp": "dist/index.js"` — script bin |
-| dmarcreport-mcp/package.json | 22 | `"dmarcreport"` — keyword |
-| dmarcreport-mcp/docker-compose.yml | 2, 4 | Service name, Docker Hub image ref |
-| dmarcreport-mcp/src/index.ts | 10, 14 | Usage docs (`DMARCREPORT_API_KEY=your-key`) |
-| dmarcreport-mcp/src/guidance/patterns.ts | 398, 400, 404 | SPF regex patterns referencing public autospf.com domains |
-
-### REAL_SECRET
-None.
-
-## Verdict
-
-| Candidate | Verdict |
-|-----------|---------|
-| YouTrack test scripts (`test-token`) | **REPORT_CANDIDATE: no** — dummy/mock values in demo scripts, no signs of life |
-| dmarcreport-mcp hardcoded endpoints | **REPORT_CANDIDATE: no** — all public product API domains (api.dmarcreport.com, autospf.com) in docs/config defaults |
-| All other hits | **REPORT_CANDIDATE: no** — package metadata or documentation |
-
-**Summary:** No reportable secrets found. The 17 scan hits are entirely mock test data, public product endpoint defaults in documentation/config, and package metadata. Nothing constitutes a hardcoded credential with signs of life.
+[91m[1mError: [0m{
+  "name": "UnknownError",
+  "data": {
+    "message": "Unexpected server error. Check server logs for details.",
+    "ref": "err_b06b7b1f"
+  }
+}
