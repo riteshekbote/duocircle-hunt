@@ -1,79 +1,32 @@
 [0m
 > build · mimo-v2.5-free
 [0m
-[0m# [0mTodos
-[•] Read test files in youtrack-mcp to confirm test-only nature
-[ ] Read dmarcreport-mcp source files for additional context
-[ ] Classify all 17 hits and produce final table
-[0m
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts
-[0m
-[0m# [0mTodos
-[✓] Read test files in youtrack-mcp to confirm test-only nature
-[✓] Read dmarcreport-mcp source files for additional context
-[•] Classify all 17 hits and produce final table
-[0m
-[0m# [0mTodos
-[✓] Read test files in youtrack-mcp to confirm test-only nature
-[✓] Read dmarcreport-mcp source files for additional context
-[✓] Classify all 17 hits and produce final table
-[0m
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=390, limit=25][0m
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
+Let me inspect the test files with the hardcoded tokens and the patterns file to be precise.
 ## Classification Table
 
-### TEST_OR_EXAMPLE (7 hits)
-
-| # | File | Line | Hit | Rationale |
-|---|------|------|-----|-----------|
-| 1 | `youtrack-mcp/scripts/test-field-values.js` | 17 | `baseURL: 'https://test.youtrack.cloud'` | Mock config in demo test script; `test.youtrack.cloud` is a YouTrack-hosted test sandbox, not internal infra |
-| 2 | `youtrack-mcp/scripts/test-field-values.js` | 18 | `token: 'test-token'` | Literal dummy placeholder in mock config; not a real credential |
-| 3 | `youtrack-mcp/scripts/test-error-handling.js` | 15 | `baseURL: 'https://test.youtrack.cloud'` | Same mock config pattern as above |
-| 4 | `youtrack-mcp/scripts/test-error-handling.js` | 16 | `token: 'test-token'` | Literal dummy placeholder in mock config |
-| 5 | `dmarcreport-mcp/package.json` | 2 | `"name": "@duocircle/dmarcreport-mcp"` | npm package name — published metadata, not a secret |
-| 6 | `dmarcreport-mcp/package.json` | 8 | `"dmarcreport-mcp": "dist/index.js"` | npm bin entry — build artifact path |
-| 7 | `dmarcreport-mcp/package.json` | 22 | `"dmarcreport"` | npm keyword — metadata |
-
-### ENDPOINT_LEAK (3 hits)
-
-| # | File | Line | Hit | Rationale |
-|---|------|------|-----|-----------|
-| 8 | `dmarcreport-mcp/docker-compose.yml` | 7 | `DMARCREPORT_API_URL=${...:-https://api.dmarcreport.com}` | Default API URL in env var; already known live endpoint (inventory 2026-08-21) |
-| 9 | `dmarcreport-mcp/src/index.ts` | 14 | `DMARCREPORT_API_URL - Optional. API base URL (default: https://api.dmarcreport.com)` | Comment documenting the same known endpoint |
-| 10 | `dmarcreport-mcp/src/index.ts` | 33 | `const API_URL = process.env.DMARCREPORT_API_URL || 'https://api.dmarcreport.com';` | Default value for same known endpoint |
-
-### INTERESTING (2 hits)
-
-| # | File | Line | Hit | Rationale |
-|---|------|------|-----|-----------|
-| 11 | `dmarcreport-mcp/src/tools/help.ts` | 355 | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | Public KB article URL baked into MCP help output; confirms `support.dmarcreport.com` is a live Zendesk desk (already in inventory) |
-| 12 | `dmarcreport-mcp/docker-compose.yml` | 2-4 | `dmarcreport-mcp:` / `image: duocircle/dmarcreport-mcp:latest` | Public Docker image reference on Docker Hub (`duocircle/dmarcreport-mcp`); may expose image if published |
-
-### NO_ACTION (remaining 5 hits — end-of-file patterns/auto-generated config)
-
-| # | File | Line | Hit | Rationale |
-|---|------|------|-----|-----------|
-| 13 | `dmarcreport-mcp/docker-compose.yml` | 4 | `image: duocircle/dmarcreport-mcp:latest` | (Counted above in INTERESTING #12) |
-| 14 | `dmarcreport-mcp/src/guidance/patterns.ts` | 398 | `pattern: /include:_s\d+\.autospf\.email/i` | AutoSPF SPF include regex — product guidance logic, not a secret |
-| 15 | `dmarcreport-mcp/src/guidance/patterns.ts` | 400 | `dashboard_url: "https://autospf.com/dashboard"` | Public dashboard URL for AutoSPF — product knowledge base |
-| 16 | `dmarcreport-mcp/src/guidance/patterns.ts` | 404 | `pattern: /include:.*\.autospf\.com/i` | AutoSPF domain regex — product guidance logic |
-| 17 | `dmarcreport-mcp/src/index.ts` | 10 | `DMARCREPORT_API_KEY=your-key npx @duocircle/dmarcreport-mcp` | Usage example in JSDoc; `your-key` is placeholder text |
-
----
+| # | File | Line(s) | Category | Value | Classification |
+|---|------|---------|----------|-------|---------------|
+| 1 | `youtrack-mcp/scripts/test-field-values.js` | 17-18 | **TEST_OR_EXAMPLE** | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Mock config — comment says "Mock config", token is literal placeholder string `test-token`. Demo/test harness. |
+| 2 | `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | **TEST_OR_EXAMPLE** | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Same — mock config for manual test script. Not a real credential. |
+| 3 | `dmarcreport-mcp/package.json` | 2,8,22 | **TEST_OR_EXAMPLE** | `@duocircle/dmarcreport-mcp` | Package naming. No secret. |
+| 4 | `dmarcreport-mcp/docker-compose.yml` | 4,7 | **ENDPOINT_LEAK** | `duocircle/dmarcreport-mcp:latest`, `https://api.dmarcreport.com` | Default API URL — already in knowledge base as public endpoint (`api.dmarcreport.com`). Not new. |
+| 5 | `dmarcreport-mcp/src/index.ts` | 14,33 | **ENDPOINT_LEAK** | `https://api.dmarcreport.com` | Same public API URL, documented in MCP tool comments. Not new. |
+| 6 | `dmarcreport-mcp/src/tools/help.ts` | 355 | **ENDPOINT_LEAK** | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | Public KB article link — already inventoried. Not new. |
+| 7 | `dmarcreport-mcp/src/guidance/patterns.ts` | 398-404 | **INTERESTING** | `autospf.com/dashboard`, `*.autospf.email`, `*.autospf.com` | In-scope product references for SPF pattern detection. Public documentation. Not new. |
 
 ## Verdict
 
-| Candidate | REPORT_CANDIDATE |
-|-----------|-----------------|
-| youtrack-mcp test tokens / test.youtrack.cloud | **no** — mock/dummy in demo scripts |
-| @duocircle/dmarcreport-mcp package metadata | **no** — published npm metadata |
-| api.dmarcreport.com endpoint in index.ts / docker-compose | **no** — already known live endpoint (in inventory since 2026-08-21) |
-| support.dmarcreport.com KB article URL | **no** — already in inventory |
-| duocircle/dmarcreport-mcp Docker Hub image | **no** — public image, not a secret |
-| autospf.com/dashboard URL in patterns.ts | **no** — public product URL in guidance logic |
-| `your-key` placeholder in JSDoc | **no** — placeholder text |
+| Hit | REPORT_CANDIDATE | Reason |
+|-----|-----------------|--------|
+| youtrack-mcp test scripts (×2) | **no** | `test-token` is a literal placeholder string in mock/test harnesses. Not a real credential. |
+| dmarcreport-mcp package.json | **no** | Package naming, no secret material. |
+| dmarcreport-mcp docker-compose.yml | **no** | `api.dmarcreport.com` is already known public endpoint (in KB). Env var `DMARCREPORT_API_KEY` is `${DMARCREPORT_API_KEY}` — no value leaked. |
+| dmarcreport-mcp src/index.ts | **no** | Same public URL; env-var read only, no hardcoded key. |
+| dmarcreport-mcp help.ts | **no** | Public KB article link already inventoried. |
+| dmarcreport-mcp patterns.ts | **no** | In-scope product documentation for SPF detection. No secrets. |
 
-**Final: 0 reportable candidates.** All 17 hits are either test/mock data, published metadata, already-known public endpoints, or product guidance regex. No hardcoded credentials, no internal URLs beyond what's already in the inventory.
-All 17 hits triaged. No reportable candidates — every hit is test/mock data, published npm/Docker metadata, or already-known public endpoints from the existing inventory. Clean scan.
+**Overall: 0 reportable findings.** All 17 grep hits are either test fixtures, public endpoint references already in the knowledge base, or product-documentation code. No `REAL_SECRET` hits. The `youtrack-mcp` test tokens (`'test-token'`) are clearly mock values in demo scripts — the CLAUDE.md in that repo explicitly says "Never commit credentials" and the test files override API methods with mock returns, confirming these are non-functional placeholders.
