@@ -729,3 +729,4 @@ testability: PASSIVE → AUTH_HELPED
 [RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; Turnstile captcha on dmarcreport signup; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
 [RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
 ## 2026-08-22 05:20:42 UTC [www] (model mimo)
+## 2026-08-22 05:51:29 UTC [www] (model mimo)
