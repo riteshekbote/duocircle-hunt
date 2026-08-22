@@ -9,6 +9,13 @@
 - 2026-08-21 ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
 - 2026-08-21 ACCEPTED IDOR @ api.dmarcreport.com: app.dmarcreport.com/signup returns HTTP 200; WorkOS AuthKit signup accessible; free trial accounts available for IDOR testing.
 - 2026-08-21 CHANGED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
+- 2026-08-22 ACCEPTED CAPTCHA_DEFENSE @ app.dmarcreport.com: Cloudflare Turnstile gates signup — blocks automated account creation scripts; manual browser interaction required for IDOR testing.
+- 2026-08-22 ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target; requires HUMAN account creation.
+- 2026-08-22 ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
+- 2026-08-22 ACCEPTED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
+- 2026-08-22 ACCEPTED IDOR @ api.dmarcreport.com: Multi-tenant DMARC SaaS with session auth is high-value target for cross-tenant data access
+- 2026-08-22 ACCEPTED AUTH @ api.autospf.com: Laravel API with SameSite=none cookies presents CSRF risk on state-changing endpoints
+- 2026-08-22 REJECTED AUTH @ account.duocircle.com: WorkOS AuthKit is third-party; auth flaws would be WorkOS responsibility, not DuoCircle direct code
 === INVENTORY duocircle ===
 
 ## 2026-08-21 18:20:51 UTC
