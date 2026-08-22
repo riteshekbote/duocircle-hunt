@@ -75,3 +75,8 @@ https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/<dom_id>/agg_repo
 https://api.dmarcreport.com/v2/accounts -> HTTP 401
 https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json -> HTTP 401
 https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/<dom_id>/agg_reports.json -> HTTP 401
+
+## 2026-08-22 04:10:38 UTC
+https://api.dmarcreport.com/v2/accounts -> HTTP 401
+https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json -> HTTP 401
+https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/<dom_id>/agg_reports.json -> HTTP 401

@@ -2193,3 +2193,144 @@ testability: PASSIVE → AUTH_HELPED
 [RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; Turnstile captcha on dmarcreport signup; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
 [RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
 ```
+===== ANALYST mimo 2026-08-22 04:10:36 UTC =====
+[0m
+> build · mimo-v2.5-free
+[0m
+[0m→ [0mRead .
+[0m→ [0mRead state_mimo.json
+[0m→ [0mRead leads
+[0m→ [0mRead knowledge
+[0m→ [0mRead leads/lead-mimo.md
+[0m→ [0mRead knowledge/index.md
+[0m→ [0mRead leads/reposcan-latest.md
+[0m→ [0mRead leads/lead-mimo.md[90m [offset=374][0m
+[0m✗ [0mWebFetch https://crt.sh/?q=%.autospf.com&output=json failed
+[91m[1mError: [0mStatusCode: non 2xx status code (502 GET https://crt.sh/?q=%.autospf.com&output=json)
+[0m
+[0m$ [0mcurl -sI https://api.dmarcreport.com/ 2>&1 | head -20
+HTTP/2 200 
+alt-svc: h3=":443"; ma=2592000
+cache-control: max-age=0, private, must-revalidate
+content-security-policy: default-src https: 'self' 'unsafe-inline'; base-uri 'self'; connect-src 'self' *.nr-data.net www.recaptcha.net static.cloudflareinsights.com challenges.cloudflare.com *.zoho.com *.zohosecure.com *.iljmp.com; font-src 'self' data: fonts.gstatic.com fonts.googleapis.com; form-action 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com billing.dmarcreport.com *.zoho.com *.zohosecure.com api.workos.com account.duocircle.com account.duocircle-sandbox.com *.authkit.app; frame-ancestors 'self' dmarcreport.com; frame-src 'self' *.widgets.dev.dmarcinput.com *.widgets.dmarcinput.com *.widgets.app.lvh.me www.recaptcha.net challenges.cloudflare.com *.zoho.com *.zohosecure.com; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' js-agent.newrelic.com www.recaptcha.net www.gstatic.com challenges.cloudflare.com static.cloudflareinsights.com *.zoho.com *.zohosecure.com zoho.com zohostatic.com cdn.jsdelivr.net *.iljmp.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; report-uri /csp/report
+content-type: application/json; charset=utf-8
+etag: W/"5568daabd081a764093328ee6303b798"
+referrer-policy: strict-origin-when-cross-origin
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Accept
+x-content-type-options: nosniff
+x-download-options: noopen
+x-frame-options: sameorigin
+x-permitted-cross-domain-policies: none
+x-request-id: 1269ddb3-1105-41ec-9001-a76a7fd63055
+x-runtime: 0.011326
+x-xss-protection: 0
+content-length: 0
+date: Sat, 22 Aug 2026 04:09:42 GMT
+[0m
+[0m$ [0mdig +short autospf.com A && dig +short api.autospf.com A && dig +short billing.autospf.com A && dig +short www.autospf.com A
+172.67.185.204
+104.21.88.161
+142.93.30.61
+7zimky.subscriptions.cs.zohohost.com.
+subscriptions.cs.zohohost.com.
+204.141.43.123
+104.21.88.161
+172.67.185.204
+[0m
+[0m$ [0mcurl -sI https://api.autospf.com/login 2>&1 | head -30
+HTTP/2 200 
+cache-control: no-cache, private
+content-security-policy: base-uri 'self';connect-src 'self' autospf.com *.autospf.com api.autospf.com www.gstatic.com visithunter.io plugin.klenty.com www.kt-web2.com www.kl-wt1.com new-collect.albacross.com api.salespanel.io tracking-api.g2.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com;default-src 'self';media-src 'self';object-src 'none';form-action 'self' autospf.com *.autospf.com sptest.iamshowcase.com accounts.zohoportal.com subscriptions.zoho.com billing.zoho.com billing.autospf.com billing.zohosecure.com www.facebook.com;frame-ancestors *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com;frame-src *.autospf.com autospf.com *.dmarcreport.com dmarcreport.com www.google.com *.googletagmanager.com *.googleadservices.com td.doubleclick.net www.facebook.com https://connect-js.stripe.com https://js.stripe.com;script-src 'self' 'unsafe-eval' 'strict-dynamic' *.autospf.com autospf.com www.gstatic.com s3-us-west-2.amazonaws.com/kl-website-tracking/klenty_track.js us3-cx.outplayhq.com insight.iljmp.com visithunter.io serve.albacross.com tracking.g2crowd.com cdnjs.cloudflare.com salespanel.io ddwl4m2hdecbv.cloudfront.net *.googletagmanager.com *.googleadservices.com 'nonce-6EVthnFVEIdUXPqCyfWuUTNhJ7dXc86x' *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com connect.facebook.net https://connect-js.stripe.com https://js.stripe.com;style-src 'self' 'unsafe-inline' *.autospf.com autospf.com fonts.googleapis.com fonts.bunny.net use.fontawesome.com;font-src 'self' data: *.autospf.com autospf.com fonts.googleapis.com fonts.gstatic.com fonts.bunny.net use.fontawesome.com;img-src 'self' data: *.googleusercontent.com *.autospf.com autospf.com www.globalcyberalliance.org new-collect.albacross.com www.gravatar.com workoscdn.com *.googletagmanager.com *.googleadservices.com *.google-analytics.com *.analytics.google.com *.g.doubleclick.net *.google.com pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com www.facebook.com https://*.stripe.com
+content-type: text/html; charset=utf-8
+date: Sat, 22 Aug 2026 04:09:42 GMT
+set-cookie: XSRF-TOKEN=eyJpdiI6InJLT1dSdHFaQklORGVDbkUrVmVGVGc9PSIsInZhbHVlIjoiL2pSWGpJOUZKYzlYRHd6dHpRYTM4cDBld3lzR0k5NXBxaEltWDdCQms2YW1ZYTU0MlFnYS8xdHZJSnhVd3JDOXA4MWdtZjlTTUpRdUNteXoydk83NGZYczdBYzdFT0JZMi9Gc3pEeWxiVDVhVnJiZFA4K2p5M29DZE5Xc1c1ZkMiLCJtYWMiOiIxNTdlMmFmNWYzYjQ4ODViODEyNTZmMjlhNDUzNzdiYThhOGIyYmU4MWY3MzAwYmVjNzgzYTEwYjU1OTY4OWYzIiwidGFnIjoiIn0%3D; expires=Sat, 22 Aug 2026 06:09:42 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; samesite=none
+set-cookie: auto_spf_flattening_service_session=eyJpdiI6InQ3T1liSmdweDRSRUo1b3loQk1HU1E9PSIsInZhbHVlIjoidTZHUFJ3Zkg1L09IekdwejQ0c1ZBcWN6czcvN3FsdHk4OStmczE2Y3lXR2JRY1pyVHRnYjRGQXAveFBQdkdtTWJQQUs3WWdCb1hzMnRZOHpCeEM5SVZuS3hFSGdkY0tHYnd6cElXck9lNHlBNUxUUEE2WXRqZEZVbkFjbzVwSUMiLCJtYWMiOiI0ZjcwNjk4NDdiYzFkNWY1YTc1YmU3NjhkMTRkMjFhOWYxZTA4NWQ2ODUxMWQxNjk0ZjBjM2I3YzJiM2ViNzAwIiwidGFnIjoiIn0%3D; expires=Sat, 22 Aug 2026 06:09:42 GMT; Max-Age=7200; path=/; domain=.autospf.com; secure; httponly; samesite=none
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+[0m
+[0m$ [0mcurl -sI https://dmarcinput.com/ 2>&1 | head -10
+(no output)
+[0m
+[0m$ [0mdig +short dmarcinput.com A && dig +short dmarcinput.com NS && dig +short dmarcinput.com SOA
+ns-312.awsdns-39.com.
+ns-849.awsdns-42.net.
+ns-1679.awsdns-17.co.uk.
+ns-1073.awsdns-06.org.
+ns-849.awsdns-42.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+[0m
+[0m$ [0mdig +short widgets.dmarcinput.com A && dig +short widgets.dev.dmarcinput.com A
+(no output)
+[0m
+Now I have full context. Let me produce the structured output.
+
+---
+
+## 2026-08-22 04:09:42 UTC [www] (model mimo)
+
+### STEP 1 — DELTA
+
+NO_DELTA — no new surface items since last analysis cycle. Live probes confirm: api.dmarcreport.com 200 (CSP confirms `*.widgets.dmarcinput.com` in form-action/frame-src), api.autospf.com login 200 (XSRF-TOKEN SameSite=none, NOT httponly; session httponly SameSite=none), dmarcinput.com remains NXDOMAIN for HTTP with AWS DNS only, widgets subdomains remain dead.
+
+### STEP 2 — PRIORITIZE
+
+[PRIO] api.dmarcreport.com/v2, 8.45, attack=8 business=9 tech=9 gate=7 cloud=9 fresh=9
+[PRIO] api.autospf.com, 7.45, attack=7 business=8 tech=9 gate=5 cloud=8 fresh=8
+[PRIO] dmarcinput.com (widgets subdomains), 7.10, attack=8 business=6 tech=5 gate=9 cloud=5 fresh=7
+
+### STEP 3 — HYPOTHESES
+
+[HYP] IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs
+class: IDOR
+asset: api.dmarcreport.com/v2
+confidence: 82
+reasoning: API uses sequential integer IDs (accounts: 1462, 1473, 1487, 1488; domains: 2503, 2593, 2596). Token auth per-account but /v2/all_domains.json returns "all domains across all accounts for the authenticated user" — unclear if cross-account ID access blocked. Predictable IDs enable enumeration. Free trial signup available but Turnstile captcha blocks automated creation.
+evidence_needed: HTTP 200 from token_A requesting /v2/accounts/<account_B_id>/domains.json; or 403/401 proving per-resource validation.
+verify_steps: HUMAN_ONLY: Manually register two free trial accounts at app.dmarcreport.com/signup (Turnstile required); extract token_A and token_B; GET https://api.dmarcreport.com/v2/accounts with token_A → account_A_id; GET https://api.dmarcreport.com/v2/accounts with token_B → account_B_id; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains.json with token_A; GET https://api.dmarcreport.com/v2/accounts/<account_B_id>/domains/<dom_id>/agg_reports.json with token_A.
+impact: Cross-tenant read of DMARC aggregate/forensic reports (sender IPs, authentication results, domain configs) — HIGH severity.
+testability: HUMAN_ONLY
+
+[HYP] Subdomain takeover of widgets.dmarcinput.com — CSP-integrated dead subdomain on unclaimed dmarcinput.com
+class: MISCONFIG
+asset: app.dmarcreport.com CSP / dmarcinput.com
+confidence: 42
+reasoning: dmarcinput.com uses AWS DNS (ns-*.awsdns-*) but returns no HTTP response; widgets.dmarcinput.com and widgets.dev.dmarcinput.com have no A records. Both are whitelisted in app.dmarcreport.com CSP as form-action and frame-src (wildcard *.widgets.dmarcinput.com). If dmarcinput.com is unclaimed/expired, registering it and claiming the widgets subdomain enables CSP-sanctioned form submissions and frame embeds on dmarcreport.com.
+evidence_needed: Confirm dmarcinput.com is registrable (check registrar status via who.is or domain availability API); confirm widgets.dmarcinput.com can be claimed after registration.
+verify_steps: PASSIVE: Check dmarcinput.com WHOIS via web lookup (who.is, rdap.org); check domain availability via registrar API; check if dmarcinput.com is parked or truly abandoned.
+impact: CSP-sanctioned attacker-controlled content on dmarcreport.com (phishing, token exfil via form-action, frame-based UI redress) — MEDIUM-HIGH severity.
+testability: PASSIVE
+
+[HYP] CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain
+class: AUTH
+asset: api.autospf.com
+confidence: 68
+reasoning: api.autospf.com sets XSRF-TOKEN cookie with SameSite=none AND no HttpOnly flag. POST to /login without X-XSRF-TOKEN → 419 confirms CSRF protection enforced. Compromised *.autospf.com subdomain can read XSRF-TOKEN via JS and include as X-XSRF-TOKEN header, bypassing CSRF. CSP allows many third-party domains (Klenty, SalesPanel, Elfsight, Facebook, Albacross, Visithunter).
+evidence_needed: A live *.autospf.com subdomain that is unclaimed or has XSS; or confirmation that XSRF-TOKEN can be exfiltrated from subdomain context.
+verify_steps: PASSIVE: Enumerate autospf.com subdomains via crt.sh; check each for HTTP 200/404 (potential takeover). AUTH_HELPED: If takeover found, host JS on taken-over subdomain that reads XSRF-TOKEN cookie and POSTs to api.autospf.com/auth/logout with token in header.
+impact: Account takeover via session hijacking + CSRF bypass — HIGH severity.
+testability: PASSIVE → AUTH_HELPED
+
+### STEP 4 — SELF-CRITIQUE
+
+[PARKED] Subdomain takeover of widgets.dmarcinput.com: confidence 42 < 60 threshold; dmarcinput.com ownership unconfirmed — may not be registrable; verify_steps require WHOIS lookup which is inconclusive without registrar API access; actionability blocked pending domain ownership confirmation.
+
+[FINAL] 1. IDOR on DMARC Report v2 API — cross-tenant domain/report access via predictable integer IDs (api.dmarcreport.com/v2, IDOR, 82%)
+[FINAL] 2. CSRF bypass via readable XSRF-TOKEN on compromised *.autospf.com subdomain (api.autospf.com, AUTH, 68%)
+
+### STEP 5 — NEXT ACTION
+
+[NEXT] PASSIVE: Enumerate autospf.com subdomains via DNS brute-force (common subdomain wordlist against autospf.com A/CNAME records) — identify live subdomains for potential takeover to enable the CSRF bypass chain. Run `dig` for common subdomain prefixes (api, app, dashboard, mail, smtp, ftp, dev, staging, test, beta, admin, portal, webmail, cpanel, whm, autodiscover, autoconfig, sip, vpn, blog, status, support, docs, cdn, static, assets, media, img, images, files, upload, downloads, api-staging, api-dev, staging-api, dev-api, etc.) against autospf.com.
+
+### STEP 6 — LEARNING
+
+[LEARN] ACCEPTED IDOR @ api.dmarcreport.com: v2 API with predictable integer IDs, token auth, and documented cross-resource endpoints (/v2/all_domains.json, /v2/postmaster_account_records) — high-confidence IDOR target; requires HUMAN account creation.
+[LEARN] ACCEPTED CSRF_DEFENSE @ api.autospf.com: POST /login without X-XSRF-TOKEN header → 419 "Page Expired"; CSRF protection IS enforced on state-changing endpoints; direct external CSRF is blocked.
+[LEARN] ACCEPTED AUTH @ api.autospf.com: XSRF-TOKEN cookie is NOT httponly (readable by JS) + SameSite=none; subdomain compromise → CSRF bypass chain; risk shifts from direct CSRF to subdomain takeover prerequisite.
+
+### STEP 7 — RISK SCORE
+
+[RISK] duocircle.com: 72/100 — Main corporate site on Vercel with strict CSP/HSTS/XFO; auth on WorkOS (third-party); markdown content-negotiation surfaces across all product domains; 1349 blog posts with diverse third-party embeds; attack surface moderate with diverse integrations
+[RISK] product-domains (autospf/dmarcreport/phishprotection/outboundsmtp/etc): 85/100 — Multiple APIs (Rails v2, Laravel, Next.js) with token/session auth; predictable integer IDs on DMARC Report API; cross-site cookies on api.autospf.com with CSRF protection active but XSRF-TOKEN readable; Turnstile captcha on dmarcreport signup; multi-tenant data (DMARC reports, SPF records); Stripe billing integration; SOC-2 certified; documented REST API with full CRUD; HIGH business value; diverse tech stack increases exposure
+[RISK] github.com/duocircle repos: 50/100 — 13 public repos including stale unarchived PHP (phishredirector, 2021), active MCP servers (dmarcreport-mcp, youtrack-mcp hinting at internal YouTrack); no secrets found in repo scan; source surface limited to MCP servers and utilities; test tokens are placeholder values only
