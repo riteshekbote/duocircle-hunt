@@ -1,32 +1,47 @@
 [0m
 > build · mimo-v2.5-free
 [0m
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/index.ts
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/tools/help.ts
+[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js
 [0m→ [0mRead reposcan-raw/duocircle/youtrack-mcp/scripts/test-error-handling.js
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts[90m [offset=390, limit=25][0m
-[0m→ [0mRead reposcan-raw/duocircle/dmarcreport-mcp/docker-compose.yml
-Let me inspect the test files with the hardcoded tokens and the patterns file to be precise.
-## Classification Table
+## Triage Report — duocircle Org Scan
 
-| # | File | Line(s) | Category | Value | Classification |
-|---|------|---------|----------|-------|---------------|
-| 1 | `youtrack-mcp/scripts/test-field-values.js` | 17-18 | **TEST_OR_EXAMPLE** | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Mock config — comment says "Mock config", token is literal placeholder string `test-token`. Demo/test harness. |
-| 2 | `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | **TEST_OR_EXAMPLE** | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | Same — mock config for manual test script. Not a real credential. |
-| 3 | `dmarcreport-mcp/package.json` | 2,8,22 | **TEST_OR_EXAMPLE** | `@duocircle/dmarcreport-mcp` | Package naming. No secret. |
-| 4 | `dmarcreport-mcp/docker-compose.yml` | 4,7 | **ENDPOINT_LEAK** | `duocircle/dmarcreport-mcp:latest`, `https://api.dmarcreport.com` | Default API URL — already in knowledge base as public endpoint (`api.dmarcreport.com`). Not new. |
-| 5 | `dmarcreport-mcp/src/index.ts` | 14,33 | **ENDPOINT_LEAK** | `https://api.dmarcreport.com` | Same public API URL, documented in MCP tool comments. Not new. |
-| 6 | `dmarcreport-mcp/src/tools/help.ts` | 355 | **ENDPOINT_LEAK** | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | Public KB article link — already inventoried. Not new. |
-| 7 | `dmarcreport-mcp/src/guidance/patterns.ts` | 398-404 | **INTERESTING** | `autospf.com/dashboard`, `*.autospf.email`, `*.autospf.com` | In-scope product references for SPF pattern detection. Public documentation. Not new. |
+### REAL_SECRET: None
 
-## Verdict
+No hardcoded credentials, API keys, or tokens found.
 
-| Hit | REPORT_CANDIDATE | Reason |
-|-----|-----------------|--------|
-| youtrack-mcp test scripts (×2) | **no** | `test-token` is a literal placeholder string in mock/test harnesses. Not a real credential. |
-| dmarcreport-mcp package.json | **no** | Package naming, no secret material. |
-| dmarcreport-mcp docker-compose.yml | **no** | `api.dmarcreport.com` is already known public endpoint (in KB). Env var `DMARCREPORT_API_KEY` is `${DMARCREPORT_API_KEY}` — no value leaked. |
-| dmarcreport-mcp src/index.ts | **no** | Same public URL; env-var read only, no hardcoded key. |
-| dmarcreport-mcp help.ts | **no** | Public KB article link already inventoried. |
-| dmarcreport-mcp patterns.ts | **no** | In-scope product documentation for SPF detection. No secrets. |
+### TEST_OR_EXAMPLE
 
-**Overall: 0 reportable findings.** All 17 grep hits are either test fixtures, public endpoint references already in the knowledge base, or product-documentation code. No `REAL_SECRET` hits. The `youtrack-mcp` test tokens (`'test-token'`) are clearly mock values in demo scripts — the CLAUDE.md in that repo explicitly says "Never commit credentials" and the test files override API methods with mock returns, confirming these are non-functional placeholders.
+| File | Line(s) | Material | Assessment |
+|---|---|---|---|
+| `youtrack-mcp/scripts/test-field-values.js` | 17-18 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | **Test fixture** — mock config in a test script; `test.youtrack.cloud` is a public JetBrains test host, token is literal string `test-token` |
+| `youtrack-mcp/scripts/test-error-handling.js` | 15-16 | `baseURL: 'https://test.youtrack.cloud'`, `token: 'test-token'` | **Test fixture** — identical mock config |
+
+### ENDPOINT_LEAK: None
+
+| File | Line(s) | Material | Assessment |
+|---|---|---|---|
+| `dmarcreport-mcp/src/index.ts` | 14, 33 | `https://api.dmarcreport.com` | **Public default** — documented production API URL, read from env var; not an internal/dev endpoint |
+
+### INTERESTING
+
+| File | Line(s) | Material | Assessment |
+|---|---|---|---|
+| `dmarcreport-mcp/src/tools/help.ts` | 355 | `https://support.dmarcreport.com/support/solutions/articles/5000873350-api-tokens` | **Public KB link** — already discovered; confirms support desk surface |
+| `dmarcreport-mcp/src/guidance/patterns.ts` | 398, 400, 404 | `include:_s\d+\.autospf\.email`, `autospf.com/dashboard` | **Product reference** — legitimate AutoSPF service patterns in SPF classification logic |
+| `dmarcreport-mcp/docker-compose.yml` | 4, 7 | `duocircle/dmarcreport-mcp:latest`, `${DMARCREPORT_API_URL:-https://api.dmarcreport.com}` | **Public image name** — Docker Hub naming convention; no secrets in compose file |
+
+---
+
+### Verdict List
+
+| Category | File | REPORT_CANDIDATE |
+|---|---|---|
+| `youtrack-mcp` test token | `test-field-values.js`, `test-error-handling.js` | **no** — `test-token` literal, mock `test.youtrack.cloud` |
+| `api.dmarcreport.com` URL | `dmarcreport-mcp/src/index.ts` | **no** — public default, env-overridable |
+| `support.dmarcreport.com` KB link | `dmarcreport-mcp/src/tools/help.ts` | **no** — public support article, already inventoried |
+| `autospf.email`/`autospf.com` patterns | `dmarcreport-mcp/src/guidance/patterns.ts` | **no** — legitimate SPF classification regexes, no secrets |
+
+**Summary:** 17 grep hits across 4 repos. All classified as TEST_OR_EXAMPLE or INTERESTING (benign product references). Zero reportable candidates. The youtrack-mcp test scripts contain `test-token` (a literal placeholder) against `test.youtrack.cloud` (JetBrains public test hostname) — no real YouTrack credentials are committed.
