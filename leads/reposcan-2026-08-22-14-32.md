@@ -1,5 +1,5 @@
 
-===== REPOSCAN 2026-08-22 14:32:00 UTC =====
+===== REPOSCAN 2026-08-22 14:32:25 UTC =====
 ## Grep hits:
 SCAN SUMMARY: 104 code/config files scanned, 17 hits
 reposcan-raw/duocircle/youtrack-mcp/scripts/test-field-values.js:17: baseURL: 'https://test.youtrack.cloud',
@@ -25,6 +25,6 @@ reposcan-raw/duocircle/dmarcreport-mcp/src/guidance/patterns.ts:404: pattern: /i
   "name": "UnknownError",
   "data": {
     "message": "Unexpected server error. Check server logs for details.",
-    "ref": "err_47f4bb49"
+    "ref": "err_43bd3bfe"
   }
 }
