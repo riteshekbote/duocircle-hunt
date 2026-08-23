@@ -2678,3 +2678,11 @@ testability: PASSIVE → AUTH_HELPED
     "ref": "err_ff98d525"
   }
 }
+===== ANALYST mimo 2026-08-23 04:49:54 UTC =====
+[91m[1mError: [0m{
+  "name": "UnknownError",
+  "data": {
+    "message": "Unexpected server error. Check server logs for details.",
+    "ref": "err_6ab62bb9"
+  }
+}
