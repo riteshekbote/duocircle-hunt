@@ -2,6 +2,6 @@
   "name": "UnknownError",
   "data": {
     "message": "Unexpected server error. Check server logs for details.",
-    "ref": "err_00b3335e"
+    "ref": "err_c6d1fb0e"
   }
 }
