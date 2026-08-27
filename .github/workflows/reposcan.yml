@@ -2,7 +2,7 @@ name: Public Repo Deep Scan (duocircle org + product tooling)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+#     - cron: "*/15 * * * *"  # disabled
   workflow_dispatch:
 
 permissions:
